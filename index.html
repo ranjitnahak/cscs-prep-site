@@ -175,10 +175,10 @@ body { font-family: 'Barlow', sans-serif; background: var(--dark); color: var(--
       </div>
       <div class="payment-box">
         <div class="price-row">
-          <div class="price-main">₹99</div>
+          <div class="price-main">₹299</div>
           <div class="price-sub">One-time access<br>Full personalised report included</div>
         </div>
-        <button class="btn" onclick="startRazorpay()">Pay ₹99 &amp; Begin →</button>
+        <button class="btn" onclick="startRazorpay()">Pay ₹299 &amp; Begin →</button>
         <div class="coupon-row">
           <input type="text" id="couponInput" placeholder="Have a coupon code?">
           <button class="btn-apply" onclick="applyCoupon()">Apply</button>
@@ -537,7 +537,7 @@ document.getElementById('couponInput').addEventListener('keydown', e => { if (e.
 function startRazorpay() {
   const options = {
     key: 'rzp_test_SoMEB9U5JviXZc',
-    amount: 9900, currency: 'INR',
+    amount: 29900, currency: 'INR',
     name: 'CSCS Prep', description: 'The Blood Test for CSCS',
     handler: function(response) {
       userData.paymentMethod = 'razorpay';
