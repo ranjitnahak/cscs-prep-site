@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 1 — Full Quiz (50 Questions) | CSCSPrep</title>
+<meta name="description" content="50 questions. 6 domains. 30 minutes. The full Chapter 1 knowledge test.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#F4511E;--amber:#FFB347;--dark:#0F0F0F;--dark2:#1A1A1A;
+  --dark3:#242424;--white:#FFFFFF;--grey:#AAAAAA;--lg:#CCCCCC;
+  --green:#4CAF50;--red:#E53935;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow:hidden;}
+.brand-bar{position:fixed;top:0;left:0;right:0;height:5px;background:var(--orange);z-index:200;}
+.logo{position:fixed;top:18px;left:28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;color:var(--orange);letter-spacing:2px;z-index:200;}
+.logo span{color:var(--white);}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+.screen.active{opacity:1;pointer-events:all;}
+/* Timer */
+.timer{position:fixed;top:14px;right:28px;font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:2px;color:var(--grey);z-index:200;display:none;}
+.timer.show{display:block;}
+.timer.warn{color:var(--amber);}
+.timer.danger{color:var(--red);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+/* Progress */
+.q-progress-bar{position:fixed;top:5px;left:0;right:0;height:4px;background:#1a1a1a;z-index:199;}
+.q-progress-fill{height:100%;background:var(--orange);transition:width .4s ease;}
+.q-counter{position:fixed;top:18px;right:28px;font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--grey);letter-spacing:3px;z-index:200;display:none;}
+/* Hero */
+.hero-tag{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:5px;color:var(--orange);text-transform:uppercase;margin-bottom:18px;}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(52px,8vw,88px);line-height:.88;text-transform:uppercase;letter-spacing:-1px;text-align:center;margin-bottom:16px;}
+.hero-title .hl{color:var(--orange);}
+.hero-sub{font-size:17px;color:var(--grey);font-weight:300;line-height:1.7;max-width:560px;text-align:center;margin-bottom:36px;}
+.stats-row{display:flex;gap:40px;margin-bottom:36px;}
+.stat{text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:42px;color:var(--orange);line-height:1;}
+.stat-lbl{font-size:12px;color:var(--grey);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.warn-box{background:var(--dark2);border:1px solid #2a2a2a;border-left:3px solid var(--amber);border-radius:4px;padding:14px 20px;font-size:13px;color:var(--grey);max-width:540px;text-align:left;margin-bottom:36px;line-height:1.6;}
+.warn-box strong{color:var(--amber);}
+/* Gate */
+.gate-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(28px,4vw,44px);text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.gate-sub{font-size:15px;color:var(--grey);text-align:center;margin-bottom:36px;}
+.gate-input{background:transparent;border:none;border-bottom:2px solid #444;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:700;text-align:center;width:100%;max-width:420px;padding:12px 8px;outline:none;letter-spacing:2px;margin-bottom:36px;transition:border-color .2s;}
+.gate-input:focus{border-color:var(--orange);}
+.gate-input::placeholder{color:#333;}
+.gate-error{font-size:13px;color:var(--red);letter-spacing:1px;margin-top:-24px;margin-bottom:20px;display:none;text-align:center;}
+.gate-error.show{display:block;}
+/* Question */
+.q-domain{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;color:var(--orange);text-transform:uppercase;margin-bottom:20px;text-align:center;}
+.q-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(20px,2.8vw,34px);text-align:center;line-height:1.1;max-width:780px;margin-bottom:32px;letter-spacing:.3px;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:740px;}
+.option-btn{background:var(--dark2);border:1px solid #2a2a2a;border-radius:4px;padding:16px 20px;cursor:pointer;transition:all .2s;text-align:left;display:flex;align-items:flex-start;gap:12px;color:var(--white);}
+.option-btn:hover:not(:disabled){border-color:var(--orange);background:rgba(244,81,30,.08);}
+.option-btn:disabled{cursor:default;}
+.option-btn.correct{border-color:var(--green);background:rgba(76,175,80,.12);}
+.option-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.1);}
+.opt-letter{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;color:var(--orange);flex-shrink:0;min-width:20px;}
+.option-btn.correct .opt-letter{color:var(--green);}
+.option-btn.wrong .opt-letter{color:var(--red);}
+.opt-text{font-size:13.5px;line-height:1.5;color:var(--lg);padding-top:1px;}
+.explanation-box{margin-top:20px;width:100%;max-width:740px;background:var(--dark2);border:1px solid #2a2a2a;border-left:3px solid var(--orange);border-radius:4px;padding:14px 18px;font-size:13px;color:var(--grey);line-height:1.7;display:none;animation:fadeIn .3s ease;}
+.explanation-box.show{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.next-btn{margin-top:20px;display:none;}
+.next-btn.show{display:block;}
+/* Results */
+.screen-results-inner{width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;}
+.result-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(44px,6vw,80px);line-height:.88;text-transform:uppercase;letter-spacing:-1px;text-align:center;margin-bottom:8px;}
+.result-score{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:68px;color:var(--orange);line-height:1;margin-bottom:6px;}
+.result-label{font-size:13px;color:var(--grey);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.result-time{font-family:'Barlow Condensed',sans-serif;font-size:14px;color:var(--grey);letter-spacing:2px;margin-bottom:24px;}
+.result-verdict{font-size:16px;color:var(--lg);font-weight:300;line-height:1.7;max-width:560px;text-align:center;margin-bottom:32px;}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:760px;margin-bottom:32px;}
+.domain-card{background:var(--dark2);border:1px solid #2a2a2a;border-top:3px solid var(--orange);border-radius:4px;padding:16px;}
+.domain-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;color:var(--orange);text-transform:uppercase;margin-bottom:8px;}
+.domain-score-row{display:flex;align-items:center;gap:10px;}
+.domain-score-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:var(--white);min-width:40px;}
+.domain-bar-track{flex:1;height:5px;background:#333;border-radius:3px;overflow:hidden;}
+.domain-bar-fill{height:100%;background:var(--orange);border-radius:3px;transition:width .6s ease;}
+.domain-bar-fill.good{background:var(--green);}
+.domain-bar-fill.ok{background:var(--amber);}
+.domain-bar-fill.poor{background:var(--red);}
+.domain-verdict{font-size:11px;color:var(--grey);margin-top:6px;line-height:1.4;}
+.coach-card{background:var(--dark2);border:1px solid #2a2a2a;border-radius:4px;padding:20px 24px;display:flex;align-items:center;gap:20px;max-width:760px;width:100%;margin-top:4px;}
+.coach-img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--orange);}
+.coach-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;margin-bottom:4px;}
+.coach-name span{color:var(--orange);}
+.coach-copy{font-size:13px;color:var(--grey);line-height:1.6;}
+/* Btn */
+.btn-primary{background:var(--orange);border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:16px 44px;cursor:pointer;border-radius:3px;transition:all .2s;}
+.btn-primary:hover{background:#d93d10;transform:translateY(-1px);}
+.btn-primary:disabled{background:#333;color:#666;cursor:not-allowed;transform:none;}
+/* Results scrollable */
+#screen-results{overflow-y:auto;padding-top:80px;padding-bottom:60px;justify-content:flex-start;}
+@media(max-width:600px){
+  .options-grid{grid-template-columns:1fr;}
+  .domain-grid{grid-template-columns:1fr 1fr;}
+  .stats-row{gap:20px;}
+}
+</style>
+</head>
+<body>
+<div class="brand-bar"></div>
+<div class="logo">CSCS<span>PREP</span></div>
+<div class="timer" id="timer">30:00</div>
+<div class="q-progress-bar"><div class="q-progress-fill" id="progress-fill"></div></div>
+<div class="q-counter" id="q-counter">01 / 50</div>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="hero-tag">Chapter 1 — NSCA 5th Edition</div>
+  <h1 class="hero-title">Full <span class="hl">Chapter</span> Quiz</h1>
+  <p class="hero-sub">50 questions. 6 domains. 30 minutes. Test your complete mastery of Chapter 1.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">50</div><div class="stat-lbl">Questions</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Domains</div></div>
+    <div class="stat"><div class="stat-num">30</div><div class="stat-lbl">Minutes</div></div>
+  </div>
+  <div class="warn-box"><strong>⚠ Note:</strong> These questions test your foundational understanding of Chapter 1 concepts. They are not representative of the exact difficulty or format of questions in the actual CSCS exam.</div>
+  <button class="btn-primary" onclick="showScreen('screen-gate-name')">Begin →</button>
+</div>
+
+<!-- NAME -->
+<div class="screen" id="screen-gate-name">
+  <div class="hero-tag">Step 1 of 3</div>
+  <h2 class="gate-title">What's your <span style="color:var(--orange)">first name?</span></h2>
+  <p class="gate-sub">We'll personalise your results report.</p>
+  <input class="gate-input" id="input-name" type="text" placeholder="Type your name…" autocomplete="off" maxlength="40" onkeydown="if(event.key==='Enter') submitName()">
+  <div class="gate-error" id="err-name">Please enter your name to continue.</div>
+  <button class="btn-primary" onclick="submitName()">Continue →</button>
+</div>
+
+<!-- EMAIL -->
+<div class="screen" id="screen-gate-email">
+  <div class="hero-tag">Step 2 of 3</div>
+  <h2 class="gate-title">Your <span style="color:var(--orange)">email address?</span></h2>
+  <p class="gate-sub">Your personalised report will be sent here.</p>
+  <input class="gate-input" id="input-email" type="email" placeholder="you@email.com" autocomplete="off" onkeydown="if(event.key==='Enter') submitEmail()">
+  <div class="gate-error" id="err-email">Please enter a valid email address.</div>
+  <button class="btn-primary" onclick="submitEmail()">Continue →</button>
+</div>
+
+<!-- CODE -->
+<div class="screen" id="screen-gate-code">
+  <div class="hero-tag">Step 3 of 3</div>
+  <h2 class="gate-title">Enter your <span style="color:var(--orange)">access code</span></h2>
+  <p class="gate-sub">You should have received this from Ranjit.</p>
+  <input class="gate-input" id="input-code" type="text" placeholder="••••••••" autocomplete="off" maxlength="12" style="letter-spacing:6px;text-transform:uppercase" onkeydown="if(event.key==='Enter') submitCode()">
+  <div class="gate-error" id="err-code">Invalid access code. Please check and try again.</div>
+  <button class="btn-primary" onclick="submitCode()">Start the Quiz →</button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="screen-question">
+  <div class="q-domain" id="q-domain">Domain</div>
+  <div class="q-text" id="q-text">Question text</div>
+  <div class="options-grid" id="options-grid"></div>
+  <div class="explanation-box" id="explanation-box"></div>
+  <button class="btn-primary next-btn" id="next-btn" onclick="nextQuestion()">Next →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results">
+  <div class="screen-results-inner">
+    <div class="hero-tag" style="margin-top:20px">Your Results</div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-score" id="result-score">0 / 50</div>
+    <div class="result-label">Overall Score</div>
+    <div class="result-time" id="result-time"></div>
+    <div class="result-verdict" id="result-verdict"></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:4px;color:var(--orange);text-transform:uppercase;margin-bottom:14px;width:100%;text-align:center;">Domain Breakdown</div>
+    <div class="domain-grid" id="domain-grid"></div>
+    <div class="coach-card">
+      <img class="coach-img" src="data:image/jpeg;base64,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" alt="Ranjit Nahak">
+      <div>
+        <div class="coach-name">Ranjit Nahak, MSc, <span>CSCS</span></div>
+        <div class="coach-copy">50 questions from one chapter — that is a serious commitment to mastery. Review every domain below 75%, go back to the textbook mechanism behind each wrong answer, and run this quiz again. The CSCS exam rewards understanding, not memorisation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACCESS_CODE = 'CSCS01';
+const TIMER_SECONDS = 30 * 60;
+
+const QUESTIONS = [{"domain": "The Skeleton", "text": "The human body has approximately how many bones?", "options": ["180", "206", "226", "250"], "correct": 1, "explanation": "<strong>206 bones</strong> is the standard count, though the textbook notes this number can vary slightly between individuals."}, {"domain": "The Skeleton", "text": "Which term describes the bony skeleton that includes the skull, vertebral column, ribs, and sternum?", "options": ["Appendicular skeleton", "Axial skeleton", "Peripheral skeleton", "Central skeleton"], "correct": 1, "explanation": "The <strong>axial skeleton</strong> forms the central axis of the body. The appendicular skeleton includes the limbs and girdles."}, {"domain": "The Skeleton", "text": "Articulating bone ends in a synovial joint are covered by which type of cartilage?", "options": ["Fibrocartilage", "Elastic cartilage", "Hyaline cartilage", "Calcified cartilage"], "correct": 2, "explanation": "<strong>Hyaline cartilage</strong> covers the articulating surfaces in synovial joints. Fibrocartilage is found in the menisci and intervertebral discs."}, {"domain": "The Skeleton", "text": "Which joint type allows movement about all three perpendicular axes that define space?", "options": ["Uniaxial", "Biaxial", "Cartilaginous", "Multiaxial"], "correct": 3, "explanation": "<strong>Multiaxial joints</strong> such as the hip and shoulder allow movement in all planes. Biaxial joints (e.g., wrist) allow movement about two axes only."}, {"domain": "The Skeleton", "text": "According to the textbook, the vertebral column contains which grouping of vertebrae?", "options": ["7 cervical, 10 thoracic, 5 lumbar, 4 sacral", "7 cervical, 12 thoracic, 5 lumbar, 5 sacral", "5 cervical, 12 thoracic, 7 lumbar, 5 sacral", "7 cervical, 12 thoracic, 4 lumbar, 5 sacral"], "correct": 1, "explanation": "The vertebral column consists of <strong>7 cervical, 12 thoracic, 5 lumbar, 5 sacral</strong> (fused), and 3-5 coccygeal vertebrae, as stated in the chapter."}, {"domain": "The Skeleton", "text": "Resistance training is most likely to produce which adaptation in bone?", "options": ["Decreased bone mineral content due to remodelling stress", "Increased bone density and bone mineral content", "Conversion of cortical bone to cancellous bone", "Thinning of the periosteum"], "correct": 1, "explanation": "The chapter states that consistently performing resistance training <strong>increases bone density and bone mineral content</strong>. Some of the highest bone densities are seen in gymnastics and high-impact sports athletes."}, {"domain": "The Skeleton", "text": "Which of the following correctly describes a biaxial joint?", "options": ["Allows rotation about one axis only, such as the elbow", "Allows movement about two perpendicular axes, such as the wrist", "Allows movement in all planes, such as the hip", "Allows no movement, such as skull sutures"], "correct": 1, "explanation": "<strong>Biaxial joints</strong> allow movement about two perpendicular axes. The wrist allows flexion/extension AND abduction/adduction."}, {"domain": "The Skeleton", "text": "The knee is often described as a hinge joint, but the chapter qualifies this classification because:", "options": ["It allows full rotation in both directions", "Its axis of rotation changes throughout the joint range of motion", "It has no synovial fluid limiting rotation", "It is multiaxial during extension and uniaxial during flexion"], "correct": 1, "explanation": "The chapter notes the knee is often called a hinge joint but qualifies that <strong>its axis of rotation actually changes throughout the joint range of motion</strong>, making its classification more nuanced."}, {"domain": "Muscle Structure", "text": "Which connective tissue sheath surrounds the entire skeletal muscle as the outermost layer?", "options": ["Perimysium", "Endomysium", "Epimysium", "Sarcolemma"], "correct": 2, "explanation": "The <strong>epimysium</strong> is the fibrous connective tissue covering the body's more than 430 skeletal muscles, contiguous with tendons at muscle ends."}, {"domain": "Muscle Structure", "text": "Muscle fibres are grouped into bundles (fasciculi). The connective tissue surrounding each fasciculus is the:", "options": ["Epimysium", "Perimysium", "Endomysium", "Sarcolemma"], "correct": 1, "explanation": "The <strong>perimysium</strong> surrounds each fasciculus (bundles of up to 150 fibres). The endomysium surrounds individual muscle fibres."}, {"domain": "Muscle Structure", "text": "The sarcoplasm of a muscle fibre is best described as:", "options": ["The outer membrane of the muscle cell", "The aqueous cytoplasm through which ion and metabolite exchange occurs", "The contractile apparatus of actin and myosin", "The T-tubule network inside the fibre"], "correct": 1, "explanation": "The <strong>sarcoplasm</strong> is the cytoplasm of a muscle fibre — an aqueous medium through which exchange of ions (sodium, potassium, calcium) and metabolites (ADP, ATP, Pi) occurs between organelles."}, {"domain": "Muscle Structure", "text": "Myosin thick filaments are anchored to specialised proteins at the:", "options": ["Z-line", "M-line", "I-band boundary", "Sarcolemma"], "correct": 1, "explanation": "Thick myosin filaments are anchored to proteins at the <strong>M-line</strong> in the centre of the sarcomere. Actin thin filaments are anchored to Z-lines."}, {"domain": "Muscle Structure", "text": "A single myosin molecule consists of which structural components?", "options": ["One heavy chain and two light chain proteins", "Two heavy chain and four light chain proteins", "Four heavy chain and two light chain proteins", "Two heavy chain and two light chain proteins"], "correct": 1, "explanation": "A single myosin molecule consists of <strong>two myosin heavy chain proteins and four myosin light chain proteins</strong>, with two globular head-like features."}, {"domain": "Muscle Structure", "text": "The sarcolemma is contiguous with the endomysium so that tension in a muscle cell is ultimately transmitted to:", "options": ["Adjacent muscle fibres via gap junctions", "The tendon and ultimately the bone to which it is attached", "The epimysium directly, bypassing the tendon", "The joint capsule directly"], "correct": 1, "explanation": "All CT — epimysium, perimysium, and endomysium — is contiguous with the tendon, so tension is transmitted to <strong>the tendon and the bone</strong> to which it is attached."}, {"domain": "Muscle Structure", "text": "How many sarcomeres are approximately present per centimetre of muscle length?", "options": ["~450", "~4,500", "~45,000", "~450,000"], "correct": 1, "explanation": "Sarcomeres average about 2.5 µm in length in a relaxed fibre, equating to approximately <strong>4,500 per centimetre</strong> of muscle length."}, {"domain": "Muscle Structure", "text": "The dark A-band in skeletal muscle under microscopy corresponds to the alignment of which filament?", "options": ["Actin thin filaments only", "Myosin thick filaments", "Tropomyosin strands", "Titin elastic proteins"], "correct": 1, "explanation": "The <strong>dark A-band</strong> corresponds with the alignment of myosin (thick) filaments. The lighter I-band represents areas containing only actin filaments with no myosin overlap."}, {"domain": "Sliding Filament Theory", "text": "The sliding-filament theory was proposed by which researchers, and in what year?", "options": ["Henneman and Ranvier, 1965", "Huxley and Hanson, 1954", "Hill and Fenn, 1938", "Hodgkin and Huxley, 1952"], "correct": 1, "explanation": "The <strong>sliding-filament theory was proposed by Huxley and Hanson in 1954</strong> to mechanistically explain muscular contraction at the molecular level."}, {"domain": "Sliding Filament Theory", "text": "During muscle contraction, which accurately describes changes to the A-band and I-band?", "options": ["Both shorten equally", "A-band stays constant; I-band shortens", "Both lengthen", "I-band stays constant; A-band shortens"], "correct": 1, "explanation": "As actin slides over myosin, the <strong>A-band remains constant</strong> while the <strong>I-band shortens</strong> as Z-lines are pulled inward. The H-zone also decreases."}, {"domain": "Sliding Filament Theory", "text": "During the crossbridge cycle, what catalyses the mechanical power stroke of the myosin head?", "options": ["Binding of a new ATP molecule to myosin", "Release of inorganic phosphate (Pi) from the myosin head", "Binding of calcium to troponin", "Re-uptake of calcium by the SR"], "correct": 1, "explanation": "The release of <strong>Pi</strong> from the myosin head catalyses a conformational change — the power stroke — the pivoting of the myosin head that pulls actin toward the M-line."}, {"domain": "Sliding Filament Theory", "text": "The amount of force produced by a given muscle at any instant is directly related to:", "options": ["The length of the myosin heavy chains", "The number of actin-myosin crossbridges formed within the muscle fibres", "The concentration of ADP in the sarcoplasm", "The pH of the sarcoplasm"], "correct": 1, "explanation": "The chapter explicitly states: \"the amount of force produced by any given muscle is directly related to the <strong>number of actin-myosin crossbridges formed</strong> within the muscle fibres.\""}, {"domain": "Sliding Filament Theory", "text": "Secreted calcium ions bind with high affinity to which protein on the actin filament to initiate contraction?", "options": ["Tropomyosin", "Actin directly", "Troponin", "Myosin light chain"], "correct": 2, "explanation": "Calcium ions bind with high affinity to <strong>troponin</strong> at regular intervals along the actin filament. This calcium-troponin interaction shifts tropomyosin, exposing the myosin binding site on actin."}, {"domain": "Sliding Filament Theory", "text": "An athlete is at extreme hip flexion, placing hip extensors at maximal stretch. Force output compared to optimal length will be:", "options": ["Greater due to increased elastic energy in titin", "Reduced due to less actin-myosin overlap and fewer crossbridges", "Greater due to enhanced calcium release", "The same because filament lengths are unchanged"], "correct": 1, "explanation": "At extreme stretch, the I-band and H-zone are elongated, <strong>reducing actin-myosin overlap</strong> and crossbridge formation potential — shown in Figure 1.7(a) of the textbook."}, {"domain": "Sliding Filament Theory", "text": "Crossbridge cycling continues as long as:", "options": ["ADP remains bound to the myosin head", "Calcium ions remain bound to troponin during muscle activation", "The muscle fibre membrane remains depolarised", "ATP concentrations fall below threshold"], "correct": 1, "explanation": "The textbook states: \"So long as <strong>calcium ions remain bound to troponin</strong> during muscle activation, contiguous rapid rounds of actin-myosin crossbridge formation, power strokes, and dissociation will occur.\""}, {"domain": "Sliding Filament Theory", "text": "In the relaxation phase, calcium is pumped back into the sarcoplasmic reticulum by specialised transporters that also require:", "options": ["Sodium", "ATP", "Calcium itself", "ADP and Pi"], "correct": 1, "explanation": "The chapter states calcium is pumped back into the SR through specialised transporters that also require <strong>ATP</strong> — which is why ATP is essential for relaxation as well as contraction."}, {"domain": "Neuromuscular Control", "text": "A motor unit consists of:", "options": ["A single muscle fibre and its sarcolemma", "A motor neuron and all the muscle fibres it innervates", "All motor neurons that innervate a single muscle", "A muscle fibre and all of the myofibrils within it"], "correct": 1, "explanation": "A <strong>motor unit</strong> is a motor neuron and all the muscle fibres it innervates. All fibres of a motor unit contract together when the motor neuron fires."}, {"domain": "Neuromuscular Control", "text": "Acetylcholine released at the NMJ binds to receptors on the sarcolemma, leading to:", "options": ["Direct release of calcium from the SR", "An action potential generated along the sarcolemma", "Immediate crossbridge formation without T-tubule involvement", "Inhibition of the motor unit"], "correct": 1, "explanation": "ACh binds to receptors on the sarcolemma, generating <strong>action potentials along the sarcolemma</strong> that travel down T-tubules to trigger calcium release from the SR."}, {"domain": "Neuromuscular Control", "text": "Compared to quadriceps motor units, eye muscle motor units would be expected to have:", "options": ["More muscle fibres per motor neuron", "Fewer muscle fibres per motor neuron", "The same innervation ratio but faster conduction velocities", "Larger motor neuron cell bodies"], "correct": 1, "explanation": "Eye muscles may have motor units with as few as <strong>one muscle fibre</strong>, allowing extremely fine gradations in force — a very low innervation ratio compared to the quadriceps."}, {"domain": "Neuromuscular Control", "text": "A brief contraction in response to a single action potential is called a:", "options": ["Tetanic contraction", "Summation", "Twitch", "Depolarisation"], "correct": 2, "explanation": "A <strong>twitch</strong> is the brief contraction-relaxation cycle in response to one action potential. It lasts only milliseconds before calcium is sequestered back into the SR."}, {"domain": "Neuromuscular Control", "text": "The maximal force that a motor unit can develop is generated during:", "options": ["A single twitch", "Wave summation", "Unfused tetanic contractions", "Fused tetanic contractions"], "correct": 3, "explanation": "<strong>Fused (complete) tetanic contractions</strong> occur at stimulation frequencies so high that no relaxation occurs between twitches, generating the maximum (maximal tetanic) force the motor unit can develop."}, {"domain": "Neuromuscular Control", "text": "Muscle spindles provide the CNS with information concerning:", "options": ["Muscle tension and force developed", "Muscle length and rate of change in length", "Joint angle only", "Blood lactate concentration in the muscle"], "correct": 1, "explanation": "<strong>Muscle spindles</strong> provide information concerning <strong>muscle length and rate of change in length</strong>. When stretched, they activate a sensory neuron that sends an impulse to the spinal cord."}, {"domain": "Neuromuscular Control", "text": "Golgi tendon organs (GTOs) are located at the myotendinous junction in series with muscle fibres. Their activation results in:", "options": ["Increased activation of the same muscle via autogenic facilitation", "Reduced tension in the muscle via an inhibitory interneuron (autogenic inhibition)", "Increased activation of the antagonist muscle", "Direct inhibition of the SA node via the autonomic nervous system"], "correct": 1, "explanation": "GTO activation causes the sensory neuron to synapse with an <strong>inhibitory interneuron</strong> in the spinal cord, inhibiting the motor neuron serving the same muscle — <strong>autogenic inhibition</strong> — protecting against excessive tension."}, {"domain": "Neuromuscular Control", "text": "The all-or-none principle applied to motor units means:", "options": ["All muscles in a limb contract simultaneously when one motor neuron fires", "Activation of a given motor neuron leads to contraction of all muscle fibres it innervates", "All motor units must be recruited before any force is produced", "Individual muscle fibres can be partially activated within a motor unit"], "correct": 1, "explanation": "The <strong>all-or-none principle</strong> states that activation of a given motor neuron leads to <strong>contraction of all the muscle fibres it innervates</strong>. There is no evidence individual fibres within a motor unit can be partially activated."}, {"domain": "Fiber Types & Recruitment", "text": "Which muscle fibre type has the highest aerobic enzyme content and greatest mitochondrial density?", "options": ["Type IIx", "Type IIa", "Type I", "Hybrid Type I/IIa"], "correct": 2, "explanation": "<strong>Type I fibres</strong> have the highest aerobic enzyme content, greatest mitochondrial density, and highest fatigue resistance. Type IIx have the lowest."}, {"domain": "Fiber Types & Recruitment", "text": "According to Table 1.1, which fibre type has the largest fibre diameter?", "options": ["Type I", "Type IIa", "Type IIx", "All fibre types have similar diameters"], "correct": 2, "explanation": "Table 1.1 shows that <strong>Type IIx fibres have a large fibre diameter</strong>, IIa is intermediate, and Type I has a small fibre diameter. Larger diameter contributes to higher force."}, {"domain": "Fiber Types & Recruitment", "text": "According to Table 1.2, which sport event requires HIGH involvement of BOTH Type I and Type II fibres?", "options": ["100m sprint", "Marathon", "800m run", "Distance cycling"], "correct": 2, "explanation": "Table 1.2 shows the <strong>800m run</strong> requires High Type I and High Type II involvement — demanding both aerobic endurance and high-intensity speed."}, {"domain": "Fiber Types & Recruitment", "text": "The size principle of motor unit recruitment states that motor units are recruited from:", "options": ["Largest to smallest as force demand increases", "Smallest to largest as force demand increases", "Type IIx to Type I regardless of demand", "Randomly depending on the task"], "correct": 1, "explanation": "Henneman's <strong>size principle</strong>: motor units are recruited from <strong>smallest to largest</strong> as force demand increases — Type I first, then IIa, then IIx."}, {"domain": "Fiber Types & Recruitment", "text": "Postural muscles such as the soleus have a high composition of Type I fibres primarily because:", "options": ["They are rarely used and do not need efficiency", "They sustain activity for long periods and require high fatigue resistance", "They primarily produce explosive power for locomotion", "They have lower innervation ratios than limb muscles"], "correct": 1, "explanation": "The chapter notes <strong>postural muscles like the soleus have high Type I composition</strong> because they need to sustain activity for long periods — postural maintenance requires continuous, fatigue-resistant contractions."}, {"domain": "Fiber Types & Recruitment", "text": "EMG studies suggest maximal voluntary contractions with heavy weightlifting typically lead to what percentage of available motor unit activation?", "options": ["~50% or more", "~70% or more", "~90% or more", "100% in all individuals"], "correct": 2, "explanation": "The chapter states EMG estimates indicate maximal voluntary contractions with heavier intensity weightlifting lead to <strong>approximately 90% or more activation</strong> of available motor units."}, {"domain": "Fiber Types & Recruitment", "text": "Muscular force can be graded in which two ways?", "options": ["Fibre diameter and fibre length", "Frequency of motor unit activation and recruitment of additional motor units", "ATP availability and calcium concentration", "Fibre type ratio and muscle architecture"], "correct": 1, "explanation": "The chapter states force is graded via: (1) variation in the <strong>frequency of motor unit activation</strong> (rate coding) and (2) <strong>increasing the number of motor units recruited</strong>."}, {"domain": "Fiber Types & Recruitment", "text": "A marathon runner compared to a 100m sprinter would be expected to have muscles with relatively more Type I fibres because:", "options": ["Type IIx fibres have greater aerobic capacity", "Type I fibres resist fatigue and rely on oxidative metabolism for sustained activity", "Type IIa fibres are the fastest-conducting", "Type IIx fibres have the smallest fibre diameter"], "correct": 1, "explanation": "Table 1.2 shows marathons require High Type I and Low Type II. <strong>Type I fibres</strong> have the highest fatigue resistance and aerobic capacity — essential for sustained low-to-moderate intensity running."}, {"domain": "CV & Respiratory Systems", "text": "The normal resting heart rate range is:", "options": ["40-60 beats/min", "60-100 beats/min", "80-120 beats/min", "100-120 beats/min"], "correct": 1, "explanation": "The chapter states the resting heart rate normally ranges from <strong>60 to 100 beats/min</strong>. Below 60 is bradycardia; above 100 is tachycardia."}, {"domain": "CV & Respiratory Systems", "text": "The Frank-Starling mechanism describes an increase in stroke volume resulting from:", "options": ["Increased sympathetic stimulation of the SA node", "Increased end-diastolic volume causing greater myocardial stretch and more forceful contraction", "Decreased peripheral resistance allowing greater cardiac output", "Increased haemoglobin concentration in trained athletes"], "correct": 1, "explanation": "The <strong>Frank-Starling mechanism</strong> is the principle that force of cardiac contraction is a function of myocardial fibre length — greater end-diastolic volume produces more forceful contraction and higher stroke volume."}, {"domain": "CV & Respiratory Systems", "text": "Using the Fick equation, if cardiac output is 20 L/min and the a-vO2 difference is 8 mL O2/100 mL blood, the approximate VO2 is:", "options": ["1,200 mL O2/min", "1,600 mL O2/min", "2,400 mL O2/min", "800 mL O2/min"], "correct": 1, "explanation": "Fick equation: VO2 = Q × a-vO2 diff. 20,000 mL/min × 0.08 = <strong>1,600 mL O2/min</strong>. This directly applies Equation 1.2 from the textbook."}, {"domain": "CV & Respiratory Systems", "text": "Stroke volume begins to plateau when oxygen consumption reaches approximately:", "options": ["10-20% of maximal oxygen uptake", "40-50% of maximal oxygen uptake", "70-80% of maximal oxygen uptake", "At maximal oxygen uptake only"], "correct": 1, "explanation": "The chapter states stroke volume plateaus at approximately <strong>40% to 50% of maximal oxygen uptake</strong>. Beyond that, further cardiac output increases come primarily from increased heart rate."}, {"domain": "CV & Respiratory Systems", "text": "At rest, approximately what percentage of cardiac output is distributed to skeletal muscle?", "options": ["5-10%", "15-20%", "40-50%", "60-70%"], "correct": 1, "explanation": "The chapter states that at rest, <strong>15% to 20%</strong> of cardiac output goes to skeletal muscle. With vigorous exercise, this may rise to 90% via local vasodilation and vasoconstriction of non-essential areas."}, {"domain": "CV & Respiratory Systems", "text": "The rate-pressure product (Heart Rate × Systolic Blood Pressure) is used to estimate:", "options": ["Maximal aerobic power output", "Myocardial oxygen consumption", "Total peripheral vascular resistance", "Ventricular ejection fraction"], "correct": 1, "explanation": "The <strong>rate-pressure product</strong> (also called double product) estimates the <strong>work of the heart and myocardial oxygen consumption</strong> as stated in the chapter."}, {"domain": "CV & Respiratory Systems", "text": "Mean arterial pressure is calculated using which formula?", "options": ["MAP = (SBP + DBP) / 2", "MAP = DBP + [(SBP - DBP) / 3]", "MAP = SBP - DBP", "MAP = SBP x 0.6 + DBP x 0.4"], "correct": 1, "explanation": "The chapter gives: <strong>MAP = [(SBP - DBP) / 3] + DBP</strong>. Because the heart spends more time in diastole, MAP is weighted toward diastolic pressure rather than being a simple average."}, {"domain": "CV & Respiratory Systems", "text": "During strenuous aerobic exercise, breathing frequency typically increases to:", "options": ["15-20 breaths/min", "20-25 breaths/min", "35-45 breaths/min", "50-60 breaths/min"], "correct": 2, "explanation": "The chapter states that during strenuous exercise, breathing frequency increases from 12-15 breaths/min at rest to <strong>35 to 45 breaths per minute</strong>."}, {"domain": "CV & Respiratory Systems", "text": "During exercise, as tidal volume increases with deep breathing, anatomical dead space:", "options": ["Decreases proportionally", "Increases slightly but proportionately LESS than the tidal volume increase", "Increases proportionally with tidal volume", "Remains exactly fixed at 150 mL"], "correct": 1, "explanation": "The chapter states anatomical dead space increases with deeper breathing, but <strong>proportionately less than the tidal volume increase</strong>. Therefore, increasing tidal volume provides more efficient ventilation than increasing frequency alone."}, {"domain": "CV & Respiratory Systems", "text": "Which of the following accurately describes the P-wave on an ECG?", "options": ["Ventricular depolarisation leading to ventricular contraction", "Atrial depolarisation leading to atrial contraction", "Ventricular repolarisation", "AV node delay signal pausing"], "correct": 1, "explanation": "The <strong>P-wave</strong> is generated by changes in electrical potential that depolarise the atria, resulting in <strong>atrial contraction</strong>. The QRS complex represents ventricular depolarisation."}];
+const DOMAIN_META = {"The Skeleton": {"label": "The Skeleton", "total": 8}, "Muscle Structure": {"label": "Muscle Structure", "total": 8}, "Sliding Filament Theory": {"label": "Sliding Filament", "total": 8}, "Neuromuscular Control": {"label": "Neuromuscular Control", "total": 8}, "Fiber Types & Recruitment": {"label": "Fiber Types", "total": 8}, "CV & Respiratory Systems": {"label": "CV & Respiratory", "total": 10}};
+
+let userName='', userEmail='', curQ=0, answered=false;
+let scores={};
+let timerInterval=null, secondsLeft=TIMER_SECONDS, quizStartTime=null;
+for(const d in DOMAIN_META) scores[d]=0;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function submitName(){
+  const v=document.getElementById('input-name').value.trim();
+  const err=document.getElementById('err-name');
+  if(!v){err.classList.add('show');return;}
+  err.classList.remove('show');
+  userName=v;
+  showScreen('screen-gate-email');
+  setTimeout(()=>document.getElementById('input-email').focus(),400);
+}
+
+function submitEmail(){
+  const v=document.getElementById('input-email').value.trim();
+  const err=document.getElementById('err-email');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){err.classList.add('show');return;}
+  err.classList.remove('show');
+  userEmail=v;
+  showScreen('screen-gate-code');
+  setTimeout(()=>document.getElementById('input-code').focus(),400);
+}
+
+function submitCode(){
+  const v=document.getElementById('input-code').value.trim().toUpperCase();
+  const err=document.getElementById('err-code');
+  if(v!==ACCESS_CODE){err.classList.add('show');return;}
+  err.classList.remove('show');
+  startQuiz();
+}
+
+function startQuiz(){
+  curQ=0;
+  for(const d in DOMAIN_META) scores[d]=0;
+  quizStartTime=Date.now();
+  secondsLeft=TIMER_SECONDS;
+  // Show timer and counter
+  document.getElementById('timer').classList.add('show');
+  document.getElementById('q-counter').classList.remove('show');
+  // Start countdown
+  updateTimerDisplay();
+  timerInterval=setInterval(()=>{
+    secondsLeft--;
+    updateTimerDisplay();
+    if(secondsLeft<=0){
+      clearInterval(timerInterval);
+      showResults();
+    }
+  },1000);
+  showScreen('screen-question');
+  document.getElementById('q-counter').style.display='none';
+  renderQuestion();
+}
+
+function updateTimerDisplay(){
+  const el=document.getElementById('timer');
+  const m=Math.floor(secondsLeft/60);
+  const s=secondsLeft%60;
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.remove('warn','danger');
+  if(secondsLeft<=300&&secondsLeft>60) el.classList.add('warn');
+  if(secondsLeft<=60) el.classList.add('danger');
+}
+
+function renderQuestion(){
+  answered=false;
+  const q=QUESTIONS[curQ];
+  const pct=(curQ/QUESTIONS.length)*100;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  // Show q counter in corner alongside timer
+  const ctr=document.getElementById('q-counter');
+  ctr.textContent=String(curQ+1).padStart(2,'0')+' / '+QUESTIONS.length;
+  ctr.style.display='block';
+  document.getElementById('q-domain').textContent=q.domain;
+  document.getElementById('q-text').textContent=q.text;
+  const grid=document.getElementById('options-grid');
+  grid.innerHTML='';
+  ['A','B','C','D'].forEach((l,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerHTML=`<span class="opt-letter">${l}</span><span class="opt-text">${q.options[i]}</span>`;
+    btn.onclick=()=>selectAnswer(i);
+    grid.appendChild(btn);
+  });
+  document.getElementById('explanation-box').classList.remove('show');
+  document.getElementById('next-btn').classList.remove('show');
+}
+
+function selectAnswer(idx){
+  if(answered) return;
+  answered=true;
+  const q=QUESTIONS[curQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  btns[idx].classList.add(idx===q.correct?'correct':'wrong');
+  btns[q.correct].classList.add('correct');
+  if(idx===q.correct) scores[q.domain]++;
+  const exp=document.getElementById('explanation-box');
+  exp.innerHTML='<strong>Explanation:</strong> '+q.explanation;
+  exp.classList.add('show');
+  const nb=document.getElementById('next-btn');
+  nb.textContent=(curQ===QUESTIONS.length-1)?'See My Results →':'Next →';
+  nb.classList.add('show');
+}
+
+function nextQuestion(){
+  curQ++;
+  if(curQ>=QUESTIONS.length){ showResults(); }
+  else{ renderQuestion(); }
+}
+
+function showResults(){
+  clearInterval(timerInterval);
+  document.getElementById('timer').classList.remove('show');
+  const elapsed=Math.floor((Date.now()-quizStartTime)/1000);
+  const em=Math.floor(elapsed/60), es=elapsed%60;
+  const total=QUESTIONS.length;
+  const correct=Object.values(scores).reduce((a,b)=>a+b,0);
+  const pct=Math.round((correct/total)*100);
+  let titleText;
+  if(pct>=85) titleText='Outstanding,';
+  else if(pct>=70) titleText='Well done,';
+  else if(pct>=50) titleText='Keep going,';
+  else titleText='More work needed,';
+  document.getElementById('result-title').innerHTML=titleText+'<br><span style="color:var(--orange)">'+userName+'</span>';
+  document.getElementById('result-score').textContent=correct+' / '+total;
+  document.getElementById('result-time').textContent='Completed in '+String(em).padStart(2,'0')+':'+String(es).padStart(2,'0');
+  let verdict;
+  if(pct>=85) verdict='Outstanding performance. You have a strong command of Chapter 1 fundamentals. Focus on locking in any domains below 100%.';
+  else if(pct>=70) verdict='Solid effort. Core concepts understood but some gaps worth revisiting — particularly any domain below 60%.';
+  else if(pct>=50) verdict='A decent starting point, but Chapter 1 needs more attention. Work through each section systematically — mechanisms first, terms second.';
+  else verdict='This chapter needs dedicated revision. Go back to the fundamentals in each domain and focus on the underlying logic before memorising labels.';
+  document.getElementById('result-verdict').textContent=verdict;
+  const grid=document.getElementById('domain-grid');
+  grid.innerHTML='';
+  for(const[domain,meta] of Object.entries(DOMAIN_META)){
+    const got=scores[domain]||0, tot=meta.total;
+    const dpct=Math.round((got/tot)*100);
+    const cls=dpct>=75?'good':dpct>=50?'ok':'poor';
+    let tip;
+    if(dpct===100) tip='Mastered ✓';
+    else if(dpct>=75) tip='Strong — review edge cases';
+    else if(dpct>=50) tip='Developing — revisit the mechanisms';
+    else tip='Needs work — go back to basics';
+    grid.innerHTML+=`<div class="domain-card"><div class="domain-name">${meta.label}</div><div class="domain-score-row"><div class="domain-score-num">${got}/${tot}</div><div class="domain-bar-track"><div class="domain-bar-fill ${cls}" style="width:${dpct}%"></div></div></div><div class="domain-verdict">${tip}</div></div>`;
+  }
+  showScreen('screen-results');
+  setTimeout(()=>{
+    document.querySelectorAll('.domain-bar-fill').forEach(b=>{
+      const w=b.style.width;b.style.width='0';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>b.style.width=w));
+    });
+  },100);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter') return;
+  const s=document.querySelector('.screen.active');
+  if(!s) return;
+  if(s.id==='screen-intro') document.querySelector('#screen-intro .btn-primary').click();
+  if(s.id==='screen-gate-name') submitName();
+  if(s.id==='screen-gate-email') submitEmail();
+  if(s.id==='screen-gate-code') submitCode();
+});
+</script>
+</body>
+</html>
