@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 Quiz — CSCSPrep</title>
+<meta name="description" content="20 questions. 5 domains. Tests your understanding of biomechanics, levers, human strength, force mechanics, and joint safety from Chapter 2.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --orange:#F4511E;
+  --amber:#FFB347;
+  --dark:#0F0F0F;
+  --dark2:#1A1A1A;
+  --dark3:#242424;
+  --white:#FFFFFF;
+  --grey:#AAAAAA;
+  --lg:#CCCCCC;
+  --green:#4CAF50;
+  --red:#E53935;
+}
+html,body{width:100%;height:100%;background:var(--dark);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;}
+.brand-bar{position:fixed;top:0;left:0;right:0;height:5px;background:var(--orange);z-index:200;}
+.logo{position:fixed;top:18px;left:28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;color:var(--orange);letter-spacing:2px;z-index:200;}
+.logo span{color:var(--white);}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+.screen.active{opacity:1;pointer-events:all;}
+/* ── Intro ── */
+.hero-tag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:5px;color:var(--orange);text-transform:uppercase;margin-bottom:18px;}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(44px,7vw,88px);line-height:.88;text-transform:uppercase;text-align:center;margin-bottom:20px;}
+.hl{color:var(--orange);}
+.hero-sub{font-family:'Barlow',sans-serif;font-weight:300;font-size:17px;line-height:1.7;color:var(--grey);text-align:center;max-width:540px;margin-bottom:32px;}
+.stats-row{display:flex;gap:48px;margin-bottom:32px;}
+.stat{text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:42px;color:var(--orange);line-height:1;}
+.stat-lbl{font-family:'Barlow',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:4px;}
+.warn-box{background:var(--dark2);border-left:3px solid var(--amber);padding:14px 18px;border-radius:0 4px 4px 0;font-size:13px;color:var(--grey);line-height:1.6;max-width:540px;margin-bottom:32px;}
+/* ── Gates ── */
+.gate-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(28px,4vw,44px);text-transform:uppercase;text-align:center;margin-bottom:10px;}
+.gate-sub{font-family:'Barlow',sans-serif;font-size:15px;color:var(--grey);text-align:center;margin-bottom:32px;}
+.gate-input{display:block;background:transparent;border:none;border-bottom:2px solid #333;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(28px,4vw,48px);text-align:center;letter-spacing:2px;width:100%;max-width:480px;padding:10px 0;margin-bottom:32px;outline:none;transition:border-color .2s;}
+.gate-input:focus{border-bottom-color:var(--orange);}
+.gate-input::placeholder{color:#333;}
+.gate-error{font-size:13px;color:var(--red);letter-spacing:1px;margin-top:-24px;margin-bottom:20px;display:none;text-align:center;}
+.gate-error.show{display:block;}
+/* ── Question ── */
+.q-progress-bar{position:fixed;top:5px;left:0;right:0;height:4px;background:#1a1a1a;z-index:199;}
+.q-progress-fill{height:100%;background:var(--orange);transition:width .4s ease;width:0%;}
+.q-counter{position:fixed;top:18px;right:28px;font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:14px;letter-spacing:3px;color:var(--grey);z-index:200;}
+.q-domain{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
+.q-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(20px,3vw,36px);line-height:1.15;max-width:740px;text-align:center;margin-bottom:28px;}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:740px;}
+.option-btn{background:var(--dark2);border:1px solid #2a2a2a;border-radius:4px;padding:18px 22px;cursor:pointer;transition:all .2s;text-align:left;display:flex;align-items:flex-start;gap:14px;color:var(--white);width:100%;}
+.option-btn:hover:not(:disabled){border-color:var(--orange);background:rgba(244,81,30,.08);}
+.option-btn.correct{border-color:var(--green);background:rgba(76,175,80,.12);}
+.option-btn.correct .opt-letter{color:var(--green);}
+.option-btn.wrong{border-color:var(--red);background:rgba(229,57,53,.1);}
+.option-btn.wrong .opt-letter{color:var(--red);}
+.option-btn:disabled{cursor:default;}
+.opt-letter{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:var(--orange);flex-shrink:0;line-height:1.3;}
+.opt-text{font-family:'Barlow',sans-serif;font-size:14px;color:var(--lg);line-height:1.5;}
+.explanation-box{background:var(--dark2);border-left:3px solid var(--orange);padding:16px 20px;border-radius:0 4px 4px 0;font-size:13px;color:var(--grey);line-height:1.7;max-width:740px;width:100%;margin-top:20px;display:none;}
+.explanation-box.show{display:block;}
+.explanation-box strong{color:var(--white);}
+.next-btn{margin-top:24px;display:none;}
+.next-btn.show{display:block;}
+/* ── Buttons ── */
+.btn-primary{background:var(--orange);border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:3px;text-transform:uppercase;padding:16px 44px;cursor:pointer;border-radius:3px;transition:all .2s;}
+.btn-primary:hover{background:#d93d10;transform:translateY(-1px);}
+.btn-primary:disabled{background:#333;color:#666;cursor:not-allowed;transform:none;}
+/* ── Results ── */
+.result-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(40px,6vw,80px);text-transform:uppercase;text-align:center;line-height:1;margin-bottom:12px;}
+.result-score{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:72px;color:var(--orange);line-height:1;}
+.result-label{font-family:'Barlow',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:12px;}
+.result-verdict{font-family:'Barlow',sans-serif;font-size:15px;color:var(--grey);line-height:1.7;text-align:center;max-width:600px;margin-bottom:32px;}
+.domain-section-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--grey);margin-bottom:16px;width:100%;text-align:left;}
+.domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;margin-bottom:28px;}
+.domain-card{background:var(--dark2);border-radius:4px;padding:18px 20px;border-top:2px solid var(--orange);}
+.domain-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
+.domain-score-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;color:var(--white);margin-bottom:8px;}
+.domain-bar-track{background:#2a2a2a;border-radius:2px;height:4px;margin-bottom:8px;}
+.domain-bar-fill{height:100%;border-radius:2px;transition:width .7s ease;}
+.domain-bar-fill.good{background:var(--green);}
+.domain-bar-fill.ok{background:var(--amber);}
+.domain-bar-fill.poor{background:var(--red);}
+.domain-verdict{font-family:'Barlow',sans-serif;font-size:12px;color:var(--grey);}
+.coach-card{background:var(--dark2);border:1px solid #2a2a2a;border-radius:4px;padding:20px 24px;display:flex;align-items:center;gap:20px;max-width:760px;width:100%;margin-top:4px;}
+.coach-img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--orange);background:#2a2a2a;}
+.coach-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:var(--white);margin-bottom:6px;}
+.coach-name span{color:var(--orange);}
+.coach-copy{font-family:'Barlow',sans-serif;font-size:13px;color:var(--grey);line-height:1.6;}
+/* ── Responsive ── */
+@media(max-width:600px){
+  .options-grid{grid-template-columns:1fr;}
+  .domain-grid{grid-template-columns:1fr 1fr;}
+  .stats-row{gap:24px;}
+  .hero-title{font-size:48px;}
+  .coach-card{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="brand-bar"></div>
+<div class="logo">CSCS<span>PREP</span></div>
+
+<!-- ── INTRO ── -->
+<div class="screen active" id="screen-intro">
+  <div class="hero-tag">Chapter 2 — Biomechanics of Resistance Exercise</div>
+  <h1 class="hero-title">Biomechanics<br>&amp; <span class="hl">Resistance</span><br>Exercise</h1>
+  <p class="hero-sub">20 questions. 5 domains. Tests your grasp of levers, torque, force mechanics, muscle physiology, resistance sources, and joint biomechanics from Chapter 2.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">20</div><div class="stat-lbl">Questions</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Domains</div></div>
+    <div class="stat"><div class="stat-num">~12</div><div class="stat-lbl">Minutes</div></div>
+  </div>
+  <div class="warn-box">
+    <strong>⚠ Note:</strong> These questions test your foundational understanding of Chapter 2 concepts. They are not representative of the exact difficulty or format of questions in the actual CSCS exam.
+  </div>
+  <button class="btn-primary" onclick="showScreen('screen-gate-name')">Begin →</button>
+</div>
+
+<!-- ── GATE: NAME ── -->
+<div class="screen" id="screen-gate-name">
+  <div class="hero-tag">Step 1 of 3</div>
+  <h2 class="gate-title">What's your <span style="color:var(--orange)">name?</span></h2>
+  <p class="gate-sub">We'll personalise your results with it.</p>
+  <input class="gate-input" id="input-name" type="text" placeholder="Your first name"
+         autocomplete="off" maxlength="40"
+         onkeydown="if(event.key==='Enter') submitName()">
+  <div class="gate-error" id="err-name">Please enter your name to continue.</div>
+  <button class="btn-primary" onclick="submitName()">Continue →</button>
+</div>
+
+<!-- ── GATE: EMAIL ── -->
+<div class="screen" id="screen-gate-email">
+  <div class="hero-tag">Step 2 of 3</div>
+  <h2 class="gate-title">Your <span style="color:var(--orange)">email?</span></h2>
+  <p class="gate-sub">Used to send your results — nothing else.</p>
+  <input class="gate-input" id="input-email" type="email" placeholder="you@email.com"
+         autocomplete="off"
+         onkeydown="if(event.key==='Enter') submitEmail()">
+  <div class="gate-error" id="err-email">Please enter a valid email address.</div>
+  <button class="btn-primary" onclick="submitEmail()">Continue →</button>
+</div>
+
+<!-- ── GATE: ACCESS CODE ── -->
+<div class="screen" id="screen-gate-code">
+  <div class="hero-tag">Step 3 of 3</div>
+  <h2 class="gate-title">Access <span style="color:var(--orange)">code?</span></h2>
+  <p class="gate-sub">Enter the code shared by your instructor.</p>
+  <input class="gate-input" id="input-code" type="text" placeholder="••••••"
+         autocomplete="off" maxlength="12"
+         style="letter-spacing:6px;text-transform:uppercase;"
+         onkeydown="if(event.key==='Enter') submitCode()">
+  <div class="gate-error" id="err-code">Incorrect code. Please check and try again.</div>
+  <button class="btn-primary" onclick="submitCode()">Start Quiz →</button>
+</div>
+
+<!-- ── QUESTION ── -->
+<div class="screen" id="screen-question">
+  <div class="q-progress-bar"><div class="q-progress-fill" id="progress-fill"></div></div>
+  <div class="q-counter" id="q-counter">01 / 20</div>
+  <div class="q-domain" id="q-domain">Domain</div>
+  <div class="q-text" id="q-text">Question text here</div>
+  <div class="options-grid" id="options-grid"></div>
+  <div class="explanation-box" id="explanation-box"></div>
+  <button class="btn-primary next-btn" id="next-btn" onclick="nextQuestion()">Next →</button>
+</div>
+
+<!-- ── RESULTS ── -->
+<div class="screen" id="screen-results"
+     style="overflow-y:auto;padding-top:80px;padding-bottom:60px;justify-content:flex-start;">
+  <div style="width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;">
+    <div class="hero-tag" style="margin-top:20px;">Your Results</div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-score" id="result-score">0 / 20</div>
+    <div class="result-label">Overall Score</div>
+    <div class="result-verdict" id="result-verdict"></div>
+    <div class="domain-section-label">Domain Breakdown</div>
+    <div class="domain-grid" id="domain-grid"></div>
+    <div class="coach-card">
+      <img class="coach-img" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAEsASwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6loopKZjcCaYxpxNRucVRDY12qrNLipZG4rNupdtVYzbGzzcdazpZeTzTbm696ovc5NZtXZaY+aQk9aj31EZcmk3VrFWQ0TqQaerDNQJ0qZFpmsS3HJx1qQPjvVYfKKVWyKkosGY5+8fzqRZ2x98/nVMNzUmSKQ7FoTv/AHz+dI11IOjmqxJxmmM5zQFi4L2Yf8tDSHUbgH79VVORQe9FkKyLn9qXHGGp66rcf3qzgaVD81Fh8qNVdVn9atWmpyyShT0NYuTjirumgmdRRYlpWOoU5ANLSJ90UtZlLYKKKKBhRRRQAUUUUAFFFFABRRRQAUUUUAMpDRSGqMBpNRSGpGqCQ1SM2QytxWXetwavytWbdng1diGY10x5qopyasXbYzVNZBnrTsNExpMZpplGOtCuCc5oNETrmp4s5quHAqeN6lm8SwFJp/l4GabE4NTqQalsqwxY+9KwxUrEAVCW5qbgITwRTAOeaeSKYTTAeFxTZFIpyuKVueaYEainqOaEANPC80rgOC1fsAEkBqkMCrEbbeaLiaOlhcMo5qSsKK/aIdM1oWN99pyCMYqWhLQu0UUUigooooAKKKKACiiigAooooAKKKKAIqDRQas5yNqglqw1QSimiGUpjxWZdng1pzCsy8HBrREMwL6TGayRc4Y81f1NiA1c2Z28w/WqSIvqan2nLdamS5wMVkLIc1YQkjOadi+Y1EugzAA1cSTArDgYiStWEkgVDR0U5XNCGTIqwsuBVSIbVpl7f2+m2kl1dzLDBGMs7HgVm0aXL7yk96rXF9BaDfc3EMCnoZXCg/nXkHi34s6pdSyW+hD7DZqD/pZAaST3XPCj8CfpXmN/qV5qE3nzTyTydWmnk8xiT1xnp9BUic0fSlx4+8NW4YtrFs+04Iibfj8qx7n4t6FG5SBZpzjIwVAP65r53mu51kD+czsQcEnoPbFUftBVwULLjrtOMmnYl1GfRtv8YbGd2UaTdh1xwHU7h60J8aLDJV9LnyCR8sq9jXz3HeXKY2zPubnBOCfp71LFqLyy+ZI7iRsjIP8AnvTsS5yPoVfjV4fQ/vbbUIz3GxTj9asRfGjwvINzG9jX+8Ycj9DXgRSW92yGVQT0ZSB+dMvWuEnEjwhGZQWXHRuh9uoz+NFh+0kfTOlfETwxrLKlrrFv5h6Ryny2/JsV00c4dAysGB6EHIr4+t7kyMAVHJ4zXZeE/HOo6BcIIJpfIB+eE/MpH07U+QPbdz6TEmav6bLseuV8N+JLXxDZpPAyhyuWTPSuggYqcimojc01odMkgYCn1jRXjKMZqddQqXBkqrbc0qKoDUAaeL5e9TyMr2yLlFQx3KP0NTUmjRST2CiiikMKKKKACiiigCKg0ZpCas5xrVDIKmJFRORimiWU5hWbeLwa1JcVnXgGDVkM5bVUARq5Nh+9b612OqqCjVyTD9+31q4si2o4DC1ZgOVxVbOeKuwRjyixOKsZLbxgtWrAg4rIgfBFa0D5xWcjppvQt3M8FjaSXVzKkUMSl3dzgKB3NeB+PfHN14xumgt5fJ0qFj5Uag7pSP4m/wAO351rfFzxv/aeojwzYyFra3O67KHh2/u5HYfz+leYT6sLRBb20Y8pOOT1rF3LclsWTHsXESoAeSclsH6Hp+AqJYSxCE/P2yc81jNqbSOSMH6jGKRruXGVJ/OlYV0bEtoQhKMHUd9ucVUazkRxK2SGOCpFUvt0kp5fBPT3qaO9cfu5CGUn6f5NUrkOxaQE5RssB/Cy549qujTPOjEwRVU4+YjjNZwu1iKhgxUZ4arL6u9jPmFiUIDFW6OhH8xQIs2sIjWUkK4XHHf6D1FbMUI1C2lVDiVcKoJwCpz1/H+dcy92uAQed+1wOOD3/r+dLp93dQ3jQFi4c7B6k+1O4rFmYNbzbTA4KnEkZjJKH14rcsLZnjjmyu1j8sgzw390j249+aDrGl6gDLdIVZCUZ1B3EqoO7PXnkfgK0bO9t7a3nS2eO7GVMaMCsgJPQjo2R7Z4FWpEOLOq8M6lc6UsMkTYYSbS8bZQ+xIHB56HFew+H9dt9YtgUngeZR86xuDj/CvnOOHUnuESCRLMsd+BkkAjphjzj8B+VdF4e12fRpDLHcGS7WIPvSJd79c7j3zx8v8A+qq8yNj6BL8YpA5rF8J+IYvE2kw3iqUkKjepGMGtsRE9qLhuKrn1pzOfWlWIjsaa60rhYWGVhIBk10EBzGCa55UAOe9bljKJIR6is6hrSdmWaKKKyOoKKKKACiiigCsDQaULQVqzmGGonqcrUbLTRJTkFULtflNasiVRuU4NUiTk9VU7TXLumGY+9dlqkWVPFcrcptkIxVRYrFNBzmrSuduKakeTT2G2ruFhYiQRWX468WDwv4dlmjYfapgY4Vzgj1b8AfzxWvEM4rxbx3rp1nX55XcPbWreTApPyjHVj+OaibLg7HMzlktgWB86b945B+bHv9axywf5fJz6MBk1o4a6Yy/vTzwwXgn3yc0+S1ldRhWUnnHQ/nWRolcwpoH3cAnPZlwaIUbHzOo2nGCTux9K0W08sxXaSOvzdR+NO+wOFKtkjGAT2pXK5TLmiMRJU5AP6ev8vzp6sZkJwNwxn3rQfTmdiqq2SMdO2Mf0qe20eQpnYo59c4/xNHMHKzN8uWQBVGXI556dv5Va+ztKUAVtqrt3Adv8a3bPw805BDEAHn3rorLw1GFAIz6kDgfWk5FKmzj4tJkdY0xgsNzKOdvJx+QretPCN5Ijzoh3NznABAP8uK7bS/DMY+YBxk9QcV1unaHCsGCufTIzQncrkR4jLotzaRmMQnys8gd8f0q1oCz293uQO/G7aeT77T6/TmvabjwfDdQkqigjjpjNcJq3h2fQrkXEabxEfmHqD0PsQfTnpWiMpx7GRfpZxXDywG4ZZCpMZlwUkPqD1U8YPtUtjJ5chto5suVy8pOcHkYp2r2Q2LNbKWklAcZ9O4Pvzn6GqNpIbXYGh8187nH94kkj9K0RgenfDHUJrHVLi2kj80ySfOTwdx5+X25/SvcLe0VkDY4IzXz/AOF7wXF0rCHYxdHUA8qv9a+i7cYgj6fdHSom7DpRu7MZ9lTHSqs9gCcgVo0VmpNHQ6aMr+zz6VNZKbeQqehq/iq1wmOR1p819CHDl1LNFVI7ojhxUwuYz3qbGimmS0VH58f96l8+P+8KRXMh9FR+fH/eFHnx/wB8UBzIAKSnCkNUYiYpjCpKYaYmiF1FU7leDV5qqXI4NUjNnN6mvBrlrmP94a6zU+hrmblMuapAikqbTRKM1NIuBUQGaZVitqU5sdIvbodYYJHH1Cmvnzy1mkEa5laRwgDDq3dvfknFe+eJ1Y+GtSCY3eQxHGa8d8N2ezVbczYZo2Y887fm/wA/rUTZSR02jeAmNitxOu09lxzipb3w3BBGcRnb0GQPzFd/FcrLbHIB9PasjVEjaN0xh8A9O3rWcjaJ5zPpKbsgYPr61B/Ziknit6dQHI9DUJjDe1c/MzflMb+yYi2do/GrdvpkYPJzVzYq9hVmNRtxxRdhZC29oi4wuAK2LSIKyjHWqcGVIrZtYsEE4xRuBr6fbjAZh8vc9q6K2gAxjgDr7VmaXEkkYHtitK1uF+0NF2GB+Fbx0M2bMKKsfzZJNZGrabb3MbCSMENkc1sbsKOMAjiqjkZJk6CtDJnl2v6S9pK8EIJR2VlBOOdpXGe3Fc+umSRTCRt2wna5HBB9/evVdY0qO/TpuBOeOOP8a5qfw/Ikb+W7KWcHLDrVXMWtRvguQzMYE2qUIJOB83PI+ua+hrMk2sJPUoM/lXhWhWEqXEc7FNysDnbyT3r3GxfNpCc5ygOfwpT1HT0Zaopm/FKHzWdjfnQ6o5RkU/NNbmhCk7orGMZo8v2qbGKMVRkQ+XTTHVjbTSBQBXKUmypytJtpiLFFFFSUIaaaeaYaAZG1VLjoauNVS56GqRmzntSHBrm5lzIa6XUuhrnZuHNWgRXdNwxUOzFTk801hTKK13bfarKeDOPMQrkivI9PiMOtTeYvzbz8oXAA7V7Khwa8+8WotprcuFVfMw6gDkk9aiaGtzZhuVSBR1+XpWdfX5JbL+uAOf1p1m5kgDE44/SoJIN5Y4xjn3NYs6EYs78k4xk5qIOD6VYu4CrEDp1qrsKYPWsWaj25HSpYeOKi53Ac1LGcGgC7FlSK17Sb5QNxHb61ixPkrkEHPetW0yzAfw0JhY3bK9aJNoPOK2rBw8gJFYEChBkjr69q3NKjy2OeP1rWJDOm2b4hjsOtQTW3mggjp3FXrSPfFgjjqD7VOI0ByRWhm0YZ08jlVAxTWskJKuODxg9635LYFdw61Ukt17g89aCGjKstNjhcYG8Z3cjoa9Ftl2W0SgYAQDH4VycCIZRjAOMZPPFdXC+IU/3RTuQ1YkY0LUbPzSq1Ar6kwoNMD0FxSsVzC0U3fSbxTFzD6Sm7xRvoFcDRmmF6N4p2FcsUUUVBqBppp1NNNEsjaqlz0NW2qpc9KpGbMDUuhrmpzhzXSaketc3cfeNWhxIsc0pGRSZ6U9elUMgxzXOeNdKEwtb5AxkBMfsOOv1rpmGGp1xaLfWjQt3ww+o5FSy0ro4a1tnTy1YYwtWWgC5Zj1/lV3Up49NeSSUAJGgPI79hXD6z4+tkB2oBgnhea52axZfv3jy4Bxg8VmsuVPIPSuZn8arO/wAkXB7MeadB4jaSQKcbW6H0rPkZqpo6TOAMmgkBtwNUEvhIAc9RU6zhk6mlYdy9HMocknArSsb6JCdzrx71yF7cSggLkg1i38U0gy0xQe7VUUS5M9TuPFGn2eA9wpb+7npS2PxAhDkQkY9VP868itE0+OYNcXKt672ABrtfDutaLC6ILizwP4Qwq7pEas9r8JeK/tkSxzxYB6N3H1rrcxsNwIKnkV5ppN/FMBLburYA5RuK6/TdSaSPa+Cw64pqQrHQqgYDHIqlcRFQ2elWraXIBGeafeIGiJAzVks5y+16x0VV+1z7GfJRQMlsegqO38c37QnUJ4PIslwFiVdzkep96parpUF7fRXUy5EabR7c5NWNGkj1PTZrd4whwSqEc4rNyd7I0jCNrs7HTtWg1ayivbYnypRkZ61aE+O9cd4KnMNhc2LcG2mIA9FPIroPPPrWtN80bs5a8eSbSNIT0hnrO840ecc1dkZXNDz/AHo8+s/zjR5xosFzQ8+l86s4TmnCY9qLBcvGWk833qkZjSecaLDOgooorE3CmmnU00xMjaqlz901baqlz901SM2c9qXeubn++a6PU+hrnJfvnNWhxIe9SL0pnenrTKEI5ouNSs9KhEt3IUU5wFG44HU49KkwMZrG8UeGj4hsVa1l8m+twTC+eG9Vb2NTK9tDSmk3qc38S5VvIIvs0hEU2JFIGCwIGP515hdaVBGuZQWbvk16L4ijlntNMBQZa1i3einaM15lqtvqOt6o2maYMbcl3JwAB71huWlYy717C1yrSoGH8PU1Vh1SMONh/MYrR1LSCNPht47MQXETZL53B/UnvUFpY3NrMJ7xkudqFQkjcAHrT0DXsbOh3P2+dYVIBPGDXX6dopmmETNk1xvhWyeXWEMAwu7IA6KOwz3r0/SIGTUAmActgk9vpWUvI2grlHX/AAsun2QnhcO+OnSvMb0PNeCK4kMa9WxzgV9D6xojT2ojwWVh+VeUeI/Bd9aSme2RmQ8HjOKtIhnH6xp9k5tzpMSuypscPH3/AL3PWur8F+F7jU9Pm0+8s9MCXLlvtDQgyQg9dmMYPH0FY8UGoRMAUQkeorotEu9RtnG4DAHTdxVOTJ9mjVn8EXfgu9jfSdWmlg4BRzz+OODXb+GLq4luo/tLMpbgjjmuUgmm1C4G4FyOB8xIzXb6DYyqUZuTjnjpU3uyrWWp31iCEXkke9aDqHiI7iqWnIViVTV7HXtWqMzz74mahd6LpQmsEHmyOEBI4XPJP5A/nXMeDPFc76pAk7AmRsMa7zx6LT+yLgXy5iCBk558wHjH615T4b028l1aKaK2kSBXBErIdv51zVLqV0dtBRdN8x6doUTR+KtXUN+7Ea8e56V0uOKw/C7JeanrF1HyjSrGCOh2jB/WuiMVb09InBitZr0GIM0u3mpo46f5WT0rRM5rFfYaaVNXjDxURi5p3HYqbTUsURY1L5NSxxY6UxJFV4yKj2Gr7w1H5VK47GyDS02lrM1CkNFIaBDGqnc9KuNVO56GqRDOf1PGDXNTH5zXSan0Nc1OcMatFRIx1qQHFVy/NPD0xku7JxUreZ9kn8ltsvlPsPocHFVQ2Wq9akd+R3FJouBwUMI1DQ9MllBYi3Cn0BBIOfyrlLi0Fu8jwosYJySOM+ld9BbLZxT2hHy211LGvspO4f8AoVc9qem5LnHy9eK5HdI6NG2eeX1tfyyHDgA1Xg0GaaQByWJ7V2M+nHOGfGPamRww28o+YjnqTU8xfKGg6R/ZbgADef4sd66vRFC35fIGCDVTTzFNPOyDIhQnp3xU+g/PegA/KWxzT6jjsenxjz4FYoMbfSsjVraPyX+VRjmty4ka30QSxBWaNOQfpXPwQXurWsvnRh1wSSDg/h9K3ZikefahpcUznCDd1PsKrw6Mg/ibFN1S7m0zUJYLglgDlX9R7+9T2Woo4GSOnXsawafU2Vjo9G0+KPay4J7V22mQYTcBjnmuI0u4RVVchcYxz27V3Wizh413dCMZFXBGczo7QYRcdcVZc8AiqEEhXAyfrVxuhB6Vpczsct4+0mLWbCCGaWWNUk8z5P4scYPtzVeNF/sFrGDEci4WMnvx1q14r1uDTL7Tba4H7u78xM9gQBTdItFvJ4jnfsOQB0qHa5om1HXY0/COinRtHSBh85O5j3JrYdcVNjAx6VFLxWqjZWOKpPmk5MWIVOqc1BCatIM00SLs4qJk5qzjiomHNAyIJUsaUgFSoKGJDHSo9tTuOKjxQhst5opKM1JYppDSmmmgBjVUuuhq21U7roapEM57U+hrmbn7xrpdT6GuZuB85qkOJAKUZpAeaeKYxUU7qv2y1UjHNX7ahlwMPxLam2Mk68Cd0c/7wXaf5CsW6Mb2ispBbjIrpvGCFtKWQAkI3JHbPFcJNdt5bqcHAIGO1c8tGboytSmVTn+IHjNY1heQS6zB9sDG3jJZ1B6kDgfnSandbnYbj16VQs0E75Pc1kkbXOtbxjpxeS1050VyjKyNjLA+wpfDmpGS4Cg45wcda5y68P2UAW68ny5Gbja2Dn1qtp+vJouoec8LzpyCgbbnt17VTRCkj0TXfHupQW0tto9lPqWz5ZGjICIfQnufpUWi+OPE1tKsd/pwSN14CPk/qK5fSvFsVsJUsLRrdJeNhOePTPet+21Jp5RLICJcDC+i9OapIV0itrltLd7prgDzHYsdvbnp+Fc4ryWcu3OUPT2ruSiXjhWO09GVucntiuW1/QJhcfupBGeSc8fhRKIc5e0rVJI8Lnco5x3r0nw5qG+BSCRuHHHQ+uK8Osry50y+jt7xcK/3HxivVfC9yTDGUfIOAVPY1K0Bu6PS7WXeiHPfBrVT5lYHkg1y+m3AOMk4z37GumgY7OSDVpkNEWoaVZara+TfW0dxGWHyuOh9QexqzpumWemW4is4REn1JJ/E02V8Iq+rVleKvEknhjSV1MRLLBHIFnB6qp43D6HFXEyqu0WdDiq05xWZoHjDTfEEKvbygMw+6TWncVZyRmpK6CA1eiqjb1eipFom7VEw5qWo260kUxoqRBxTBUiCmwQP0qM1I9MpIGT0UUUiwpppc0h5oEMaqd10q21U7o8GqRLOe1M9a5q5PzGuk1Toa5q5PzGqQIrqcmpQcCoQ2KehzVFE0bZNaFtWanDVpWp6UmXAk1Wz+36TdWw+88Z2/wC8OR+orxi9uiEJyV749DXusXavFfHmltpGsXUCjEbMZYz/ALDcj8jkVhUXU3izhdRlZWIBy55wDVzQopzcoWxtK5+n09aguYv36ykH7pA46cVRi1uSwnBkjlaIkAlBk1nFDbOrv5jKw+V8gcDsaxGsZCHLgbj6ms6+8bG5fybVJFA43bCW/wDrVUW5WeRGlu2Ut1JjckVdmJW6m5a2iRMXmuFiyeMmuksL7TT5fn6hGNoAZsH5v0riknijYZ+13wIwCibP1Na+mw3t9KywWVtbJwAZP3jKB7nihIL32R6NYXGgSoM6hACuDwxFcj418ZWJAsdKu/7RuVPzGAZCY/vNVi38CRX1osE8jynO9Y84UH1Yjr1q5H4PsdItjb28YLnl3A5NOSsKxwUN/dajIqXe3chGNq9K9X8KsYUUgnBABBHXHSvObiw+z6vwAU3Yx6V6boK5s/mBGcYPvis2ykjtLGUM8ZH8XzAV09vPiAE8cciuO0vaWVccAcfhW613tRRnihAzTkuOQc9BXMfEy5U+DtRtnPE0Ekf4lTj9a0vtQeRVz/tN9B0rifivqwh0aOIHmRnOPYL/APXraLM5K6seU/DHxjqEZjjhdgEZQ/ua+ntG1H+0tNjlY5cAZr5Y+GdlHbqWZQWmmL8+g4H9a+jvCEvloISeGXANapaHiykqdeyOst6vxVQgGDg9a0IulSzvRKelRN1qU9KibrUopiCpV6VGKkXpTYIRqZUj1HSQMnoNFBpFiU007tTTQIY9UrroauNVO66GqRLOd1PvXM3J+Y102p/dNcxcD5jVIaIAM09OKah5p5FUMkj5atG17VmRHDVqWp6UmXA0IjxXL/Ebw+dX0n7ZbpuubQE4A5ePuPw6/nXToeKfms2rmx81zRbo2Vx07CspLYzTlAuAD3r1H4ieCzpkjatp8RNnIf3qKP8AUk9/93+VefrG0F2pGOucYzWLjYdy1ZaXbrE8iQp52MMpH3qzbyaCCdh9nRDgDGMfpW9BG0gDbsZ54rG1pZomZtgkUDOcc0KXQrbUqf2guRsUenAre0GS4lYNuCJ0y39BXJreOkiokYD4yQB3rX0RbmaQOfMX2Iqg5rnqmnXUVrbCGN/MX++ep9qVpNyM7DJJ49qxbWUQwKCegzx3rbtIs2537SHAwT0Pf8KgTOZuNK+03rOoXOeAB+tdzHp5gtIVAO7aDn14rMtLIfbvMYAxgfLtGD+Vb5lVEG5gAv5Cm0JMs2SraoCT279qryasJJSwP7tfTvXPa14lV82sDfKPvN61RttRJkX1H3V/qalMqx28V3nIJ+ZsM3sPSvKPizrvn33kI2VijwB7muyn1YWlo7M2XxnPqa8b8SXxvtUZmbOWya0TIlorm14HjEV5AvZFCn+te56PKIFQg8EZB9K8T8GrtuEJyOeteu21yiW65bjGRXVHY+ZxEr1LnoemXyXYxkeYBn6iteKvMdJ1yOHVYEWfG/IxXf6drNrdkxiVfNX7yg9KiSO3DYhSVpGoelRNUmQRkHIqNutQjuYgqVelRCpV6U2CEemU9qjpIGWKDRSUiwpppTTTQIY1UrroauPVK66GqRLOd1Q8Guan6muj1Q4BrnJzyatDRBGcNUpxUBOGqUNkUxkqgA1oWgOBWcmNwrUtR8opMuBfjXinbaSPpUlQzUY0Kyo0ciq6MCrKwyCPQivIviL4Fbw/E+rWMcklghywTloM9j32+h7d69iHFPIWSNkdVZWBDKwyCPQik1cTZ846fN5yABzx/KpZkjbggEdK7Pxl8MLixlfUvDcRlhPL2QPzJ6lPUe3btXnU+oDO1gyMOCCMEH0NYyi0aRkSyWVqW3CNQfUVds5EjxtOPb0rBN8gckyY+velTV0D4U/lS1K0O308lpArZKDnnvW8l+hzAoAAzubPI+lcFba6iRFiy8c5PrTF8SzFylmu4kn5z2P9aaJkzvJdVhsxh3G4Dp3HtWLrPil5I9mdueiL/WsvTdMvLo+bPKxA5JJqhqcHl3JC9j1NDEiVLt3bruYnv0FalrMIQWLZc9SaxbfCDipJrsRJkngVJRZ13WGW2Zd2cjArgXcy3Zzyc81p6pfNNmRjhQPlH9ay9NUvNuPPOauGrOfEz5YHe+FoyhUj8q7W6v8AyYkwTx6VxGiusUQGfyrQvr47AA7ZA6GuxbHzlSN5GnaalHNrEDbsbMtkGmeGPiVZXPiCaeS8jgaV8BSccA8fjXKpemC5kk64jOOfauU0iwjn1aG2kAZXB3ipkzWFFNO59i2OttLapcRMGUj5gOn1rTttWguOCwVq8D8DeJ7zwZqEWh6mzT6bctttZ2OTGx/gPtXpN3di3KzW4IBPKntSsXHESh1PQVIYZBBFSr0rj9K1tplyjgH61v22ro2FlG0+tS4nZSxMZbmg9MpfMWQZVgRTaSOi9yeiikNSWBpppaaaAI3qjdng1eeqF30NUiWc5qp4Nc3OeTXRaqeDXNTHBNUioorOeacrkrimj5nqZUAqhskhJyK17U8CsqIDIrUtj0pMqBpxdKkJqCM9Kk3c1DNSUcinCoJbiK2haWeRY41GSzHArgvFXxUhs2NnpC+ZLjmU9B9KRjUrRhudxqmr2mj2s1zczKoiQuVzycV8t+KfEL6rrVxqE3HnSl3C+n/6q6TXNau20ky3dw8tzfMXJY/dQdB+Jya831GYlm5zSZxqtKo77HazeGoJLcXMN1KVOMDAPBGQaxLqzeGUKsnGeSRzWx4N1H7foBhckvbsYm+nVT/Sm6hE4+cKr4/MVk2elHVXMiW13H7zEdcZ4rV0mRYSu7AFVxmWIj7tV02RH7zGgo7qLWf3IReExyfWsi9uhNIW6VkR6g2AoOKebgn3JqRlwzhFzmqVzOZR83C+nrSM+Byc/wBKp3U/B5oGUNSuN52A9+am0pdvOPeqD5kkz2JrRs3EY5ramjzcXO7sdDbXYRMKcYp0l4XByaxzcDA7VDPqAUGtrnn8hLqV95UczK3O3aKPBtu82pCbGSOM1g39yZI8Y+8wFdx4RtBZwLI3DAZP1pLVlz9yBt+MJUl06OEnDrhsrwQR0I981seC/iY19s0jWkU3O35J8gLNj+TVxmu3xlZsngVz8skLR7DGJWPGD2pydmYU6d42Z9C6Hd+VOSGAVz8qlgcV1ctwVRGHfvmvAPCGu3egNDZ6jKy2c+PJnYZ8luysfQ+te2RXDz6WrORkY+ZeQfcU07mdnBtG9Zam8ZGGP0rYi1ON0BPWuRs2YxIzHBHWnG8ZCQGxz60WNoV5RR6AKQ0lBNYnsBmmmlpDQIieqF4eDV56oXh4NUhHNaqeDXL3D/Ma6bVjwa5a4GWNUjSBEsnz1MJDxVVFy9Winy8VQ5E8R5rUtTwKxoXO7FXbrVbbR7X7RcOAOw7mkyZTVOPNI29wRNzsFUdyaoah4istMt2nkfcB0965C48Sy3/+k3DbIP4Ix/FXG+ItdkvZWy2EHCrSsefPHTm7QVkbfiDxYusFmnmZYl5CA8VxEe3VdUCwkgSNtyew7n8qr316fJ2jpiptB/cWl3fsMGNPLQ/7Tdf0zSZgotavcq+Kb5Li6k8viNMIg9FHAriLxyWNbuq3O9iB3rnbnOTUHVSjY1/BGrfYNZa3c4jul2e24cj+orr79CyMV4ryou6TI6MVdWBUjsa9P0zUv7QsY7jjcRiRfRu9ZTXU9Ki9LGQ3mqxGTimlSa0rownPGDVCSdF4UCpua2CNHz6CrSlUX+pqG3+cbjSTSYNAx8stUJ3LnHc1KzZBqMrgFjTSuyKkuWLZAsY3k+lTBtneos4Oe1I74FdCR5End3JZbggVSZy5odyxxmkCmhsaRLZ2xur6FcZWP5z/AErvLJhDbkdxXM6NB5YDHq/X6dq255THDgDBx61UDCs76GdqsgcnBNLoulvO3mhA5X7o/rVS5fzJa6DRWmswrZZS4+VVGcD3o3YnpE0B4dvb6ApMV8puqse1dL4W8RXfh02+h6nIr2Tnba3mfu+kb/0NVbCxld0uL6Qwp1Ck4Lfh2rofs1le6ZcWvkxNFNGUbPX659R1/Crscsp9GduXKQB8jBXtWeXkckqoI96wvD+s3tjFBoeuBGmCf6Lep9y5Udj6OB1HfqK6dGEiBo5I8Ec59aBNXPRqSlpDWB74hNNNKaaTTERvWfefdNX3NZ94eDVIRzOq9DXMzck10uqng1zkgyxpo0gV0X5s1PnAxTVXmnleaooYriMPIfuoMmvNvEXiKTWNVEYc+UjYUZ4ArpvGviBdLs5rSE/OE+dh/ePAFeV6dK094cnr1NS2ebXn7SXkjprjU2YO247IxtUVgz3DzuTu4p97OGxGnCiqjNsUDNTcyjGw2dzK6rn5RWhfS/ZdEtoB8plzMw+vA/QVjSXAaZYE5d2Cj8eKueJLkLOY0OUjAQfQDFIu2qOfupNxNZs43Zq1LJuY+9V2XJoOiJRCbp0Hvmuy8LJL50sa8oybiPcVz+mac91M0gHAOK9A8LaU1uryOOWGPoKxm+h6FKPu3Mq+yrsrA1nkZPpXTaxp535ABzWXHphdh8p/CoRsJYwGSNgBzUUtuQ5zXSafpnkwk7D+VU30wzSsXPyg9BQIw/JZjhRmq90wQBAeRW1ePHaqY1AzjP0rm533uT2rWmupxYqp9hAXqN2BHJpT06U0gHtWpxiYqxaw+bIq9iajSPccAVoW6rE5/wBhf/Hj/wDWpA2adooVh2A4AqW8lAGBzUUB2KpPcVWvJucA8/WtIvQ52rsdYx+fdAsNwU5xXe2uoWmk2w3ovmHk5GTXKaPEtlbi6kUeY/Ma/wBajvL8jhgCx4AXqaSdiZrmdjsF8XWUcpmdPMOOsw/kO1W4fGV9dORAbe1i7HywW/KvN4fmcGZtzfwgdFrTjuRGFUKAV6EU0yXSSPUdM1L+3IDb36RTFCHTcM4YdG+tcvrV3d2+oOluwiTA+VemfXmo9AvzCYzvIO4YzWzqNkl5c+d93coyMd6pHO/dkfRdIaM0hrE98Q00mlNNY0ARuazr0/KavvWfeHg1SEczqp4Nc8Dyc1vas3BrnSeSaaNIDx96i4nW0t5Lhz8sYyPrUan5+tc5451fyLZ7NG5RPmx/eNNuxniJ8kdNzz/xdqr3PzM3MzmQ/ToKxtIJXzJPRaj1+bfebAchAF/KnWPyWkh9azOFRtEtA7lLVQurnBb0FXYv+PUtXP3lwS7DPekOKuzQ8OIbrWUkP3YQZT+A4/WjVizSsxyal8OlbZAWYK9wH6/3QKlnNvMriOWORl5OGBxQN/Ec6ULNimz4jTHer0ypHls5bqKokF33uMAEcfjQzaOrOt8O6cIbSPI+Yjcfqa7Oxi8uPpxisbTUUQpjpgVuJMvk7c1yt3Z68VZWKGoxmQ8dKfptlkgsKnWPeeecmtC2j8sAbQaEAy6jKRbFGFA5xWNfXEFigQt+8foo/mfatjWNSi06zeSUDceETP3j/hXnOrSzzW88sr5eUHJ9B2ArWMbnNXrqCstyOe6M6NMT80rFvw6D9KznPJIqxIwWCMDoFH8qqMcnArZHm76iZLGpFTJpEU+nNXLe33EcUA2SWkAALvwqjcxPYVHDN5kCSkYM7GQD0B4X9AKj8Q3Bjgg0uA4mu2CsR2WpcK95HCmAowoA7Af/AFqQraXNC5l8mNF77RUNjEtxI002fJQ85/iPoKin33l2I1Pfr2AqxJMiBYkO2KIce/qT71SZFhb7UZd4fHXhUHH0A9qiQsxLvlmbqR/npWdJdeZMZeB2Uf3RT/t8n8PWlcfKai2rMQ27FXo7JwuBIGGOh7VgRSXDnJJA9q0ba4uFx83H1ppkyTN2yZ4hjPTsTXQW+puYgGySODzXKW87HOa04rgqgCkYrSLMJxufW9ITS0wmsj1wNMY0pNRuaYDHPFZ94eDVyRjWdeMcGmI5nWG4Nc8Xzmt/VeQawto5oNY7EAlELNM5wkY3GvMdZ1I380krHPmz/oOa7jxVPJb2DrGcBo2JrzGVj5UP/Az+lKTODES5p27HO30nnXbv6sTVyNtsIB6EVnS/60/WryHKLn0qRPYtTv5Om9ccmuYGbi4CLyzNgCt3WJGWwiAOBzWVoqhr8MRyisw+oFIcFpcXW5Qs8cMbbVjAQEdqtKsEIEdvjygM7zjMp/vH+lY98S85J6kmtPTY1ltyjcgcj2pltaCeX5jbmcAZ6Cmz24MbY6+tXBEkY+VRUUpOKGSnqdRol6JbSPnkKMitVZyD1rjPD8rhioPAauqiOQCa5pKzPYg7xTNe1nBIyKs32rQabbeY+Wc/dQdzWTESGGKytVlea7fec4O0fSqgrszxFV043RX1G+n1OfzJ3zxhVHRR6CsvUHDRLjoULc1akYiQgcDFZ1x80Sk84XFbnk3cndkIy0SewFIseDzj86x1XIGcn8at2VtFJJ8y54zTL5TUVoF+/NGv1YUsmt21sCtsrXMvYKPlB9zVSaKPcFCKB7Cr1rbxKCQoHFImy6mXpUFzNqb3t2xZo1Z+egJ4GK0tPO+ae4/uLgfU/wD1qCdtpOR1LgH8qtaJCklqAw+9Kc++AKAk9Lix/wCjREnHmS859F/+vWdeSMWCA89TV67YtK5PrisrJZyT3NUTEcFBPrViGDJ6VHbqCTmr0KggCpG2SRIeiip1wowTz7Uj/u0G3ioQ5LnnuKpIgvwS/MCcVoI42j5gKyoen5itFPuDkjiqvYzkj//Z" alt="Ranjit Nahak">
+      <div>
+        <div class="coach-name">Ranjit Nahak, MSc, <span>CSCS</span></div>
+        <div class="coach-copy">
+          Chapter 2 is the mechanical backbone of everything you'll programme as a strength coach. If levers and torque felt abstract, revisit the elbow and knee examples — they make the algebra concrete. For the force–velocity curve and impulse–momentum relationship, work through the numerical examples in the textbook until the equations feel intuitive, not just memorised. The joint biomechanics section is high-yield for the exam — back posture, IAP, and the difference between Valsalva and open-airway bracing come up regularly. Well done for completing the session check — use your domain scores to prioritise what to revisit next.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ACCESS_CODE = 'RANJ23';
+let userName  = '';
+let userEmail = '';
+let curQ      = 0;
+let scores    = {};
+let answered  = false;
+
+// ── Domain metadata ──────────────────────────────────────────────
+const DOMAIN_META = {
+  'Skeletal Musculature & Levers':  { label: 'Musculature & Levers',  total: 4 },
+  'Anatomical Planes & Body Movements': { label: 'Planes & Movements', total: 3 },
+  'Human Strength & Power':         { label: 'Strength & Power',       total: 5 },
+  'Biomechanical Factors':          { label: 'Biomechanical Factors',  total: 4 },
+  'Resistance Sources & Joint Safety': { label: 'Resistance & Joints', total: 4 },
+};
+
+// ── Question bank ────────────────────────────────────────────────
+const QUESTIONS = [
+
+  // ── Domain 1: Skeletal Musculature & Levers (4 questions) ──
+
+  {
+    domain: 'Skeletal Musculature & Levers',
+    text: 'During a straight-leg sit-up, the iliacus muscle has its origin on the femur. What principle does this illustrate?',
+    options: [
+      'The origin is always the proximal attachment regardless of movement',
+      'The more stationary structure during a movement becomes the functional origin',
+      'The insertion is always more distal than the origin',
+      'Fleshy attachments are more mobile than fibrous ones'
+    ],
+    correct: 1,
+    explanation: 'Traditionally, the <strong>origin</strong> is defined as the proximal (toward the body centre) attachment and the <strong>insertion</strong> as the distal (away from centre) attachment. However, a more functionally accurate definition is that the origin is the more stationary end and the insertion is the more mobile end — which can reverse depending on the movement. During a straight-leg sit-up, the femur is relatively immobile, so it becomes the functional origin.'
+  },
+
+  {
+    domain: 'Skeletal Musculature & Levers',
+    text: 'A muscle that slows down or stops a movement and helps brake the limb toward the end of a fast action is called the:',
+    options: [
+      'Synergist',
+      'Prime mover',
+      'Antagonist',
+      'Agonist'
+    ],
+    correct: 2,
+    explanation: 'The <strong>antagonist</strong> can slow down or stop the movement. It assists in joint stabilisation and brakes the limb toward the end of a fast movement, thereby protecting ligamentous and cartilaginous joint structures from potentially destructive forces. For example, during throwing the biceps acts as an antagonist to slow elbow extension and protect elbow structures from internal impact.'
+  },
+
+  {
+    domain: 'Skeletal Musculature & Levers',
+    text: 'In a standing heel raise, the calf muscles raise the body against gravity with the ball of the foot acting as the fulcrum. This is an example of which class of lever?',
+    options: [
+      'First-class lever — mechanical advantage less than 1.0',
+      'Second-class lever — mechanical advantage greater than 1.0',
+      'Third-class lever — mechanical advantage less than 1.0',
+      'Second-class lever — mechanical advantage less than 1.0'
+    ],
+    correct: 1,
+    explanation: 'A <strong>second-class lever</strong> has the muscle force and resistive force on the same side of the fulcrum, with the muscle moment arm longer than the resistive moment arm. Because M<sub>M</sub> is greater than M<sub>R</sub>, the mechanical advantage (M<sub>M</sub>/M<sub>R</sub>) is greater than 1.0 — meaning the calf muscle needs to exert less force than the body weight it is lifting. The standing heel raise is the classic textbook example.'
+  },
+
+  {
+    domain: 'Skeletal Musculature & Levers',
+    text: 'The patella increases the mechanical advantage of the quadriceps muscle group by:',
+    options: [
+      'Reducing the angle of pennation of the quadriceps fibres',
+      'Maintaining the quadriceps tendon\'s distance from the knee\'s axis of rotation',
+      'Acting as a fulcrum to convert the knee into a second-class lever',
+      'Increasing the cross-sectional area of the quadriceps tendon'
+    ],
+    correct: 1,
+    explanation: 'The <strong>patella</strong> acts as a pulley that keeps the quadriceps tendon away from the knee\'s axis of rotation throughout the range of motion. Without the patella, the tendon would fall closer to the axis, shortening the moment arm and reducing the quadriceps\' mechanical advantage. The patella is therefore essential for maintaining efficient force transmission during knee extension.'
+  },
+
+  // ── Domain 2: Anatomical Planes & Body Movements (3 questions) ──
+
+  {
+    domain: 'Anatomical Planes & Body Movements',
+    text: 'A dumbbell fly performed lying on a bench involves movement primarily in which anatomical plane?',
+    options: [
+      'Sagittal plane',
+      'Frontal plane',
+      'Transverse plane',
+      'Coronal plane'
+    ],
+    correct: 2,
+    explanation: 'The <strong>transverse plane</strong> divides the body into upper and lower sections and is the plane of rotation — including shoulder horizontal adduction and abduction. A dumbbell fly involves the arms moving in an arc across the chest in the transverse plane. The sagittal plane governs flexion/extension; the frontal (coronal) plane governs lateral movements like abduction and adduction.'
+  },
+
+  {
+    domain: 'Anatomical Planes & Body Movements',
+    text: 'Which of the following movements at the hip occurs primarily in the frontal plane?',
+    options: [
+      'Hip flexion during a leg raise',
+      'Hip extension during a glute bridge',
+      'Hip abduction during a lateral cable step',
+      'Hip internal rotation during a squat descent'
+    ],
+    correct: 2,
+    explanation: '<strong>Hip abduction</strong> — moving the thigh away from the midline — occurs in the frontal plane, which divides the body into front and back sections. Hip flexion and extension occur in the sagittal plane. Hip internal and external rotation occur in the transverse plane. Many standard resistance training programmes under-emphasise frontal and transverse plane hip movements, despite their importance in sport.'
+  },
+
+  {
+    domain: 'Anatomical Planes & Body Movements',
+    text: 'The principle of dynamic correspondence in exercise selection involves:',
+    options: [
+      'Using identical exercises to the sport movement to ensure maximal transfer',
+      'Matching the amplitude, direction, plane, and timing of force production to the target sport movement',
+      'Performing all exercises at the same speed as the sport movement',
+      'Selecting exercises based on the primary muscle group involved, regardless of movement plane'
+    ],
+    correct: 1,
+    explanation: '<strong>Dynamic correspondence</strong> involves selecting exercises that match the target sport movement across multiple criteria — including the amplitude and direction of movements, accentuated regions of force production, dynamics of effort, rate and timing of maximum force production, regime of muscular work, and segmental interrelation. Simply using the same muscles or movement name is insufficient; the biomechanical characteristics must align for maximal training transfer.'
+  },
+
+  // ── Domain 3: Human Strength & Power (5 questions) ──
+
+  {
+    domain: 'Human Strength & Power',
+    text: 'According to the impulse–momentum relationship, which strategy would allow an athlete to achieve the same change in momentum when time is limited?',
+    options: [
+      'Apply less force over a longer time period',
+      'Apply more force over the same or shorter time period',
+      'Reduce body mass to lower the momentum requirement',
+      'Increase displacement to compensate for reduced force'
+    ],
+    correct: 1,
+    explanation: 'The impulse–momentum relationship states <strong>F × Δt = m × Δv</strong>. A given change in momentum requires a fixed amount of impulse. When time is constrained — as it is in many sport movements — the only way to achieve the required impulse is to <strong>apply more force</strong>. This is why strength training directly underpins explosive performance: greater force capacity means the required impulse can be delivered even in brief ground contact windows. Option A is the opposite — less force over more time would only work if time were available.'
+  },
+
+  {
+    domain: 'Human Strength & Power',
+    text: 'Which statement most accurately distinguishes powerlifting from weightlifting in terms of mechanical power output?',
+    options: [
+      'Powerlifting produces greater mechanical power because heavier loads are used',
+      'Both sports produce equivalent mechanical power because force output is similar',
+      'Weightlifting produces greater mechanical power because key phases are time-constrained, requiring high force in less time',
+      'Powerlifting produces more power because the lifts involve greater total work'
+    ],
+    correct: 2,
+    explanation: 'Despite its name, <strong>powerlifting</strong> involves relatively slow movement speeds — and since power = force × velocity, low velocity means lower mechanical power output. <strong>Weightlifting</strong> (snatch, clean and jerk) involves time-constrained key phases due to the athlete\'s interaction with the barbell, requiring application of more force in less time — producing significantly higher mechanical power output. This is a common exam misconception.'
+  },
+
+  {
+    domain: 'Human Strength & Power',
+    text: 'Work and power are described as scalar quantities. What does this mean for their use in analysing sport performance?',
+    options: [
+      'They can be used to fully describe movement direction and magnitude simultaneously',
+      'They provide magnitude only — movement direction is not captured',
+      'They are more accurate than vector quantities for measuring explosive performance',
+      'Scalar quantities always have SI units of watts or joules'
+    ],
+    correct: 1,
+    explanation: '<strong>Scalar quantities</strong> have magnitude only — they do not include directional information. Work (joules) and power (watts) tell you how much energy was transferred or how quickly, but not in which direction. In sport, direction is critical — jumping up vs. forward vs. laterally requires different force orientations. This is why impulse and momentum (both vectors) are also essential alongside work and power for a complete analysis of performance.'
+  },
+
+  {
+    domain: 'Human Strength & Power',
+    text: 'During a dumbbell curl with a 25 kg dumbbell and a 0.30 m forearm, the torque required when the forearm is at 90° to the upper arm is approximately:',
+    options: [
+      '7.5 N·m',
+      '27.4 N·m',
+      '73.6 N·m',
+      '245.3 N·m'
+    ],
+    correct: 2,
+    explanation: 'Torque = F × d × sin θ. At 90° (sin 90° = 1.0), τ = (25 kg × 9.81 m·s⁻²) × 0.30 m × 1.0 = 245.25 × 0.30 ≈ <strong>73.6 N·m</strong>. Note: option B (27.4 N·m) corresponds to the torque at the starting position (~158°/2.76 rad, sin = 0.374), which is the textbook worked example at the start of the curl. The forearm horizontal position (90°) produces maximum resistive torque because the moment arm equals the full forearm length.'
+  },
+
+  {
+    domain: 'Human Strength & Power',
+    text: 'A barbell of 60 kg is pressed overhead through a displacement of 0.541 m in 0.815 seconds. What is the mean power output during this concentric phase?',
+    options: [
+      '155.8 W',
+      '318.4 W',
+      '390.7 W',
+      '642.6 W'
+    ],
+    correct: 2,
+    explanation: 'Work = m × g × h = 60 × 9.81 × 0.541 = <strong>318.4 J</strong>. Power = Work / Time = 318.4 / 0.815 = <strong>390.7 W</strong>. This is the mean power for the concentric phase. Note that peak (instantaneous) power — such as 642.6 W over a single millisecond window — is very different from mean power and is frequently misrepresented in applied settings. Mean power is the more practically relevant metric for training load quantification.'
+  },
+
+  // ── Domain 4: Biomechanical Factors in Strength (4 questions) ──
+
+  {
+    domain: 'Biomechanical Factors',
+    text: 'Much of the strength improvement seen in the first few weeks of resistance training is primarily attributable to:',
+    options: [
+      'Significant increases in muscle cross-sectional area from hypertrophy',
+      'Increased angle of pennation improving force production efficiency',
+      'Neural adaptations — improved recruitment and rate coding of motor units',
+      'Increased tendon stiffness reducing energy loss during contraction'
+    ],
+    correct: 2,
+    explanation: 'Early strength gains (typically the first 4–6 weeks) are primarily due to <strong>neural adaptations</strong> — the brain learns to recruit more motor units and to fire them at higher rates (rate coding), extracting more force from the existing contractile tissue. Significant hypertrophy (increased cross-sectional area) takes longer to develop. This is why novice trainees often see rapid initial strength gains before visible muscle growth occurs.'
+  },
+
+  {
+    domain: 'Biomechanical Factors',
+    text: 'Two athletes have the same biceps circumference but one is 15 cm taller. Which statement about their biceps strength is most accurate?',
+    options: [
+      'The taller athlete is stronger because they have greater muscle volume',
+      'The shorter athlete is stronger because muscle force is proportional to cross-sectional area, not volume',
+      'Their strength should be approximately equal because their cross-sectional areas are similar',
+      'The taller athlete is stronger because a longer muscle can generate more force'
+    ],
+    correct: 2,
+    explanation: 'Muscle force is proportional to <strong>cross-sectional area (CSA)</strong>, not volume. Two athletes with the same biceps circumference have approximately the same CSA — even though the taller athlete has greater muscle volume (and therefore more body weight). Their biceps strength should therefore be approximately equal. With the same strength but greater body weight, the taller athlete actually has a lower strength-to-mass ratio — relevant for bodyweight-bearing activities like gymnastics.'
+  },
+
+  {
+    domain: 'Biomechanical Factors',
+    text: 'A pennate muscle compared to a non-pennate muscle of the same cross-sectional area will have:',
+    options: [
+      'Higher maximum shortening velocity and greater force-generating capacity',
+      'Lower force-generating capacity and higher maximum shortening velocity',
+      'Greater force-generating capacity and lower maximum shortening velocity',
+      'The same force-generating capacity and the same maximum shortening velocity'
+    ],
+    correct: 2,
+    explanation: 'A <strong>pennate muscle</strong> has fibres that align obliquely to the tendon, allowing more sarcomeres in parallel — which increases force-generating capacity. However, this arrangement means fewer sarcomeres in series, reducing the maximum shortening velocity. In contrast, non-pennate (longitudinal) muscles have more sarcomeres in series — better for high-velocity movements but less force capacity. This reflects the fundamental trade-off between force and velocity in muscle architecture.'
+  },
+
+  {
+    domain: 'Biomechanical Factors',
+    text: 'Titin is described as the "third contractile element." Which of the following best describes its role during eccentric muscle actions beyond resting length?',
+    options: [
+      'Titin shortens alongside actin and myosin to increase force production concentrically',
+      'Titin increases calcium sensitivity and aligns myosin filaments, boosting crossbridge formation during stretch',
+      'Titin acts only as a structural element, preventing sarcomere over-stretching',
+      'Titin inhibits crossbridge cycling to protect the sarcomere from mechanical damage'
+    ],
+    correct: 1,
+    explanation: 'During eccentric muscle actions beyond resting length, <strong>titin</strong> tightens in a spring-like manner, increasing calcium concentration in the sarcoplasm and aligning myosin filaments to increase the number of potential crossbridge sites. This mechanism partially compensates for the reduction in actin–myosin overlap at long muscle lengths, boosting force production. Under load, titin is also considered a key influencer of trophic signalling, contributing to skeletal muscle hypertrophy.'
+  },
+
+  // ── Domain 5: Resistance Sources & Joint Safety (4 questions) ──
+
+  {
+    domain: 'Resistance Sources & Joint Safety',
+    text: 'A fluid-resisted exercise machine provides resistance that is proportional to the velocity of movement (F_R = k × v). What is a key practical limitation of this type of machine?',
+    options: [
+      'It provides too much resistance at low velocities, limiting warm-up sets',
+      'Without an internal pump, it does not provide an eccentric resistance phase — the antagonist works concentrically on the return',
+      'The resistance is constant throughout the range of motion, making it unsuitable for strength training',
+      'It only works against gravity and cannot provide horizontal resistance'
+    ],
+    correct: 1,
+    explanation: 'With a <strong>fluid-resisted machine</strong>, the agonist muscle works concentrically during the primary movement, but without an internal pump the antagonist muscle works concentrically during the return stroke — providing no eccentric loading of the agonist. This is a significant limitation because many sport movements involve eccentric muscle actions (running, jumping, landing, throwing), and the lack of eccentric phase may reduce training specificity for these activities.'
+  },
+
+  {
+    domain: 'Resistance Sources & Joint Safety',
+    text: 'Elastic resistance bands provide the least resistance at the start of a movement and greatest resistance at the end of the range of motion. Why is this a limitation for jump training specifically?',
+    options: [
+      'Elastic bands increase resistance during the take-off phase, overloading the hip flexors',
+      'The greatest resistance is applied when the athlete is airborne, pulling them back toward the ground and increasing landing velocity',
+      'Elastic resistance cannot be used for lower-body exercises because the force direction is always horizontal',
+      'Bands reduce rate of force development because resistance increases too slowly during the concentric phase'
+    ],
+    correct: 1,
+    explanation: 'For vertical jump training with elastic bands attached above the jumper: the bands are most stretched — and therefore exert the most resistance — when the jumper is <strong>airborne at the top of the jump</strong>. At this point, the large gluteal and quadriceps muscles have already completed their work during take-off, and the band is simply pulling the athlete back toward the ground faster, increasing landing velocity and injury risk. The bands provide the least resistance during take-off when it would actually be most useful.'
+  },
+
+  {
+    domain: 'Resistance Sources & Joint Safety',
+    text: '85% to 90% of all intervertebral disk herniations occur at which levels of the spine?',
+    options: [
+      'C5/C6 and C6/C7',
+      'T12/L1 and L1/L2',
+      'L4/L5 or L5/S1',
+      'L1/L2 and L2/L3'
+    ],
+    correct: 2,
+    explanation: 'The textbook specifies that 85% to 90% of all intervertebral disk herniations occur at the disk between the lowest two lumbar vertebrae (<strong>L4/L5</strong>) or between the lowest lumbar and the top sacral vertebrae (<strong>L5/S1</strong>). These disks experience the greatest compressive forces during lifting because of their position at the base of the spinal column\'s lever arm. The back muscles\' extremely short moment arm (~5 cm) means they must generate forces up to 10 times the weight being lifted, concentrating stress at these levels.'
+  },
+
+  {
+    domain: 'Resistance Sources & Joint Safety',
+    text: 'Which of the following best describes the recommended approach to lifting belt use during resistance training, according to the textbook?',
+    options: [
+      'Belts should always be worn to maximise intra-abdominal pressure and minimise injury risk on every set',
+      'Belts are not necessary for exercises that do not directly stress the lower back; for back-stressing exercises, wear for near-maximal and maximal sets only',
+      'Belts should be avoided entirely because they weaken the core musculature over time',
+      'Belts should only be used by competitive weightlifters and powerlifters, not recreational athletes'
+    ],
+    correct: 1,
+    explanation: 'The textbook\'s conservative recommendations are: (1) a weight belt is <strong>not needed for exercises that do not directly affect the lower back</strong>; (2) for exercises that directly stress the back, an individual should refrain from wearing a belt during lighter sets but may wear one for near-maximal and maximal sets — the beltless sets train the deep abdominal muscles to generate intra-abdominal pressure; and (3) individuals may reasonably choose never to wear a belt if they build back and core strength systematically with safe technique. Constant belt use risks under-training the abdominals.'
+  }
+
+];
+
+// ── Init ─────────────────────────────────────────────────────────
+for (const d in DOMAIN_META) scores[d] = 0;
+
+// ── Screen control ───────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Gate logic ───────────────────────────────────────────────────
+function submitName() {
+  const v = document.getElementById('input-name').value.trim();
+  const err = document.getElementById('err-name');
+  if (!v || v.length > 40) { err.classList.add('show'); return; }
+  err.classList.remove('show');
+  userName = v;
+  showScreen('screen-gate-email');
+}
+
+function submitEmail() {
+  const v = document.getElementById('input-email').value.trim();
+  const err = document.getElementById('err-email');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { err.classList.add('show'); return; }
+  err.classList.remove('show');
+  userEmail = v;
+  showScreen('screen-gate-code');
+}
+
+function submitCode() {
+  const v = document.getElementById('input-code').value.trim().toUpperCase();
+  const err = document.getElementById('err-code');
+  if (v !== ACCESS_CODE) { err.classList.add('show'); return; }
+  err.classList.remove('show');
+  startQuiz();
+}
+
+// ── Quiz ─────────────────────────────────────────────────────────
+function startQuiz() {
+  curQ = 0;
+  for (const d in DOMAIN_META) scores[d] = 0;
+  showScreen('screen-question');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = QUESTIONS[curQ];
+  const pct = (curQ / QUESTIONS.length) * 100;
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-counter').textContent =
+    String(curQ + 1).padStart(2, '0') + ' / ' + QUESTIONS.length;
+  document.getElementById('q-domain').textContent = q.domain;
+  document.getElementById('q-text').textContent   = q.text;
+
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>
+                     <span class="opt-text">${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    grid.appendChild(btn);
+  });
+
+  const expBox = document.getElementById('explanation-box');
+  expBox.innerHTML = '';
+  expBox.classList.remove('show');
+  document.getElementById('next-btn').classList.remove('show');
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[curQ];
+  const btns = document.querySelectorAll('.option-btn');
+
+  btns.forEach(b => b.disabled = true);
+  if (idx === q.correct) {
+    btns[idx].classList.add('correct');
+    scores[q.domain]++;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.correct].classList.add('correct');
+  }
+
+  const expBox = document.getElementById('explanation-box');
+  expBox.innerHTML = '<strong>Explanation:</strong> ' + q.explanation;
+  expBox.classList.add('show');
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = (curQ === QUESTIONS.length - 1) ? 'See My Results →' : 'Next →';
+  nextBtn.classList.add('show');
+}
+
+function nextQuestion() {
+  curQ++;
+  if (curQ < QUESTIONS.length) {
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+// ── Results ──────────────────────────────────────────────────────
+function showResults() {
+  showScreen('screen-results');
+
+  const total = QUESTIONS.length;
+  const correct = Object.values(scores).reduce((a, b) => a + b, 0);
+  const pct = Math.round((correct / total) * 100);
+
+  // Score
+  document.getElementById('result-score').textContent = correct + ' / ' + total;
+
+  // Title
+  let titleText;
+  if (pct >= 85)      titleText = 'Well done,';
+  else if (pct >= 70) titleText = 'Good effort,';
+  else if (pct >= 50) titleText = 'Keep going,';
+  else                titleText = 'More work needed,';
+  document.getElementById('result-title').innerHTML =
+    titleText + '<br><span style="color:var(--orange)">' + userName + '</span>';
+
+  // Verdict
+  let verdict;
+  if (pct >= 85)
+    verdict = 'Outstanding performance. Strong command of the biomechanics fundamentals. Focus on locking in any domains below 100%.';
+  else if (pct >= 70)
+    verdict = 'Solid effort. Core concepts understood but gaps worth revisiting — especially any domain below 60%.';
+  else if (pct >= 50)
+    verdict = 'A decent starting point, but this chapter needs more attention. Work through each section systematically — mechanisms first, terms second.';
+  else
+    verdict = 'This chapter needs dedicated revision. Go back to fundamentals in each domain and focus on the underlying logic before memorising labels.';
+  document.getElementById('result-verdict').textContent = verdict;
+
+  // Domain breakdown
+  const grid = document.getElementById('domain-grid');
+  grid.innerHTML = '';
+  for (const [key, meta] of Object.entries(DOMAIN_META)) {
+    const sc  = scores[key] || 0;
+    const tot = meta.total;
+    const dpct = Math.round((sc / tot) * 100);
+    let cls   = dpct >= 75 ? 'good' : dpct >= 50 ? 'ok' : 'poor';
+    let dverd = dpct === 100 ? 'Mastered ✓'
+              : dpct >= 75   ? 'Strong — review edge cases'
+              : dpct >= 50   ? 'Developing — revisit the mechanisms'
+              :                'Needs work — go back to basics';
+
+    const card = document.createElement('div');
+    card.className = 'domain-card';
+    card.innerHTML = `
+      <div class="domain-name">${meta.label}</div>
+      <div class="domain-score-num">${sc} / ${tot}</div>
+      <div class="domain-bar-track">
+        <div class="domain-bar-fill ${cls}" style="width:${dpct}%"></div>
+      </div>
+      <div class="domain-verdict">${dverd}</div>`;
+    grid.appendChild(card);
+  }
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.domain-bar-fill').forEach(b => {
+      const w = b.style.width;
+      b.style.width = '0';
+      requestAnimationFrame(() => requestAnimationFrame(() => b.style.width = w));
+    });
+  }, 100);
+}
+
+// ── Keyboard support ─────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const s = document.querySelector('.screen.active');
+  if (!s) return;
+  if (s.id === 'screen-intro')      document.querySelector('#screen-intro .btn-primary').click();
+  if (s.id === 'screen-gate-name')  submitName();
+  if (s.id === 'screen-gate-email') submitEmail();
+  if (s.id === 'screen-gate-code')  submitCode();
+});
+</script>
+</body>
+</html>
