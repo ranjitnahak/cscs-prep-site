@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3 Quiz — CSCSPrep</title>
+  <meta name="description" content="20 questions. 5 domains. Test your command of bioenergetics, energy systems, lactate dynamics, substrate depletion, and metabolic specificity of training.">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --orange: #F4511E;
+      --amber:  #FFB347;
+      --dark:   #0F0F0F;
+      --dark2:  #1A1A1A;
+      --dark3:  #242424;
+      --white:  #FFFFFF;
+      --grey:   #AAAAAA;
+      --lg:     #CCCCCC;
+      --green:  #4CAF50;
+      --red:    #E53935;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .brand-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 5px; background: var(--orange); z-index: 200;
+    }
+    .logo {
+      position: fixed; top: 18px; left: 28px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 18px;
+      color: var(--orange); letter-spacing: 2px; z-index: 200;
+    }
+    .logo span { color: var(--white); }
+
+    .q-progress-bar {
+      position: fixed; top: 5px; left: 0; right: 0;
+      height: 4px; background: #222; z-index: 199;
+    }
+    .q-progress-fill {
+      height: 100%; background: var(--orange);
+      transition: width .5s ease;
+      width: 0%;
+    }
+    .q-counter {
+      position: fixed; top: 16px; right: 28px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400; font-size: 14px;
+      letter-spacing: 3px; color: var(--grey); z-index: 200;
+    }
+
+    .screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .4s ease;
+    }
+    .screen.active { opacity: 1; pointer-events: all; }
+
+    /* INTRO */
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 13px;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(52px, 8vw, 96px);
+      text-transform: uppercase; line-height: .88;
+      text-align: center; margin-bottom: 20px;
+    }
+    .hl { color: var(--orange); }
+    .hero-sub {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300; font-size: 17px;
+      line-height: 1.7; color: var(--grey);
+      text-align: center; max-width: 540px;
+      margin-bottom: 32px;
+    }
+    .stats-row {
+      display: flex; gap: 40px; margin-bottom: 32px;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 42px;
+      color: var(--orange); line-height: 1;
+    }
+    .stat-lbl {
+      font-family: 'Barlow', sans-serif;
+      font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--grey);
+      margin-top: 4px;
+    }
+    .warn-box {
+      background: var(--dark2);
+      border-left: 3px solid var(--amber);
+      padding: 14px 18px; font-size: 13px;
+      color: var(--grey); line-height: 1.6;
+      max-width: 520px; margin-bottom: 32px;
+    }
+
+    /* GATES */
+    .gate-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 4vw, 44px);
+      text-transform: uppercase;
+      text-align: center; margin-bottom: 10px;
+    }
+    .gate-sub {
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px; color: var(--grey);
+      margin-bottom: 28px; text-align: center;
+    }
+    .gate-input {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 48px);
+      background: transparent;
+      border: none; border-bottom: 2px solid #333;
+      color: var(--white); text-align: center;
+      letter-spacing: 2px; width: 100%; max-width: 400px;
+      outline: none; padding: 10px 0; margin-bottom: 28px;
+      transition: border-color .2s;
+    }
+    .gate-input:focus { border-color: var(--orange); }
+    .gate-error {
+      font-size: 13px; color: var(--red);
+      letter-spacing: 1px;
+      margin-top: -24px; margin-bottom: 20px;
+      display: none; text-align: center;
+    }
+    .gate-error.show { display: block; }
+
+    /* BUTTON */
+    .btn-primary {
+      background: var(--orange); border: none;
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 16px;
+      letter-spacing: 3px; text-transform: uppercase;
+      padding: 16px 44px; cursor: pointer;
+      border-radius: 3px; transition: all .2s;
+    }
+    .btn-primary:hover { background: #d93d10; transform: translateY(-1px); }
+    .btn-primary:disabled { background: #333; color: #666; cursor: not-allowed; transform: none; }
+    .next-btn { margin-top: 24px; display: none; }
+    .next-btn.show { display: block; }
+
+    /* QUESTION */
+    .q-domain {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 12px;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px;
+    }
+    .q-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(22px, 3.2vw, 38px);
+      line-height: 1.1; text-align: center;
+      max-width: 740px; margin-bottom: 28px;
+    }
+    .options-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; width: 100%; max-width: 740px;
+    }
+    .option-btn {
+      background: var(--dark2); border: 1px solid #2a2a2a;
+      border-radius: 4px; padding: 18px 22px;
+      cursor: pointer; transition: all .2s;
+      text-align: left; display: flex;
+      align-items: flex-start; gap: 14px; color: var(--white);
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--orange);
+      background: rgba(244,81,30,.08);
+    }
+    .option-btn.correct {
+      border-color: var(--green);
+      background: rgba(76,175,80,.12);
+    }
+    .option-btn.correct .opt-letter { color: var(--green); }
+    .option-btn.wrong {
+      border-color: var(--red);
+      background: rgba(229,57,53,.1);
+    }
+    .option-btn.wrong .opt-letter { color: var(--red); }
+    .option-btn:disabled { cursor: default; }
+    .opt-letter {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 18px;
+      color: var(--orange); flex-shrink: 0; line-height: 1.2;
+    }
+    .opt-text {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px; color: var(--lg); line-height: 1.5;
+    }
+    .explanation-box {
+      background: var(--dark2);
+      border-left: 3px solid var(--orange);
+      padding: 14px 18px; font-size: 13px;
+      color: var(--grey); line-height: 1.7;
+      max-width: 740px; width: 100%;
+      margin-top: 18px; display: none;
+    }
+    .explanation-box.show { display: block; }
+
+    /* RESULTS */
+    .result-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(48px, 7vw, 88px);
+      text-transform: uppercase; line-height: .9;
+      text-align: center; margin-bottom: 12px;
+    }
+    .result-score {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 72px;
+      color: var(--orange); line-height: 1;
+    }
+    .result-label {
+      font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--grey);
+      margin-bottom: 16px;
+    }
+    .result-verdict {
+      font-size: 14px; color: var(--grey);
+      line-height: 1.7; text-align: center;
+      max-width: 540px; margin-bottom: 36px;
+    }
+    .domain-breakdown-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 13px;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--grey); margin-bottom: 16px; align-self: flex-start;
+    }
+    .domain-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; width: 100%; max-width: 760px; margin-bottom: 24px;
+    }
+    .domain-card {
+      background: var(--dark2); border: 1px solid #2a2a2a;
+      border-top: 3px solid var(--orange);
+      border-radius: 4px; padding: 16px 18px;
+    }
+    .domain-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 6px;
+    }
+    .domain-score-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 28px;
+      color: var(--white); line-height: 1;
+    }
+    .domain-verdict {
+      font-size: 11px; color: var(--grey);
+      letter-spacing: 1px; margin-top: 2px;
+      margin-bottom: 10px;
+    }
+    .domain-bar {
+      height: 4px; background: #333; border-radius: 2px;
+    }
+    .domain-bar-fill {
+      height: 100%; border-radius: 2px;
+      transition: width .7s ease;
+    }
+    .domain-bar-fill.good { background: var(--green); }
+    .domain-bar-fill.ok   { background: var(--amber); }
+    .domain-bar-fill.poor { background: var(--red); }
+
+    /* COACH CARD */
+    .coach-card {
+      background: var(--dark2); border: 1px solid #2a2a2a;
+      border-radius: 4px; padding: 20px 24px;
+      display: flex; align-items: center; gap: 20px;
+      max-width: 760px; width: 100%; margin-top: 4px;
+    }
+    .coach-img {
+      width: 56px; height: 56px; border-radius: 50%;
+      object-fit: cover; flex-shrink: 0;
+      border: 2px solid var(--orange);
+    }
+    .coach-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 18px; color: var(--white);
+      margin-bottom: 4px;
+    }
+    .coach-name span { color: var(--orange); }
+    .coach-copy {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px; color: var(--grey); line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .options-grid  { grid-template-columns: 1fr; }
+      .domain-grid   { grid-template-columns: 1fr 1fr; }
+      .stats-row     { gap: 24px; }
+      .hero-title    { font-size: 48px; }
+      .coach-card    { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="brand-bar"></div>
+<div class="logo">CSCS<span>PREP</span></div>
+<div class="q-progress-bar"><div class="q-progress-fill" id="progress-fill"></div></div>
+<div class="q-counter" id="q-counter"></div>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="hero-tag">Chapter 3 — Bioenergetics of Exercise and Training</div>
+  <h1 class="hero-title">Energy <span class="hl">Systems</span><br>&amp; Metabolism</h1>
+  <p class="hero-sub">20 questions. 5 domains. Test your command of energy systems, lactate dynamics, substrate depletion, oxidative metabolism, and metabolic specificity of training.</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">20</div><div class="stat-lbl">Questions</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Domains</div></div>
+    <div class="stat"><div class="stat-num">~12</div><div class="stat-lbl">Minutes</div></div>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠ Note:</strong> These questions test your foundational understanding of Chapter 3 concepts.
+    They are not representative of the exact difficulty or format of questions in the actual CSCS exam.
+  </div>
+
+  <button class="btn-primary" onclick="showScreen('screen-gate-name')">Begin →</button>
+</div>
+
+<!-- GATE: NAME -->
+<div class="screen" id="screen-gate-name">
+  <div class="hero-tag">Step 1 of 3</div>
+  <h2 class="gate-title">What's your <span style="color:var(--orange)">name?</span></h2>
+  <p class="gate-sub">So we can personalise your results.</p>
+  <input class="gate-input" id="input-name" type="text" placeholder="Your name"
+         autocomplete="off" maxlength="40"
+         onkeydown="if(event.key==='Enter') submitName()">
+  <div class="gate-error" id="err-name">Please enter your name.</div>
+  <button class="btn-primary" onclick="submitName()">Continue →</button>
+</div>
+
+<!-- GATE: EMAIL -->
+<div class="screen" id="screen-gate-email">
+  <div class="hero-tag">Step 2 of 3</div>
+  <h2 class="gate-title">Your <span style="color:var(--orange)">email?</span></h2>
+  <p class="gate-sub">We won't spam you — used for result tracking only.</p>
+  <input class="gate-input" id="input-email" type="email" placeholder="you@email.com"
+         autocomplete="off"
+         onkeydown="if(event.key==='Enter') submitEmail()">
+  <div class="gate-error" id="err-email">Please enter a valid email address.</div>
+  <button class="btn-primary" onclick="submitEmail()">Continue →</button>
+</div>
+
+<!-- GATE: CODE -->
+<div class="screen" id="screen-gate-code">
+  <div class="hero-tag">Step 3 of 3</div>
+  <h2 class="gate-title">Access <span style="color:var(--orange)">code?</span></h2>
+  <p class="gate-sub">Enter the code provided by your coach.</p>
+  <input class="gate-input" id="input-code" type="text" placeholder="••••••••"
+         autocomplete="off" maxlength="12"
+         style="letter-spacing:6px; text-transform:uppercase"
+         onkeydown="if(event.key==='Enter') submitCode()">
+  <div class="gate-error" id="err-code">Invalid access code. Please check and try again.</div>
+  <button class="btn-primary" onclick="submitCode()">Continue →</button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="screen-question">
+  <div class="q-domain" id="q-domain">Domain</div>
+  <div class="q-text" id="q-text">Question</div>
+  <div class="options-grid" id="options-grid"></div>
+  <div class="explanation-box" id="explanation-box"></div>
+  <button class="btn-primary next-btn" id="next-btn" onclick="nextQuestion()">Next →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results"
+     style="overflow-y:auto; padding-top:80px; padding-bottom:60px; justify-content:flex-start;">
+  <div style="width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;">
+    <div class="hero-tag" style="margin-top:20px">Your Results</div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-score" id="result-score">0 / 20</div>
+    <div class="result-label">Overall Score</div>
+    <div class="result-verdict" id="result-verdict"></div>
+    <div class="domain-breakdown-label">Domain Breakdown</div>
+    <div class="domain-grid" id="domain-grid"></div>
+    <div class="coach-card">
+      <img class="coach-img" src="data:image/jpeg;base64,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" alt="Ranjit Nahak">
+      <div>
+        <div class="coach-name">Ranjit Nahak, MSc, <span>CSCS</span></div>
+        <div class="coach-copy">
+          Bioenergetics is the engine room of everything we do as coaches. If you know which system is being stressed and why, your programme design becomes intentional rather than guesswork. Review any domain below 60% — especially the oxidative system and metabolic specificity sections, as these are heavily tested on the CSCS exam. Go back to the mechanisms, not just the labels. Work-to-rest ratios, ATP yield per pathway, and lactate thresholds are high-priority exam topics.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ACCESS_CODE = 'RANJ23';
+
+  let userName  = '';
+  let userEmail = '';
+  let curQ      = 0;
+  let scores    = {};
+  let answered  = false;
+
+  const DOMAIN_META = {
+    'Phosphagen & Glycolytic Systems': { label: 'Phosphagen & Glycolysis', total: 5 },
+    'Lactate & Metabolic Acidosis':    { label: 'Lactate & Acidosis',      total: 4 },
+    'Oxidative System':                { label: 'Oxidative System',        total: 4 },
+    'Substrate Depletion & Repletion': { label: 'Substrate & Fatigue',     total: 4 },
+    'Metabolic Specificity':           { label: 'Metabolic Specificity',   total: 3 },
+  };
+
+  const QUESTIONS = [
+    // ─── PHOSPHAGEN & GLYCOLYTIC SYSTEMS (5) ───────────────────────────────────
+    {
+      domain: 'Phosphagen & Glycolytic Systems',
+      text: 'Which enzyme catalyses the resynthesis of ATP from creatine phosphate and ADP in the phosphagen system?',
+      options: [
+        'Myosin ATPase',
+        'Creatine kinase',
+        'Phosphofructokinase',
+        'Adenylate kinase',
+      ],
+      correct: 1,
+      explanation: '<strong>Creatine kinase</strong> catalyses the reaction ADP + CP → ATP + Creatine (Equation 3.2). Myosin ATPase breaks down ATP for crossbridge recycling. Phosphofructokinase is the rate-limiting enzyme of glycolysis. Adenylate kinase (myokinase) converts 2 ADP → ATP + AMP.',
+    },
+    {
+      domain: 'Phosphagen & Glycolytic Systems',
+      text: 'The adenylate kinase (myokinase) reaction is important primarily because its product AMP acts as a powerful stimulant of which process?',
+      options: [
+        'Beta oxidation',
+        'Glycolysis',
+        'The Krebs cycle',
+        'Oxidative phosphorylation',
+      ],
+      correct: 1,
+      explanation: 'AMP, produced by the adenylate kinase reaction (2 ADP → ATP + AMP), is a powerful stimulant of <strong>glycolysis</strong>. It allosterically activates phosphofructokinase (PFK), accelerating the glycolytic pathway when energy demand is high.',
+    },
+    {
+      domain: 'Phosphagen & Glycolytic Systems',
+      text: 'Skeletal muscle concentrations of creatine phosphate (CP) are typically how many times higher than ATP concentrations at rest?',
+      options: [
+        '1 to 2 times',
+        '2 to 3 times',
+        '4 to 6 times',
+        '8 to 10 times',
+      ],
+      correct: 2,
+      explanation: 'Under normal circumstances, <strong>CP concentrations are four to six times higher</strong> than ATP concentrations in skeletal muscle. This reserve allows the creatine kinase reaction to rapidly maintain ATP levels during high-intensity activity.',
+    },
+    {
+      domain: 'Phosphagen & Glycolytic Systems',
+      text: 'Which of the following correctly describes how glycolysis is controlled when energy demand is high during intense muscle activity?',
+      options: [
+        'High ATP and citrate allosterically activate PFK to accelerate glycolysis',
+        'High ADP, Pi, and AMP stimulate glycolysis while high ATP inhibits PFK',
+        'High free fatty acids stimulate PFK and increase glycolytic rate',
+        'Decreased pH at low levels promotes glycolysis regardless of ATP concentration',
+      ],
+      correct: 1,
+      explanation: 'Glycolysis is stimulated by high concentrations of <strong>ADP, Pi, and AMP</strong> — signs of increased ATP hydrolysis. In contrast, high ATP and citrate allosterically inhibit PFK (the rate-limiting enzyme), slowing glycolysis. Free fatty acids also inhibit glycolysis. Note that a slight decrease in pH increases glycolysis, but a significant drop inhibits it.',
+    },
+    {
+      domain: 'Phosphagen & Glycolytic Systems',
+      text: 'When glycolysis begins from muscle glycogen (rather than blood glucose), what is the net ATP yield?',
+      options: [
+        '2 ATP net',
+        '3 ATP net',
+        '4 ATP net',
+        '5 ATP net',
+      ],
+      correct: 1,
+      explanation: 'When glycolysis begins from <strong>muscle glycogen</strong>, the glucose is already phosphorylated (via glycogenolysis) so the hexokinase step that consumes one ATP is bypassed. Thus only 1 ATP is consumed while 4 are produced, yielding a <strong>net of 3 ATP</strong>. From blood glucose the net yield is 2 ATP.',
+    },
+    // ─── LACTATE & METABOLIC ACIDOSIS (4) ──────────────────────────────────────
+    {
+      domain: 'Lactate & Metabolic Acidosis',
+      text: 'What is the primary cause of the decrease in intracellular pH (metabolic acidosis) during high-intensity exercise?',
+      options: [
+        'Conversion of pyruvate to lactate, which directly releases lactic acid',
+        'The hydrolysis of ATP outside the mitochondria, which releases H⁺ ions',
+        'Accumulation of lactate ions that acidify the sarcoplasm',
+        'Bicarbonate buffering failure leading to CO₂ retention',
+      ],
+      correct: 1,
+      explanation: 'Evidence indicates that <strong>ATP hydrolysis outside the mitochondria</strong> (ATP → ADP + Pi + H⁺ + Energy) is the dominant source of H⁺ accumulation causing metabolic acidosis — not the conversion of pyruvate to lactate. The lactate dehydrogenase reaction actually consumes protons. The correct term is <strong>metabolic acidosis</strong>, not lactic acidosis.',
+    },
+    {
+      domain: 'Lactate & Metabolic Acidosis',
+      text: 'The reported normal range of lactate concentration in resting blood is approximately:',
+      options: [
+        '0.1 to 0.5 mmol/L',
+        '0.5 to 2.2 mmol/L',
+        '2.5 to 4.0 mmol/L',
+        '4.0 to 8.0 mmol/L',
+      ],
+      correct: 1,
+      explanation: 'The normal resting blood lactate concentration is <strong>0.5 to 2.2 mmol/L</strong>. In wet muscle it is also 0.5 to 2.2 mmol per kilogram. Concentrations between 20–25 mmol/L have been associated with severe fatigue, and values above 30 mmol/L have been recorded following multiple bouts of maximal dynamic exercise.',
+    },
+    {
+      domain: 'Lactate & Metabolic Acidosis',
+      text: 'The lactate threshold (LT1) typically begins at what percentage of maximal oxygen uptake in aerobically trained athletes?',
+      options: [
+        '30% to 40%',
+        '50% to 60%',
+        '70% to 80%',
+        '90% to 95%',
+      ],
+      correct: 2,
+      explanation: 'The <strong>lactate threshold</strong> begins at 50–60% of maximal oxygen uptake in untrained individuals, but shifts right to <strong>70–80%</strong> in aerobically trained athletes. Training near or above the LT pushes these thresholds to higher exercise intensities through increased mitochondrial content and metabolic adaptations.',
+    },
+    {
+      domain: 'Lactate & Metabolic Acidosis',
+      text: 'The onset of blood lactate accumulation (OBLA or LT2) is typically defined as occurring when blood lactate reaches approximately:',
+      options: [
+        '1 mmol/L',
+        '2 mmol/L',
+        '4 mmol/L',
+        '8 mmol/L',
+      ],
+      correct: 2,
+      explanation: '<strong>OBLA (LT2)</strong> occurs at the second exponential increase in lactate accumulation, which corresponds approximately to a blood lactate concentration of <strong>4 mmol/L</strong>. This point coincides with recruitment of large type II motor units that are particularly suited for anaerobic metabolism and lactate production.',
+    },
+    // ─── OXIDATIVE SYSTEM (4) ──────────────────────────────────────────────────
+    {
+      domain: 'Oxidative System',
+      text: 'Using the updated P/O ratios, the complete oxidation of one molecule of blood glucose yields approximately how many net ATP molecules?',
+      options: [
+        '24 ATP',
+        '28 ATP',
+        '32 ATP',
+        '38 ATP',
+      ],
+      correct: 2,
+      explanation: 'Using updated P/O ratios (NADH = 2.5 ATP; FADH₂ = 1.5 ATP), the total net yield from one molecule of <strong>blood glucose</strong> is approximately <strong>32 ATP</strong>. If glycolysis starts from muscle glycogen the net is slightly higher (~34 ATP using the malate–aspartate shuttle). Traditional biochemistry cited 36–38 ATP, but modern values are ~30–32.',
+    },
+    {
+      domain: 'Oxidative System',
+      text: 'In the electron transport chain, one molecule of NADH can produce approximately how many ATP molecules?',
+      options: [
+        '1.5 ATP',
+        '2.0 ATP',
+        '2.5 ATP',
+        '3.0 ATP',
+      ],
+      correct: 2,
+      explanation: 'Using current P/O ratios, one molecule of <strong>NADH produces approximately 2.5 ATP</strong> via oxidative phosphorylation. One molecule of FADH₂ produces 1.5 ATP. Traditional biochemistry often cited NADH yielding 3 ATP and FADH₂ yielding 2 ATP, but updated values are 2.5 and 1.5 respectively.',
+    },
+    {
+      domain: 'Oxidative System',
+      text: 'The rate-limiting step of the Krebs cycle involves conversion of isocitrate to α-ketoglutarate. Which enzyme catalyses this reaction?',
+      options: [
+        'Pyruvate dehydrogenase',
+        'Succinyl-CoA synthetase',
+        'Isocitrate dehydrogenase',
+        'Phosphofructokinase',
+      ],
+      correct: 2,
+      explanation: 'The rate-limiting step of the Krebs cycle is catalysed by <strong>isocitrate dehydrogenase</strong>, which converts isocitrate to α-ketoglutarate. This enzyme is stimulated by ADP and allosterically inhibited by ATP, linking the rate of the Krebs cycle to the cell\'s energy state.',
+    },
+    {
+      domain: 'Oxidative System',
+      text: 'At rest, approximately what percentage of ATP produced by the oxidative system is derived from fat metabolism?',
+      options: [
+        '30%',
+        '50%',
+        '70%',
+        '90%',
+      ],
+      correct: 2,
+      explanation: 'At rest, approximately <strong>70% of ATP</strong> produced by the oxidative system is derived from fats, with 30% from carbohydrate. As exercise intensity increases, there is a progressive shift toward carbohydrate as the primary substrate. During high-intensity aerobic exercise, nearly 100% of energy comes from carbohydrate if supply is adequate.',
+    },
+    // ─── SUBSTRATE DEPLETION & REPLETION (4) ───────────────────────────────────
+    {
+      domain: 'Substrate Depletion & Repletion',
+      text: 'CP stores can decrease markedly (50–70%) during which type of exercise, and can be almost completely depleted during which condition?',
+      options: [
+        'Low-intensity aerobic exercise; moderate-intensity sustained effort',
+        'The first stage of high-intensity exercise; very intense exercise to exhaustion',
+        'Prolonged submaximal exercise; high-volume resistance training',
+        'Isometric exercise; dynamic exercise producing external work',
+      ],
+      correct: 1,
+      explanation: '<strong>CP can decrease markedly (50–70%) during the first stage of high-intensity anaerobic exercise</strong> of short duration (5–30 s) and can be almost completely depleted during very intense exercise to exhaustion. Dynamic muscle actions that produce external work use more metabolic energy and typically deplete phosphagens to a greater extent than isometric actions.',
+    },
+    {
+      domain: 'Substrate Depletion & Repletion',
+      text: 'Following a bout of maximal exercise that depletes CP stores, approximately how long does complete CP resynthesis take?',
+      options: [
+        '30 seconds',
+        '1 to 2 minutes',
+        '3 to 5 minutes (up to 8 minutes)',
+        '15 to 20 minutes',
+      ],
+      correct: 2,
+      explanation: 'Complete ATP resynthesis occurs within approximately 3–5 minutes postexercise, and <strong>CP is fully resynthesised within approximately 8 minutes</strong>. Notably, half the CP stores are replenished in about 30 seconds, allowing repeated maximal contractions interspersed with brief rest intervals. Repletion is largely accomplished via aerobic metabolism.',
+    },
+    {
+      domain: 'Substrate Depletion & Repletion',
+      text: 'To maximise muscle glycogen repletion after exercise, carbohydrate ingestion of approximately how much per kilogram of body weight should occur every 2 hours?',
+      options: [
+        '0.1 to 0.3 g/kg',
+        '0.3 to 0.5 g/kg',
+        '0.7 to 3.0 g/kg',
+        '4.0 to 6.0 g/kg',
+      ],
+      correct: 2,
+      explanation: 'Optimal glycogen repletion occurs when <strong>0.7 to 3.0 grams of carbohydrate per kilogram of body weight</strong> is ingested every 2 hours postexercise. This level can maximise muscle glycogen repletion at 5–6 mmol/g of wet muscle mass per hour during the first 4–6 hours after exercise.',
+    },
+    {
+      domain: 'Substrate Depletion & Repletion',
+      text: 'At relative exercise intensities above 60% of maximal oxygen uptake, which substrate becomes increasingly important and may become completely depleted in some muscle cells?',
+      options: [
+        'Free fatty acids',
+        'Blood glucose',
+        'Muscle glycogen',
+        'Amino acids',
+      ],
+      correct: 2,
+      explanation: 'Above 60% VO₂max, <strong>muscle glycogen</strong> becomes an increasingly important energy substrate, and the entire glycogen content of some muscle cells can become depleted during exercise. At intensities below 50% VO₂max, relatively constant blood glucose concentrations are maintained due to low muscle glucose uptake.',
+    },
+    // ─── METABOLIC SPECIFICITY (3) ─────────────────────────────────────────────
+    {
+      domain: 'Metabolic Specificity',
+      text: 'According to Table 3.2, what is the primary energy system used for activities lasting 6–30 seconds at very high intensity?',
+      options: [
+        'Phosphagen only',
+        'Phosphagen and fast glycolysis',
+        'Fast glycolysis only',
+        'Slow glycolysis and oxidative system',
+      ],
+      correct: 1,
+      explanation: 'For activities of 6–30 seconds at very high intensity, the primary energy systems are <strong>phosphagen and fast glycolysis</strong>. Activities 0–6 s at extremely high intensity rely primarily on the phosphagen system alone, while the 30 s to 2 min range shifts to fast glycolysis as the primary system.',
+    },
+    {
+      domain: 'Metabolic Specificity',
+      text: 'When training at 90–100% of maximum power to stress the phosphagen system, Table 3.6 recommends which work-to-rest ratio range?',
+      options: [
+        '1:1 to 1:3',
+        '1:3 to 1:5',
+        '1:12 to 1:20',
+        '1:2 to 1:4',
+      ],
+      correct: 2,
+      explanation: 'For phosphagen system training at 90–100% of maximum power with typical exercise times of 5–10 seconds, the recommended work-to-rest ratio is <strong>1:12 to 1:20</strong>. This extended recovery is required because complete CP resynthesis takes 3–8 minutes — a short rest would fail to replenish phosphagen stores before the next bout.',
+    },
+    {
+      domain: 'Metabolic Specificity',
+      text: 'High-intensity interval training (HIIT) sessions designed to maximise adaptations should aim to maximise cumulative time at or near what percentage of VO₂max?',
+      options: [
+        'Above 50% VO₂max',
+        'Above 70% VO₂max',
+        'Above 90% VO₂max',
+        'Above 100% VO₂max',
+      ],
+      correct: 2,
+      explanation: 'To optimise HIIT adaptations, sessions should maximise the time spent at or near <strong>VO₂max</strong>, with the cumulative duration and intensity of active bouts equating to several minutes above <strong>90% of VO₂max</strong>. The benefits of HIIT result primarily from concurrent recruitment of large motor units and near-maximal cardiac output.',
+    },
+  ];
+
+  // Initialise scores
+  for (const d in DOMAIN_META) scores[d] = 0;
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function submitName() {
+    const v = document.getElementById('input-name').value.trim();
+    const err = document.getElementById('err-name');
+    if (!v || v.length > 40) { err.classList.add('show'); return; }
+    err.classList.remove('show');
+    userName = v;
+    showScreen('screen-gate-email');
+  }
+
+  function submitEmail() {
+    const v = document.getElementById('input-email').value.trim();
+    const err = document.getElementById('err-email');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { err.classList.add('show'); return; }
+    err.classList.remove('show');
+    userEmail = v;
+    showScreen('screen-gate-code');
+  }
+
+  function submitCode() {
+    const v = document.getElementById('input-code').value.trim().toUpperCase();
+    const err = document.getElementById('err-code');
+    if (v !== ACCESS_CODE) { err.classList.add('show'); return; }
+    err.classList.remove('show');
+    startQuiz();
+  }
+
+  function startQuiz() {
+    curQ = 0;
+    for (const d in DOMAIN_META) scores[d] = 0;
+    document.getElementById('q-counter').textContent = '01 / ' + QUESTIONS.length;
+    showScreen('screen-question');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    answered = false;
+    const q = QUESTIONS[curQ];
+    const pct = (curQ / QUESTIONS.length) * 100;
+
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('q-counter').textContent =
+      String(curQ + 1).padStart(2, '0') + ' / ' + QUESTIONS.length;
+    document.getElementById('q-domain').textContent = q.domain;
+    document.getElementById('q-text').textContent   = q.text;
+
+    const grid = document.getElementById('options-grid');
+    grid.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span class="opt-text">${opt}</span>`;
+      btn.onclick = () => selectAnswer(i);
+      grid.appendChild(btn);
+    });
+
+    document.getElementById('explanation-box').classList.remove('show');
+    document.getElementById('next-btn').classList.remove('show');
+  }
+
+  function selectAnswer(idx) {
+    if (answered) return;
+    answered = true;
+
+    const q = QUESTIONS[curQ];
+    const btns = document.querySelectorAll('.option-btn');
+
+    btns.forEach(b => b.disabled = true);
+    btns[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+    btns[q.correct].classList.add('correct');
+
+    if (idx === q.correct) scores[q.domain]++;
+
+    const expBox = document.getElementById('explanation-box');
+    expBox.innerHTML = '<strong>Explanation:</strong> ' + q.explanation;
+    expBox.classList.add('show');
+
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.textContent = (curQ === QUESTIONS.length - 1) ? 'See My Results →' : 'Next →';
+    nextBtn.classList.add('show');
+  }
+
+  function nextQuestion() {
+    curQ++;
+    if (curQ >= QUESTIONS.length) {
+      showResults();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('progress-fill').style.width = '100%';
+    showScreen('screen-results');
+
+    const total = QUESTIONS.length;
+    let correct = 0;
+    for (const d in scores) correct += scores[d];
+    const pct = Math.round((correct / total) * 100);
+
+    let titleText;
+    if (pct >= 85)      titleText = 'Well done,';
+    else if (pct >= 70) titleText = 'Good effort,';
+    else if (pct >= 50) titleText = 'Keep going,';
+    else                titleText = 'More work needed,';
+
+    document.getElementById('result-title').innerHTML =
+      titleText + '<br><span style="color:var(--orange)">' + userName + '</span>';
+    document.getElementById('result-score').textContent = correct + ' / ' + total;
+
+    let verdict;
+    if (pct >= 85)
+      verdict = 'Outstanding performance. Strong command of the fundamentals. Focus on locking in details on any domains below 100%.';
+    else if (pct >= 70)
+      verdict = 'Solid effort. Core concepts understood but gaps worth revisiting — especially any domain below 60%.';
+    else if (pct >= 50)
+      verdict = 'A decent starting point, but this chapter needs more attention. Work through each section systematically — mechanisms first, terms second.';
+    else
+      verdict = 'This chapter needs dedicated revision. Go back to fundamentals in each domain and focus on the underlying logic before memorising labels.';
+
+    document.getElementById('result-verdict').textContent = verdict;
+
+    const grid = document.getElementById('domain-grid');
+    grid.innerHTML = '';
+    for (const [key, meta] of Object.entries(DOMAIN_META)) {
+      const sc  = scores[key];
+      const tot = meta.total;
+      const dpct = Math.round((sc / tot) * 100);
+      let cls = dpct >= 75 ? 'good' : dpct >= 50 ? 'ok' : 'poor';
+      let dv;
+      if (dpct === 100)     dv = 'Mastered ✓';
+      else if (dpct >= 75)  dv = 'Strong — review edge cases';
+      else if (dpct >= 50)  dv = 'Developing — revisit the mechanisms';
+      else                  dv = 'Needs work — go back to basics';
+
+      const card = document.createElement('div');
+      card.className = 'domain-card';
+      card.innerHTML = `
+        <div class="domain-name">${meta.label}</div>
+        <div class="domain-score-num">${sc} / ${tot}</div>
+        <div class="domain-verdict">${dv}</div>
+        <div class="domain-bar">
+          <div class="domain-bar-fill ${cls}" style="width:${dpct}%"></div>
+        </div>`;
+      grid.appendChild(card);
+    }
+
+    setTimeout(() => {
+      document.querySelectorAll('.domain-bar-fill').forEach(b => {
+        const w = b.style.width;
+        b.style.width = '0';
+        requestAnimationFrame(() => requestAnimationFrame(() => b.style.width = w));
+      });
+    }, 100);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const s = document.querySelector('.screen.active');
+    if (!s) return;
+    if (s.id === 'screen-intro')      document.querySelector('#screen-intro .btn-primary').click();
+    if (s.id === 'screen-gate-name')  submitName();
+    if (s.id === 'screen-gate-email') submitEmail();
+    if (s.id === 'screen-gate-code')  submitCode();
+  });
+</script>
+</body>
+</html>
