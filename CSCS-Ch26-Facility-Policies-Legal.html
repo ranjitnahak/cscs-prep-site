@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSCS Prep — Chapter 26: Facility Policies, Procedures, and Legal Issues</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root { --orange:#F4511E; --amber:#FFB347; --blue:#66aaff; --green:#4CAF50; --dark:#0F0F0F; --dark2:#1A1A1A; --dark3:#242424; --white:#FFFFFF; --grey:#AAAAAA; --light-grey:#CCCCCC; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; height:100%; background:var(--dark); overflow:hidden; }
+    body { font-family:'Barlow', sans-serif; color:var(--white); }
+    .brand-bar { position:fixed; top:0; left:0; right:0; height:5px; background:var(--orange); z-index:200; }
+    .top-left-group { position:fixed; top:16px; left:30px; z-index:100; display:flex; align-items:center; gap:14px; }
+    .logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:25.2px; color:var(--orange); letter-spacing:2px; }
+    .logo span { color:var(--white); }
+    .contents-btn { display:flex; align-items:center; gap:9px; background:var(--dark3); border:1px solid #333; border-radius:6px; color:var(--white); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:2px; text-transform:uppercase; padding:8px 16px; cursor:pointer; transition:all .2s; }
+    .contents-btn:hover { background:var(--dark2); border-color:var(--orange); }
+    .contents-btn .hamburger { display:flex; flex-direction:column; gap:3px; }
+    .contents-btn .hamburger span { width:16px; height:2px; background:var(--white); display:block; }
+    .contents-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); opacity:0; pointer-events:none; transition:opacity .3s ease; z-index:300; }
+    .contents-overlay.open { opacity:1; pointer-events:all; }
+    .contents-panel { position:fixed; top:0; left:0; bottom:0; width:420px; max-width:86vw; background:var(--dark2); border-right:1px solid #2a2a2a; transform:translateX(-100%); transition:transform .35s ease; z-index:301; overflow-y:auto; padding:36px 0; }
+    .contents-panel.open { transform:translateX(0); }
+    .contents-header { display:flex; align-items:center; justify-content:space-between; padding:0 32px 24px; border-bottom:1px solid #2a2a2a; }
+    .contents-header h3 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:34px; color:var(--white); text-transform:uppercase; letter-spacing:1px; }
+    .contents-close { background:none; border:none; color:var(--grey); font-size:26px; cursor:pointer; line-height:1; padding:4px; transition:color .2s; }
+    .contents-close:hover { color:var(--white); }
+    .contents-jump-label { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:4px; color:var(--orange); text-transform:uppercase; padding:22px 32px 10px; }
+    .contents-row { display:flex; align-items:center; gap:20px; padding:16px 32px; cursor:pointer; border-bottom:1px solid #232323; transition:background .15s; }
+    .contents-row:hover { background:var(--dark3); }
+    .contents-row.active { background:#241813; }
+    .contents-num { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; color:var(--grey); min-width:26px; flex-shrink:0; }
+    .contents-row.active .contents-num { color:var(--orange); }
+    .contents-title { font-family:'Barlow',sans-serif; font-weight:400; font-size:17px; color:var(--light-grey); }
+    .contents-row.active .contents-title { font-weight:700; color:var(--white); }
+    .counter { position:fixed; top:20px; right:30px; z-index:100; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:2px; color:var(--grey); }
+    .edit-toggle { position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:100; }
+    .edit-btn { background:var(--dark3); border:1px solid #333; border-radius:6px; color:var(--grey); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:1px; padding:7px 14px; cursor:pointer; transition:all .2s; }
+    .edit-btn:hover { color:var(--white); border-color:var(--orange); }
+    .edit-btn.active { color:var(--orange); border-color:var(--orange); }
+    [contenteditable="true"] { outline:1px dashed var(--orange); outline-offset:4px; }
+    .deck { position:relative; width:100vw; height:100vh; }
+    .slide { position:absolute; inset:0; display:none; flex-direction:column; justify-content:center; padding:90px 100px 130px; background:var(--dark); }
+    .slide.active { display:flex; }
+    .slide-title { justify-content:center; }
+    .bg-number { position:absolute; bottom:20px; right:50px; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:280px; color:#1c1c1c; line-height:1; z-index:0; user-select:none; }
+    .slide-title h1, .slide-title .topic-label, .slide-title .subtitle { position:relative; z-index:1; }
+    .slide-divider { background:var(--orange); align-items:flex-start; justify-content:center; }
+    .slide-divider .topic-num { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,.75); margin-bottom:10px; }
+    .slide-divider h1 { color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(60px,9.5vw,128px); text-transform:uppercase; line-height:.95; }
+    .topic-label { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:22.4px; letter-spacing:4px; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+    h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:clamp(78.4px,11.2vw,134.4px); text-transform:uppercase; line-height:.95; }
+    h2 { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:clamp(38px,4.8vw,68px); text-transform:uppercase; line-height:1; margin-bottom:22px; }
+    .highlight { color:var(--orange); }
+    .subtitle { font-family:'Barlow',sans-serif; font-weight:300; font-size:25.2px; color:var(--light-grey); margin-top:8px; line-height:1.35; max-width:760px; }
+    .card-row { display:flex; gap:20px; margin-top:20px; flex-wrap:wrap; }
+    .card { flex:1; min-width:280px; background:var(--dark2); border:1px solid #2a2a2a; border-top:3px solid var(--orange); border-radius:4px; padding:18px; opacity:0; transition:opacity .4s ease; }
+    .card:has(.reveal-target.revealed) { opacity:1; }
+    .card.full { flex-basis:100%; }
+    .card.vector, .card.c1 { border-top-color:var(--orange); }
+    .card.scalar, .card.c2 { border-top-color:var(--amber); }
+    .card.c3 { border-top-color:var(--blue); }
+    .card.c4 { border-top-color:var(--green); }
+    .ct { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:30px; text-transform:uppercase; margin-bottom:8px; color:var(--white); }
+    .card.vector .ct, .card.c1 .ct { color:var(--orange); }
+    .card.scalar .ct, .card.c2 .ct { color:var(--amber); }
+    .card.c3 .ct { color:var(--blue); }
+    .card.c4 .ct { color:var(--green); }
+    .cb-line { display:block; font-family:'Barlow',sans-serif; font-weight:400; font-size:calc(23px*var(--fs,1)); line-height:1.32; color:var(--light-grey); }
+    .cb-line:not(:first-child) { margin-top:8px; }
+    .callout { background:var(--dark2); border-left:4px solid var(--orange); border-radius:0 4px 4px 0; padding:12px 18px; margin-top:12px; font-family:'Barlow',sans-serif; font-size:calc(22px*var(--fs,1)); line-height:1.4; color:var(--light-grey); max-width:1200px; }
+    .examples-list { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:8px; max-width:1240px; }
+    .examples-list li { display:flex; align-items:center; gap:14px; background:var(--dark2); border:1px solid #2a2a2a; border-radius:4px; padding:10px 18px; font-family:'Barlow',sans-serif; font-size:calc(21px*var(--fs,1)); line-height:1.3; color:var(--light-grey); }
+    .tag { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:calc(13px*var(--fs,1)); letter-spacing:1px; text-transform:uppercase; padding:4px 10px; border-radius:3px; flex-shrink:0; }
+    .scalar-tag { color:var(--amber); background:rgba(255,179,71,.12); }
+    .vector-tag { color:var(--orange); background:rgba(244,81,30,.12); }
+    .blue-tag { color:var(--blue); background:rgba(102,170,255,.12); }
+    .glance-def { font-family:'Barlow',sans-serif; font-weight:300; font-size:calc(24px*var(--fs,1)); color:var(--light-grey); max-width:1100px; line-height:1.35; }
+    .recap-list { display:flex; flex-direction:column; gap:12px; max-width:940px; margin-top:8px; }
+    .recap-row { display:flex; align-items:center; gap:18px; background:var(--dark2); padding:14px 22px; border-radius:0 4px 4px 0; }
+    .recap-check { font-size:24px; color:var(--white); flex-shrink:0; }
+    .recap-name { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:25px; text-transform:uppercase; letter-spacing:.5px; }
+    .recap-text { font-family:'Barlow',sans-serif; font-weight:400; font-size:21px; color:var(--light-grey); margin-top:2px; }
+    .nav { position:fixed; bottom:36px; left:50%; transform:translateX(-50%); z-index:100; display:flex; gap:14px; }
+    .nav button { background:var(--dark3); border:1px solid #333; color:var(--white); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:2px; text-transform:uppercase; padding:12px 26px; border-radius:6px; cursor:pointer; transition:all .2s; }
+    .nav button:hover { background:var(--orange); border-color:var(--orange); }
+    .dots { position:fixed; bottom:44px; right:40px; z-index:100; display:flex; gap:7px; flex-wrap:wrap; max-width:220px; justify-content:flex-end; }
+    .dot { width:8px; height:8px; border-radius:50%; background:#3a3a3a; cursor:pointer; transition:background .2s; }
+    .dot.active { background:var(--orange); }
+    .slide.active .reveal-target { opacity:0; transform:translateY(16px); transition:opacity .4s ease, transform .4s ease; }
+    .slide.active .reveal-target.revealed { opacity:1; transform:translateY(0); }
+    .num-row { display:flex; align-items:center; gap:20px; }
+    .num-circle { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; color:#fff; flex-shrink:0; }
+    .num-title { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; letter-spacing:1px; text-transform:uppercase; }
+    .num-sub { font-family:'Barlow',sans-serif; font-size:calc(20px*var(--fs,1)); color:var(--grey); }
+</style>
+</head>
+<body>
+  <div class="brand-bar"></div>
+  <div class="top-left-group">
+    <div class="logo">CSCS<span>PREP</span></div>
+    <button class="contents-btn" onclick="toggleContents()"><span class="hamburger"><span></span><span></span><span></span></span>Contents</button>
+  </div>
+  <div class="counter" id="counter">01 / 73</div>
+  <div class="edit-toggle"><button class="edit-btn" id="editBtn" onclick="toggleEdit()">&#9999; Edit Mode: OFF</button></div>
+  <div class="contents-overlay" id="contentsOverlay" onclick="closeContents()"></div>
+  <div class="contents-panel" id="contentsPanel">
+    <div class="contents-header"><h3>Contents</h3><button class="contents-close" onclick="closeContents()">&#10005;</button></div>
+    <div class="contents-jump-label">Jump to Section</div>
+    <div id="contentsList"></div>
+  </div>
+  <div class="deck">
+
+    <!-- S1: Title -->
+    <div class="slide slide-title active" id="slide-1">
+  <div class="bg-number no-step">26</div>
+  <div class="topic-label" contenteditable="false">Chapter 26 — Practical/Applied</div>
+  <h1>Facility Policies,<br>Procedures &amp; <span class="highlight">Legal Issues</span></h1>
+  <p class="subtitle" contenteditable="false">Mission, staffing, legal exposure, screening, records, discipline, supervision, administration &amp; emergency response.</p>
+</div>
+
+    <!-- S2: Topic 01 Divider -->
+    <div class="slide slide-divider" id="slide-2">
+  <div class="topic-num" contenteditable="false">Topic 01</div>
+  <h1>Mission Statement<br>&amp; Program Goals</h1>
+</div>
+
+    <!-- S3: Topic 01 — Policies & Procedures -->
+    <div class="slide" id="slide-3" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Policies vs <span class="highlight">Procedures</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Policies</div>
+          <div class="cb-line">A facility's rules and regulations.</div>
+          <div class="cb-line">Reflect program goals &amp; objectives.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Procedures</div>
+          <div class="cb-line"><em>How</em> policies are met or carried out.</div>
+          <div class="cb-line">Built from goals &amp; objectives — so examine those first.</div>
+        </div>
+        <div class="card vector reveal-group full">
+          <div class="ct no-step">Why They Matter</div>
+          <div class="cb-line">Protect program &amp; staff from <b>litigation</b>.</div>
+          <div class="cb-line">Cover supervision, instruction, facility administration, emergency action planning.</div>
+          <div class="cb-line">Goal: identify risk exposure + guide quality of service.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S4: Topic 01 — Mission Statement -->
+    <div class="slide" id="slide-4" style="--fs:1.25">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Mission Statement <span class="highlight">Criteria</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Short</span><span>Short and sharply focused</span></li>
+    <li><span class="tag scalar-tag">Clear</span><span>Clear and easy to understand</span></li>
+    <li><span class="tag blue-tag">Why</span><span>Defines why the organization exists</span></li>
+    <li><span class="tag vector-tag">No Means</span><span>Does <b>not</b> prescribe means</span></li>
+    <li><span class="tag scalar-tag">Broad</span><span>Broad in scope</span></li>
+    <li><span class="tag blue-tag">Ethics</span><span>Provides direction for upholding a code of ethics</span></li>
+    <li><span class="tag vector-tag">Scope</span><span>Addresses &amp; matches the organization's scope of practice</span></li>
+    <li><span class="tag scalar-tag">Commitment</span><span>Inspires commitment</span></li>
+  </ul>
+</div>
+
+    <!-- S5: Topic 01 — Mission Components -->
+    <div class="slide" id="slide-5" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Three Components of a <span class="highlight">Mission Statement</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Key Market</div>
+          <div class="cb-line">Target clientele.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Contribution</div>
+          <div class="cb-line">What service is provided.</div>
+        </div>
+        <div class="card c3 reveal-group">
+          <div class="ct no-step">Distinction</div>
+          <div class="cb-line">What makes the service unique.</div>
+        </div>
+      </div>
+  <div class="callout" contenteditable="false">Example: "To optimize each athlete's physical potential while reducing risk of injury; educating them through comprehensive, well-organized, managed training programs — in a safe, positive, demanding, disciplined environment."</div>
+</div>
+
+    <!-- S6: Topic 01 — Program Goals -->
+    <div class="slide" id="slide-6" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Program <span class="highlight">Goals</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Desired end products of the program — stated broadly.</div>
+          <div class="cb-line">Based on scientific principles → ↑ performance + ↑ injury resistance.</div>
+          <div class="cb-line">Outcomes specific to the sport &amp; the athlete's position.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Standard of Care</div>
+          <div class="cb-line">Collaborative responsibility — S&amp;C, institution, athletic administration, sports medicine.</div>
+          <div class="cb-line">More people involved → more ownership of mission, goals, objectives.</div>
+        </div>
+      </div>
+  <div class="callout" contenteditable="false">Standard of care (negligence law) = degree of care a reasonable person would exercise. S&amp;C pros are held to it by education, training &amp; certification.</div>
+</div>
+
+    <!-- S7: Topic 01 — Program Objectives -->
+    <div class="slide" id="slide-7" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Program <span class="highlight">Objectives</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Design</span><span>Design &amp; administer strength, flexibility, aerobic, plyometric &amp; other programs → ↓ injury, ↑ performance (body comp, hypertrophy, strength, endurance, speed, agility, power, movement efficiency)</span></li>
+    <li><span class="tag scalar-tag">Individualize</span><span>Account for age, sex, training status, physical limitations, injury status</span></li>
+    <li><span class="tag blue-tag">Adaptation</span><span>Recognize acute &amp; chronic responses to training → sport-specific design</span></li>
+    <li><span class="tag vector-tag">Nutrition &amp; Sleep</span><span>Educate on proper nutrition + sleep</span></li>
+    <li><span class="tag scalar-tag">PEDs</span><span>Educate on performance-enhancing substances, abuse, school policy &amp; legislation</span></li>
+  </ul>
+</div>
+
+    <!-- S8: Topic 01 — Objectives Are Means -->
+    <div class="slide" id="slide-8" style="--fs:1.35">
+  <div class="topic-label" contenteditable="false">Topic 01 — Mission Statement &amp; Program Goals</div>
+  <h2>Goals → Objectives → <span class="highlight">Policies</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Objectives = Means</div>
+          <div class="cb-line">Specific ways of attaining goals.</div>
+          <div class="cb-line">State goals without objectives → athletes may never achieve them.</div>
+          <div class="cb-line">Should cover <b>all</b> program areas.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Performance Team Concept</div>
+          <div class="cb-line">Use experts as resources — e.g. rehab athlete → consult sports medicine staff.</div>
+          <div class="cb-line">Director writes policies on staff use.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Keep It Alive</div>
+          <div class="cb-line">Annual orientation meeting at start of school year/season — staff, coaches &amp; participants.</div>
+          <div class="cb-line">Periodically re-evaluate goals &amp; objectives.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S9: Topic 02 Divider -->
+    <div class="slide slide-divider" id="slide-9">
+  <div class="topic-num" contenteditable="false">Topic 02</div>
+  <h1>Strength &amp;<br>Conditioning<br>Performance Team</h1>
+</div>
+
+    <!-- S10: Topic 02 — Team Concept -->
+    <div class="slide" id="slide-10" style="--fs:1.35">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>The <span class="highlight">Performance Team</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Why a Team</div>
+          <div class="cb-line">Hire practitioners with formal education in specific scientific foundations (anatomy, exercise physiology, biomechanics).</div>
+          <div class="cb-line">Cooperative expertise + staff learn outside their specialty.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Director's Job</div>
+          <div class="cb-line">Delegate duties: program design, exercise technique, organization &amp; administration, testing &amp; evaluation.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">NSCA Guideline 2.3</div>
+          <div class="cb-line">Align qualified practitioners with interdependent expertise &amp; shared leadership.</div>
+          <div class="cb-line">Delegate by CSCS Exam Content Description domains + liaison assignments.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S11: Topic 02 — Team Roles -->
+    <div class="slide" id="slide-11" style="--fs:1.35">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Sample <span class="highlight">Team</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Anatomy / Biomech</span><span>Exercise technique, testing, rehab &amp; reconditioning → liaison: sport science faculty, team coaches, sports med</span></li>
+    <li><span class="tag scalar-tag">Physiology</span><span>Program design; testing → sport science faculty, team coaches</span></li>
+    <li><span class="tag blue-tag">Nutrition</span><span>Nutritionist → sport science faculty</span></li>
+    <li><span class="tag vector-tag">Pedagogy</span><span>Program design; technique; organization → sport science faculty, athletic admin</span></li>
+    <li><span class="tag scalar-tag">Psych / Motor Learning</span><span>Technique; rehab → sport science faculty, sports med</span></li>
+    <li><span class="tag blue-tag">Training Methodology</span><span>Program design, organization → sport science faculty, athletic admin</span></li>
+    <li><span class="tag vector-tag">Kinesiology / PT</span><span>Rehab &amp; reconditioning → sports medicine team</span></li>
+  </ul>
+</div>
+
+    <!-- S12: Topic 02 — Director -->
+    <div class="slide" id="slide-12" style="--fs:1.15">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Director of <span class="highlight">S&amp;C</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Who</div>
+          <div class="cb-line">Head S&amp;C professional — a <b>practitioner AND administrator</b>.</div>
+          <div class="cb-line">Responsible for overall program, facility, equipment, staff.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Admin Tasks</div>
+          <div class="cb-line">Budget, purchasing equipment, proposals, working with administration &amp; media.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Sample Job Listing</div>
+          <div class="cb-line">Bachelor's required (exercise sciences), master's preferred.</div>
+          <div class="cb-line">Independent certification (e.g. CSCS) + continuing ed.</div>
+          <div class="cb-line">First aid, CPR, AED required.</div>
+          <div class="cb-line">2 yrs' progressively responsible experience.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S13: Topic 02 — Job Description I -->
+    <div class="slide" id="slide-13" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Director Job Description <span class="highlight">I</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Program &amp; Staff</div>
+          <div class="cb-line">Direct all staff, program &amp; facility operations.</div>
+          <div class="cb-line">Design (or finally review) all training programs.</div>
+          <div class="cb-line">Ensure compliance with institutional, conference &amp; governing body rules.</div>
+          <div class="cb-line">Schedule staff, assign duties, evaluate performance.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Money &amp; Facility</div>
+          <div class="cb-line">Annual budget; budgetary compliance.</div>
+          <div class="cb-line">Generate income for facility maintenance &amp; improvement.</div>
+          <div class="cb-line">Alumni/stakeholder fundraising.</div>
+          <div class="cb-line">Oversee equipment selection, installation, maintenance, cleaning, repair.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S14: Topic 02 — Job Description II -->
+    <div class="slide" id="slide-14" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Director Job Description <span class="highlight">II</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Athletes &amp; Coaches</div>
+          <div class="cb-line">Orientation: facility rules, training &amp; nutrition, dangers of banned substances.</div>
+          <div class="cb-line">Coordinate facility time for each team/athlete.</div>
+          <div class="cb-line">Work with athletic dept coaches; assist recruiting.</div>
+          <div class="cb-line">Travel with teams: pregame warm-up, cool-down, recovery.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Professional</div>
+          <div class="cb-line">Committees &amp; task forces.</div>
+          <div class="cb-line">Performance training library; staff continuing education.</div>
+          <div class="cb-line">Maintain certification, CE &amp; code of ethics (e.g. CSCS).</div>
+          <div class="cb-line">Special projects; cover assistant &amp; facility supervisor duties.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S15: Topic 02 — Enforce & Evaluate -->
+    <div class="slide" id="slide-15" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Enforce, Orient & <span class="highlight">Evaluate</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Director Must</div>
+          <div class="cb-line">Develop, present &amp; <b>enforce</b> written policies for staff &amp; participants.</div>
+          <div class="cb-line">Ensure staff are trained &amp; prepared.</div>
+          <div class="cb-line">Hold staff + athlete orientation meetings.</div>
+          <div class="cb-line">Periodically evaluate staff performance &amp; goal attainment.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Intern Evaluation</div>
+          <div class="cb-line">Rates 1–5 (+ N/A): communication, responsibility &amp; leadership, attitude.</div>
+          <div class="cb-line">1 = significantly below · 3 = meets · 5 = clearly exceptional.</div>
+          <div class="cb-line">Adaptable to the whole performance team.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S16: Topic 02 — Staff Qualifications -->
+    <div class="slide" id="slide-16" style="--fs:1.05">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Staff <span class="highlight">Qualifications</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Certification = Standard of Care</div>
+          <div class="cb-line">Independently accredited cert (e.g. CSCS) establishes it.</div>
+          <div class="cb-line">NCAA D-I (Aug 1, 2015): S&amp;C coach must be certified &amp; stay current via nationally accredited program.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Continuing Education</div>
+          <div class="cb-line">Maintains certification, ↓ liability — esp. supervision &amp; instruction.</div>
+          <div class="cb-line">Litigation often asks about "professional instructor qualifications".</div>
+          <div class="cb-line">Assistants: first aid, CPR, AED too.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">CSCS Defined (NSCA Appendix A)</div>
+          <div class="cb-line">Apply foundational knowledge to assess, motivate, educate &amp; train athletes → ↑ sports performance.</div>
+          <div class="cb-line">Sport-specific testing; safe programs; nutrition &amp; injury-prevention guidance.</div>
+          <div class="cb-line">Separate from medical, dietetic, athletic training, coaching → <b>consult &amp; refer</b>.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S17: Topic 02 — Staff Checklist -->
+    <div class="slide" id="slide-17" style="--fs:1.25">
+  <div class="topic-label" contenteditable="false">Topic 02 — S&amp;C Performance Team</div>
+  <h2>Staff <span class="highlight">Preparedness</span> Checklist</h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Certification</span><span>Professional cert + first aid / CPR / AED</span></li>
+    <li><span class="tag scalar-tag">Emergency</span><span>Annual first aid review, common facility injuries, building evacuation plan</span></li>
+    <li><span class="tag blue-tag">Policies</span><span>Room capacity, supervision ratios, screening &amp; clearance, liability / negligence / insurance</span></li>
+    <li><span class="tag vector-tag">Governing Body</span><span>General regulations + rules specific to administering the program</span></li>
+    <li><span class="tag scalar-tag">Maintenance</span><span>Cleaning &amp; maintenance needs</span></li>
+    <li><span class="tag blue-tag">Philosophy</span><span>Program philosophy &amp; instruction methods</span></li>
+    <li><span class="tag vector-tag">Software &amp; Coaching</span><span>Training/tracking/testing software; technique; body comp &amp; nutrition; motivational issues</span></li>
+  </ul>
+</div>
+
+    <!-- S18: Topic 03 Divider -->
+    <div class="slide slide-divider" id="slide-18">
+  <div class="topic-num" contenteditable="false">Topic 03</div>
+  <h1>Legal &amp;<br>Ethical Issues</h1>
+</div>
+
+    <!-- S19: Topic 03 — At a Glance -->
+    <div class="slide" id="slide-19" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Common Legal <span class="highlight">Terminology</span></h2>
+  <p class="glance-def" contenteditable="false">Risk can't be eliminated — only managed. First step: know the key terms.</p>
+  <div class="reveal-group" style="display:flex;flex-direction:column;gap:12px;max-width:800px;margin-top:16px;">
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">1</div><div><div class="num-title" style="color:var(--orange);">Informed Consent</div><div class="num-sub">Risks &amp; benefits explained → athlete decides</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--amber);">2</div><div><div class="num-title" style="color:var(--amber);">Liability</div><div class="num-sub">Legal responsibility, duty or obligation</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--blue);">3</div><div><div class="num-title" style="color:var(--blue);">Standard of Care</div><div class="num-sub">What a reasonable, prudent person would do</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--green);">4</div><div><div class="num-title" style="color:var(--green);">Negligence</div><div class="num-sub">Failure to act as a reasonable, prudent person would</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">5</div><div><div class="num-title" style="color:var(--orange);">Assumption of Risk</div><div class="num-sub">Knowing the risk, participating anyway</div></div></div>
+  </div>
+</div>
+
+    <!-- S20: Topic 03 — Risk Management -->
+    <div class="slide" id="slide-20" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Risk <span class="highlight">Management</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Strategies to ↓ and control injury risk from athletic participation → ↓ liability exposure.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">First Steps</div>
+          <div class="cb-line">Understand key terms.</div>
+          <div class="cb-line">Identify areas of potential liability exposure.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Four Risk Areas</div>
+          <div class="cb-line">Emergency care plan · reliable record keeping · liability insurance · proactive legal analysis.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S21: Topic 03 — Consent & Liability -->
+    <div class="slide" id="slide-21" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Informed Consent & <span class="highlight">Liability</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Informed Consent</div>
+          <div class="cb-line">Procedure/activity described to participant.</div>
+          <div class="cb-line">Inherent <b>risks AND benefits</b> explained.</div>
+          <div class="cb-line">Individual decides whether to participate.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Liability</div>
+          <div class="cb-line">A legal responsibility, duty or obligation.</div>
+          <div class="cb-line">Duty to athletes by virtue of employment: act when injury occurs <b>and prevent it</b>.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S22: Topic 03 — Standard of Care & Assumption -->
+    <div class="slide" id="slide-22" style="--fs:1.2">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Standard of Care & <span class="highlight">Assumption of Risk</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Standard of Care</div>
+          <div class="cb-line">What a reasonable &amp; prudent person would do in similar circumstances.</div>
+          <div class="cb-line">Held to education, level of training &amp; certification (CSCS, NSCA-CPT, EMT, CPR, AED, first aid).</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Assumption of Risk</div>
+          <div class="cb-line">Knowing inherent risk exists + voluntarily participating anyway.</div>
+          <div class="cb-line">Athletes informed &amp; should <b>sign</b> a statement.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Limit</div>
+          <div class="cb-line">An assumption-of-risk waiver may <b>not</b> protect from liability if the professional is found negligent.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S23: Topic 03 — Negligence Elements -->
+    <div class="slide" id="slide-23" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Negligence: <span class="highlight">Four Elements</span></h2>
+  <p class="glance-def" contenteditable="false">All four must exist for a S&amp;C professional to be found negligent.</p>
+  <div class="reveal-group" style="display:flex;flex-direction:column;gap:16px;max-width:720px;margin-top:16px;">
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">1</div><div><div class="num-title" style="color:var(--orange);">Duty</div><div class="num-sub">A duty to act existed</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--amber);">2</div><div><div class="num-title" style="color:var(--amber);">Breach of Duty</div><div class="num-sub">Failed to act at the standard of care</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--blue);">3</div><div><div class="num-title" style="color:var(--blue);">Proximate Cause</div><div class="num-sub">Harm from natural, continuous sequence of reasonably foreseeable events</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--green);">4</div><div><div class="num-title" style="color:var(--green);">Damages</div><div class="num-sub">Physical or economic injury to another person</div></div></div>
+  </div>
+</div>
+
+    <!-- S24: Topic 03 — Negligence Example -->
+    <div class="slide" id="slide-24" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Negligence <span class="highlight">Example</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Scenario</div>
+          <div class="cb-line">Pro sees a cable excessively worn on a machine — but posts no "Out of Order" sign.</div>
+          <div class="cb-line">Athlete uses it → injured.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Why Negligent</div>
+          <div class="cb-line"><b>Duty:</b> fix cable or post sign.</div>
+          <div class="cb-line"><b>Breach:</b> did neither.</div>
+          <div class="cb-line"><b>Proximate cause + damages:</b> injury from a foreseeable break.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S25: Topic 03 — Litigation Issues -->
+    <div class="slide" id="slide-25" style="--fs:1.0">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Common <span class="highlight">Litigation</span> Issues</h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Negligence</span><span>A tort — a civil wrong</span></li>
+    <li><span class="tag scalar-tag">Negligent Hiring</span><span>Employer liability for hiring decisions</span></li>
+    <li><span class="tag blue-tag">Products Liability</span><span>Equipment-related injury claims</span></li>
+    <li><span class="tag vector-tag">14th Amendment</span><span>Equal Protection Clause</span></li>
+    <li><span class="tag scalar-tag">Title VI</span><span>Civil Rights Act of 1964 — racial discrimination</span></li>
+    <li><span class="tag blue-tag">Title IX</span><span>Civil Rights Act (education amendments) — sex discrimination</span></li>
+    <li><span class="tag vector-tag">Rehab Act</span><span>Rehabilitation Act</span></li>
+    <li><span class="tag scalar-tag">ADA</span><span>Americans With Disabilities Act</span></li>
+    <li><span class="tag blue-tag">IIED</span><span>Intentional infliction of emotional distress</span></li>
+  </ul>
+</div>
+
+    <!-- S26: Topic 03 — Negligence as a Tort -->
+    <div class="slide" id="slide-26" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Negligence <span class="highlight">in Court</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Tort &amp; Civil Law</div>
+          <div class="cb-line">Tort = a civil wrong.</div>
+          <div class="cb-line">Civil law = private rights &amp; remedies via suit — distinct from criminal proceedings.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Burden of Proof</div>
+          <div class="cb-line"><b>Preponderance of the evidence</b> = greater weight of evidence.</div>
+          <div class="cb-line">Each element (duty, breach, causation, damages) must be proven.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Damages</div>
+          <div class="cb-line">Money claimed by, or ordered paid to, a person as compensation for loss or injury.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S27: Topic 03 — Case: Rhabdo -->
+    <div class="slide" id="slide-27" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Case: Exertional <span class="highlight">Rhabdomyolysis</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Facts</div>
+          <div class="cb-line">Filed Jan 9, 2019 — Circuit Court, Oregon.</div>
+          <div class="cb-line">Former student-athlete: "non-evidence based physical punishment regimens" → permanent renal injury.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Lesson</div>
+          <div class="cb-line">Programs without evidence-based foundation → exertional rhabdo (can mean permanent kidney damage).</div>
+          <div class="cb-line">Standard of care = <b>evidence-based, research-supported</b> programming.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S28: Topic 03 — Case: Sickle Cell Trait -->
+    <div class="slide" id="slide-28" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Case: <span class="highlight">Sickle Cell Trait</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Facts</div>
+          <div class="cb-line">Pro knew (or should have known) athlete had sickle cell trait.</div>
+          <div class="cb-line">Same work-to-rest ratio as athletes without it → organ damage or death.</div>
+          <div class="cb-line">Jury found respondent liable; damages awarded.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Lesson</div>
+          <div class="cb-line">Duty: train within parameters protecting the athlete's health.</div>
+          <div class="cb-line">Modify <b>work-to-rest ratio</b> for diagnosed conditions.</div>
+          <div class="cb-line">Failure to act = breach → foreseeable harm.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S29: Topic 03 — Litigation Outcomes -->
+    <div class="slide" id="slide-29" style="--fs:1.3">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>How Cases <span class="highlight">End</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Resolution</div>
+          <div class="cb-line">Jury trial.</div>
+          <div class="cb-line">Settlement before court.</div>
+          <div class="cb-line">Dismissal by judge via <b>summary judgment</b> — no genuine issue of material fact; movant wins as matter of law.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Sovereign Immunity</div>
+          <div class="cb-line">Government's immunity from suit in its own courts without consent.</div>
+          <div class="cb-line">State's immunity from federal suit by its own citizens.</div>
+          <div class="cb-line">Can shield state defendants.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Prejudice</div>
+          <div class="cb-line"><b>With</b> prejudice: plaintiff barred from refiling same claim.</div>
+          <div class="cb-line"><b>Without</b> prejudice: may refile within limitations period.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S30: Topic 03 — Case: Mississippi -->
+    <div class="slide" id="slide-30" style="--fs:1.35">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>Case: State <span class="highlight">University</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Facts</div>
+          <div class="cb-line">US District Court, N. District of Mississippi (Oxford).</div>
+          <div class="cb-line">Federal &amp; state claims vs state university + head football coach.</div>
+          <div class="cb-line"><b>Official capacity:</b> Title VI, Title IX, ADA, Rehab Act, gross negligence, negligence.</div>
+          <div class="cb-line"><b>Individual capacity:</b> equal protection; intentional infliction of emotional distress.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Outcome</div>
+          <div class="cb-line">Motion for summary judgment granted.</div>
+          <div class="cb-line">Lesson: consistently demonstrate an evidence-based, research-supported standard of care.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S31: Topic 03 — HIPAA & Equal Treatment -->
+    <div class="slide" id="slide-31" style="--fs:1.3">
+  <div class="topic-label" contenteditable="false">Topic 03 — Legal &amp; Ethical Issues</div>
+  <h2>HIPAA & <span class="highlight">Equal Treatment</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">HIPAA</div>
+          <div class="cb-line">Use medical-evaluation info while staying HIPAA compliant.</div>
+          <div class="cb-line">Ensure athletes with significant conditions (sickle cell trait, prior heat illness, asthma) get proper work-to-rest ratios.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Title VI &amp; Title IX</div>
+          <div class="cb-line">Title VI → racial discrimination claims; Title IX → sex discrimination claims.</div>
+          <div class="cb-line">Benefits to each team must be equal and non-discriminatory by sex.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Women's vs Men's Sports — Equal Basis</div>
+          <div class="cb-line">Workout times · program design · equipment availability · technology assessments &amp; evaluations (strength, power, body comp) · nutritional supplements.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S32: Topic 04 Divider -->
+    <div class="slide slide-divider" id="slide-32">
+  <div class="topic-num" contenteditable="false">Topic 04</div>
+  <h1>Preparticipation<br>Screening, Clearance<br>&amp; Eligibility</h1>
+</div>
+
+    <!-- S33: Topic 04 — At a Glance -->
+    <div class="slide" id="slide-33" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Screening, Clearance <span class="highlight">&amp; Eligibility</span></h2>
+  <p class="glance-def" contenteditable="false">Before any athlete touches the facility.</p>
+  <div class="reveal-group" style="display:flex;flex-direction:column;gap:16px;max-width:720px;margin-top:16px;">
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">1</div><div><div class="num-title" style="color:var(--orange);">Preparticipation Screening</div><div class="num-sub">Health care provider screening &amp; clearance (NSCA Standard 1.1)</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--amber);">2</div><div><div class="num-title" style="color:var(--amber);">Medical Clearance</div><div class="num-sub">Only sports medicine staff can provide it</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--blue);">3</div><div><div class="num-title" style="color:var(--blue);">Eligibility Criteria</div><div class="num-sub">Who may use the facility — and how outsiders gain access</div></div></div>
+  </div>
+</div>
+
+    <!-- S34: Topic 04 — Screening & Clearance -->
+    <div class="slide" id="slide-34" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Screening & <span class="highlight">Clearance</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Requirement</div>
+          <div class="cb-line">Per governing bodies (NCAA, institution sports medicine, HS associations).</div>
+          <div class="cb-line">NSCA Standard 1.1: participants undergo health care provider screening &amp; clearance before participating.</div>
+          <div class="cb-line">Need a <b>signed statement</b> of clearance — not the physical exam copy.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Who Needs Proof</div>
+          <div class="cb-line">New athletes.</div>
+          <div class="cb-line">Returning from injury/illness.</div>
+          <div class="cb-line">Special needs: diabetes, asthma, epilepsy, hypertension.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S35: Topic 04 — Scope of Practice -->
+    <div class="slide" id="slide-35" style="--fs:1.2">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Clearance & <span class="highlight">Scope of Practice</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Documentation</div>
+          <div class="cb-line">Screening &amp; clearance documentation on record in the main office <b>before</b> participation.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Scope of Practice</div>
+          <div class="cb-line">Proper legal parameters &amp; professional duties.</div>
+          <div class="cb-line">Diagnosing/evaluating medical conditions is <b>outside</b> S&amp;C scope.</div>
+          <div class="cb-line">Only sports medicine staff (ATC, physician, PT) allow an athlete to begin &amp; answer participation questions.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Collaborate</div>
+          <div class="cb-line">Work with sports medicine to modify workouts (e.g. work-to-rest ratio) for sickle cell trait, prior heat issue, asthma.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S36: Topic 04 — Eligibility -->
+    <div class="slide" id="slide-36" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Eligibility <span class="highlight">Criteria</span> — Typical Users</h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Athletes</span><span>Full/part-time student-athletes in an athletic department–sponsored sport</span></li>
+    <li><span class="tag scalar-tag">Transfers</span><span>Newly incoming, registered, team status confirmed by head sport coach</span></li>
+    <li><span class="tag blue-tag">PE</span><span>Students in physical education classes</span></li>
+    <li><span class="tag vector-tag">Staff</span><span>All athletic dept coaching &amp; administrative staff · all sports medicine staff</span></li>
+    <li><span class="tag scalar-tag">Alumni</span><span>Alumni athletes who completed eligibility</span></li>
+    <li><span class="tag blue-tag">Approved</span><span>Individuals/groups approved by athletic director or S&amp;C director</span></li>
+  </ul>
+</div>
+
+    <!-- S37: Topic 04 — Outside Groups -->
+    <div class="slide" id="slide-37" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Outside <span class="highlight">Group Access</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Approval</span><span>Preapproved by athletic director + S&amp;C director</span></li>
+    <li><span class="tag scalar-tag">Supervision</span><span>Supervised by S&amp;C department staff</span></li>
+    <li><span class="tag blue-tag">Off-Hours</span><span>Scheduled when athletes are not present</span></li>
+    <li><span class="tag vector-tag">Insurance</span><span>Written proof of additional liability insurance</span></li>
+    <li><span class="tag scalar-tag">Release</span><span>Everyone signs release agreement</span></li>
+    <li><span class="tag blue-tag">Rules</span><span>Follow facility rules &amp; regulations</span></li>
+    <li><span class="tag vector-tag">Authority</span><span>Directors may limit access if warranted</span></li>
+  </ul>
+</div>
+
+    <!-- S38: Topic 04 — Release Agreement -->
+    <div class="slide" id="slide-38" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 04 — Preparticipation Screening &amp; Clearance</div>
+  <h2>Release <span class="highlight">Agreement</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Participant Acknowledges</div>
+          <div class="cb-line">Advised of risks of the facility &amp; equipment.</div>
+          <div class="cb-line">Assumes risk of injury or harm.</div>
+          <div class="cb-line">Agrees to <b>hold harmless</b> school, coaches, trainers, supervisors, employees.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Participant Agrees</div>
+          <div class="cb-line">Read &amp; understood; signed voluntarily.</div>
+          <div class="cb-line">Modify workout if staff asks; leave if asked.</div>
+          <div class="cb-line">Signature · date · printed name.</div>
+        </div>
+      </div>
+  <div class="callout" contenteditable="false">Check any form against current local &amp; national law before use. Reducing on-premises injury liability is critical risk management.</div>
+</div>
+
+    <!-- S39: Topic 05 Divider -->
+    <div class="slide slide-divider" id="slide-39">
+  <div class="topic-num" contenteditable="false">Topic 05</div>
+  <h1>Record Keeping,<br>Insurance &amp;<br>Product Liability</h1>
+</div>
+
+    <!-- S40: Topic 05 — Record Keeping -->
+    <div class="slide" id="slide-40" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Record <span class="highlight">Keeping</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Why</div>
+          <div class="cb-line">Documentation is fundamental to effective management of the facility.</div>
+        </div>
+        <div class="card scalar reveal-group full">
+          <div class="ct no-step">Keep Secure Records Of</div>
+          <div class="cb-line">Cleaning &amp; maintenance · safety procedures · manufacturer warranties &amp; guidelines.</div>
+          <div class="cb-line">Assumption-of-risk / informed consent forms · medical waivers · clearance forms.</div>
+          <div class="cb-line">Personnel credentials · professional guidelines (e.g. weight belts) · <b>injury report forms</b>.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S41: Topic 05 — Statute of Limitations -->
+    <div class="slide" id="slide-41" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Statute of <span class="highlight">Limitations</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Time during which an individual can file a lawsuit.</div>
+          <div class="cb-line">Varies by state — and worldwide.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Practice</div>
+          <div class="cb-line">Keep injury report forms as long as possible — in case an injury suit is filed.</div>
+          <div class="cb-line">Maintain files <b>indefinitely</b> or check with a legal authority.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S42: Topic 05 — Liability Insurance -->
+    <div class="slide" id="slide-42" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Liability <span class="highlight">Insurance</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Contractual promise: insurer defends &amp; indemnifies insured, up to defined limits, from certain defined liability risks — at insurer's cost, for a premium.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Staff Should</div>
+          <div class="cb-line">Buy professional liability insurance — especially if not covered by facility policy.</div>
+          <div class="cb-line">Consult HR manager, legal consultant or professional organization (e.g. NSCA).</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S43: Topic 05 — Product Liability -->
+    <div class="slide" id="slide-43" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Product <span class="highlight">Liability</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Legal responsibility of those who manufacture or sell products if a person is injured using them.</div>
+          <div class="cb-line">S&amp;C pros usually don't sell — but can be <b>codefendants</b>.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Two Key Considerations</div>
+          <div class="cb-line">Was the product <b>changed</b> from its original condition?</div>
+          <div class="cb-line">Was it used <b>as the manufacturer intended</b>?</div>
+          <div class="cb-line">Fail either → responsibility shifts to the S&amp;C professional.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S44: Topic 05 — Avoiding Product Liability I -->
+    <div class="slide" id="slide-44" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Avoiding Product Liability <span class="highlight">I</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Use &amp; Standards</div>
+          <div class="cb-line">Use equipment only as the manufacturer intended (age/size specs).</div>
+          <div class="cb-line">Meet professional standards; avoid equipment deemed unsafe; heed recalls — return immediately.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Buy &amp; Modify</div>
+          <div class="cb-line">Buy only from reputable manufacturers (check safety record, claims — BBB, colleagues, organizations).</div>
+          <div class="cb-line">Don't modify unless instructions clearly designate it; follow exactly.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S45: Topic 05 — Avoiding Product Liability II -->
+    <div class="slide" id="slide-45" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 05 — Record Keeping, Insurance &amp; Product Liability</div>
+  <h2>Avoiding Product Liability <span class="highlight">II</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Warnings &amp; Inspection</div>
+          <div class="cb-line">Apply all warning labels in plain view — or be held liable.</div>
+          <div class="cb-line">Continually inspect for damage/wear; inspect new equipment before use.</div>
+          <div class="cb-line">Damaged on arrival → notify manufacturer/seller, get replacement.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Damaged &amp; Supervised</div>
+          <div class="cb-line">Owned equipment damaged → remove for repair/replacement; if too large, affix a "do not use" sign.</div>
+          <div class="cb-line"><b>Never</b> allow unsupervised athletes on equipment.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S46: Topic 06 Divider -->
+    <div class="slide slide-divider" id="slide-46">
+  <div class="topic-num" contenteditable="false">Topic 06</div>
+  <h1>Discipline,<br>Supplements &amp;<br>Banned Substances</h1>
+</div>
+
+    <!-- S47: Topic 06 — Discipline -->
+    <div class="slide" id="slide-47" style="--fs:1.15">
+  <div class="topic-label" contenteditable="false">Topic 06 — Discipline, Supplements &amp; Banned Substances</div>
+  <h2>Discipline <span class="highlight">Policy</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Enforce the Rules</div>
+          <div class="cb-line">Staff may have athletes sign &amp; date facility rules → can't claim ignorance.</div>
+          <div class="cb-line">Disciplinary actions posted, documented, levied in <b>proportion</b> to the offense.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Never Use Exercise as Punishment</div>
+          <div class="cb-line">Prohibited — negligent/reckless conduct (hazing, mental abuse) has legal consequences.</div>
+          <div class="cb-line">Inter-Association Task Force: no additional physical burden that raises injury or sudden death risk.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Support</div>
+          <div class="cb-line">Policy needs athletic director + all sport coaches on board.</div>
+          <div class="cb-line">Staff rarely go past offense 1–2 — sport coaches usually handle it.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S48: Topic 06 — Tiered Penalties -->
+    <div class="slide" id="slide-48" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 06 — Discipline, Supplements &amp; Banned Substances</div>
+  <h2>Tiered <span class="highlight">Penalty</span> System</h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">1st Offense</span><span>Verbal warning — explain rule &amp; importance, remind of 2nd-offense action</span></li>
+    <li><span class="tag scalar-tag">2nd Offense</span><span>Dismissed 1 day · staff documents · correspond with sport coach</span></li>
+    <li><span class="tag blue-tag">3rd Offense</span><span>Dismissed 1 week · documentation · correspondence with sport coach</span></li>
+    <li><span class="tag vector-tag">4th Offense</span><span>Dismissed rest of year · documentation · sport coach <b>+ athletic director</b></span></li>
+    <li><span class="tag scalar-tag">5th Offense</span><span>Permanent dismissal · documentation · sport coach + athletic director</span></li>
+  </ul>
+</div>
+
+    <!-- S49: Topic 06 — Supplements -->
+    <div class="slide" id="slide-49" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 06 — Discipline, Supplements &amp; Banned Substances</div>
+  <h2>Supplements, Ergogenic Aids & <span class="highlight">Banned Substances</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">NSCA Standard 9.1</div>
+          <div class="cb-line">Must <b>not</b> prescribe, recommend or provide drugs, controlled substances or supplements that are illegal, prohibited or harmful.</div>
+          <div class="cb-line">Only <b>lawful</b> substances scientifically proven beneficial (or at least not harmful) — and only to individuals <b>18+</b> (check state law).</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Your Responsibility</div>
+          <div class="cb-line">Governing bodies differ: NCAA, USOC, MLB, NBA, NFL, NHL.</div>
+          <div class="cb-line">Stay current on rules + scientific evidence.</div>
+          <div class="cb-line">Consult a sports nutritionist or dietitian on supplements.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S50: Topic 07 Divider -->
+    <div class="slide slide-divider" id="slide-50">
+  <div class="topic-num" contenteditable="false">Topic 07</div>
+  <h1>Instruction &amp;<br>Supervision</h1>
+</div>
+
+    <!-- S51: Topic 07 — Instruction -->
+    <div class="slide" id="slide-51" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Instruction & <span class="highlight">Supervision</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Instruction</div>
+          <div class="cb-line">Qualified pro teaches skills safely &amp; corrects athletes.</div>
+          <div class="cb-line">Emphasize <b>technique over weight lifted</b> → ↓ injury, ↓ liability.</div>
+          <div class="cb-line">Methods &amp; progressions consistent with professional guidelines.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Direct Supervision</div>
+          <div class="cb-line">Required for max performance, safety &amp; instruction.</div>
+          <div class="cb-line">Staff see &amp; communicate with athlete and zone.</div>
+          <div class="cb-line">Spotting + safety equipment is critical — esp. free weights on trunk or over face/head.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S52: Topic 07 — Principles of Supervision -->
+    <div class="slide" id="slide-52" style="--fs:1.0">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Principles of <span class="highlight">Supervision</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">Presence</span><span>Always be there</span></li>
+    <li><span class="tag scalar-tag">Hands On</span><span>Be active and hands on</span></li>
+    <li><span class="tag blue-tag">Prepared</span><span>Be prudent, careful, prepared</span></li>
+    <li><span class="tag vector-tag">Qualified</span><span>Be qualified</span></li>
+    <li><span class="tag scalar-tag">Vigilant</span><span>Be vigilant</span></li>
+    <li><span class="tag blue-tag">Inform</span><span>Inform participants of safety &amp; emergency procedures</span></li>
+    <li><span class="tag vector-tag">Health</span><span>Know participants' health status</span></li>
+    <li><span class="tag scalar-tag">Rules</span><span>Monitor &amp; enforce rules</span></li>
+    <li><span class="tag blue-tag">Environment</span><span>Monitor &amp; scrutinize the environment</span></li>
+  </ul>
+</div>
+
+    <!-- S53: Topic 07 — Ratios -->
+    <div class="slide" id="slide-53" style="--fs:1.3">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Staff-to-Athlete <span class="highlight">Ratios</span> (Guideline 3.1)</h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Guideline</div>
+          <div class="cb-line">Plan so qualified staff meet minimums <b>at peak usage</b>:</div>
+          <div class="cb-line">100 ft² per participant · participants per barbell / station · professional-to-participant ratio.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Ratios</div>
+          <div class="cb-line"><b>1:10</b> junior high</div>
+          <div class="cb-line"><b>1:15</b> high school</div>
+          <div class="cb-line"><b>1:20</b> college</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Modify</div>
+          <div class="cb-line">↑ supervision when exercises involve complex movements.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S54: Topic 07 — Supervision Evidence -->
+    <div class="slide" id="slide-54" style="--fs:1.0">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Why <span class="highlight">Supervision</span> Matters</h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Litigation</div>
+          <div class="cb-line">Supervision cited in ~<b>80%</b> of court cases involving athletic injury.</div>
+          <div class="cb-line">Inadequate instruction/supervision is often a main cause.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Practice</div>
+          <div class="cb-line">Constant supervision — physical presence of a qualified pro.</div>
+          <div class="cb-line">Supervisor stations with clear view of facility &amp; athletes.</div>
+          <div class="cb-line">Ratios vary: machine circuit &lt; free weights; low training age → ↑ supervision.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Performance &amp; Travel</div>
+          <div class="cb-line">Strength gains ↑ with lower supervision ratios.</div>
+          <div class="cb-line">Optimal ratio not possible? Keep working toward it.</div>
+          <div class="cb-line">Attend practices/competitions/travel only if it doesn't break facility coach-to-athlete ratio.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S55: Topic 07 — Program Design -->
+    <div class="slide" id="slide-55" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Program <span class="highlight">Design</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Standards</div>
+          <div class="cb-line">Based on scientific principles → ↑ performance + injury resistance, specific to the sport.</div>
+          <div class="cb-line">Intensities within NSCA standards &amp; guidelines.</div>
+          <div class="cb-line">Resources: Chapters 14–21 + NSCA position papers.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Director Oversight</div>
+          <div class="cb-line">Oversees &amp; monitors <b>all</b> performance programs, including reconditioning.</div>
+          <div class="cb-line">Copy of every staff-designed program (exercise list) reviewed &amp; on file in director's office before a team begins.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S56: Topic 07 — Training Sheet -->
+    <div class="slide" id="slide-56" style="--fs:1.25">
+  <div class="topic-label" contenteditable="false">Topic 07 — Instruction &amp; Supervision</div>
+  <h2>Training <span class="highlight">Sheet</span> (Card)</h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Delivery</div>
+          <div class="cb-line">Varies per program; software/apps allow paperless delivery.</div>
+          <div class="cb-line">Choose paper vs paperless: team, space, Wi-Fi &amp; Bluetooth strength.</div>
+          <div class="cb-line">Sessions prearranged → athletes need an <b>approved</b> sheet; extra sessions approved by overseeing pro (intensity + volume-load).</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Staff Rules</div>
+          <div class="cb-line">Know every exercise on every athlete's sheet.</div>
+          <div class="cb-line">Don't advise other exercises unless the director/sports medicine says — and write it down ASAP.</div>
+          <div class="cb-line">Director tells staff how to teach each exercise (plyo, agility, speed too).</div>
+          <div class="cb-line">Foundational exercises seen &amp; checked off by staff.</div>
+          <div class="cb-line">Consistent verbiage across programs.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S57: Topic 08 Divider -->
+    <div class="slide slide-divider" id="slide-57">
+  <div class="topic-num" contenteditable="false">Topic 08</div>
+  <h1>Facility<br>Administration &amp;<br>Staff Policies</h1>
+</div>
+
+    <!-- S58: Topic 08 — At a Glance -->
+    <div class="slide" id="slide-58" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Staff <span class="highlight">Policies & Activities</span></h2>
+  <p class="glance-def" contenteditable="false">Reference only — every facility is unique.</p>
+  <div class="reveal-group" style="display:flex;flex-direction:column;gap:12px;max-width:760px;margin-top:16px;">
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">1</div><div><div class="num-title" style="color:var(--orange);">Orientation Meeting</div><div class="num-sub">Annual, before first use</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--amber);">2</div><div><div class="num-title" style="color:var(--amber);">Reporting &amp; Documentation</div><div class="num-sub">Chain of command, HIPAA, records</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--blue);">3</div><div><div class="num-title" style="color:var(--blue);">Code of Ethics</div><div class="num-sub">Standards of professional conduct</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--green);">4</div><div><div class="num-title" style="color:var(--green);">Scheduling &amp; Opening/Closing</div><div class="num-sub">Who trains when</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">5</div><div><div class="num-title" style="color:var(--orange);">Facility Rules</div><div class="num-sub">Posted &amp; enforced</div></div></div>
+  </div>
+</div>
+
+    <!-- S59: Topic 08 — Orientation -->
+    <div class="slide" id="slide-59" style="--fs:1.35">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Orientation <span class="highlight">Meeting</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">When &amp; Who</div>
+          <div class="cb-line">Start of school year or season — athletes &amp; sport coaches, before first facility use.</div>
+          <div class="cb-line">Director gives phone numbers of facility &amp; staff.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Cover</div>
+          <div class="cb-line">Staff services: goals, objectives, mission.</div>
+          <div class="cb-line">Hours, team training schedule.</div>
+          <div class="cb-line">Facility rules, disciplinary actions, emergency procedures.</div>
+          <div class="cb-line">Preparticipation + eligibility requirements.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Strength Training Orientation</div>
+          <div class="cb-line">Proper equipment use, spotting techniques, correct exercise execution, common risks of incorrect or inattentive technique/spotting.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S60: Topic 08 — Reporting -->
+    <div class="slide" id="slide-60" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Reporting & <span class="highlight">Documentation</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Chain of Command</div>
+          <div class="cb-line">For emergencies &amp; incidents: coaches, S&amp;C director, sports medicine, athletic director.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Privacy</div>
+          <div class="cb-line">Protect confidentiality of participants.</div>
+          <div class="cb-line"><b>HIPAA</b>: no release of health care info (incl. injury reports from sports medicine) without written authorization.</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Injury</div>
+          <div class="cb-line">Complete &amp; keep an <b>incident–injury report form</b> on file when an injury occurs.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S61: Topic 08 — Additional Records -->
+    <div class="slide" id="slide-61" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Additional <span class="highlight">Records</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">People</span><span>Personnel credentials · professional standards &amp; guidelines</span></li>
+    <li><span class="tag scalar-tag">Safety</span><span>Policies &amp; procedures for operation and safety (written emergency plan)</span></li>
+    <li><span class="tag blue-tag">Equipment</span><span>Manuals, warranties, operating guidelines, installation, setup · inspection, maintenance, cleaning, repair</span></li>
+    <li><span class="tag vector-tag">Clearance</span><span>Preparticipation medical clearance · return-to-participation clearance</span></li>
+    <li><span class="tag scalar-tag">Legal</span><span>Informed consent · waiver of claim · personal contract</span></li>
+    <li><span class="tag blue-tag">Training</span><span>Training logs, evaluation entries, instruction notes</span></li>
+  </ul>
+</div>
+
+    <!-- S62: Topic 08 — Code of Ethics -->
+    <div class="slide" id="slide-62" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Code of <span class="highlight">Ethics</span> & Professionalism</h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Definition</div>
+          <div class="cb-line">Standards &amp; principles a professional is held accountable to.</div>
+          <div class="cb-line">Establish professionalism &amp; high ethical standards; protect rights &amp; dignity of individuals.</div>
+          <div class="cb-line">Familiarize with NSCA Code of Ethics + institution's staff/athlete code.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Typical Content</div>
+          <div class="cb-line">Athlete welfare = primary focus.</div>
+          <div class="cb-line">Bullying, hazing, social media.</div>
+          <div class="cb-line">Dress code, phone use, personal workouts, personal use of equipment.</div>
+          <div class="cb-line">Coach–athlete, coach–intern, coach–sport coach relationships; athlete conduct.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S63: Topic 08 — Scheduling -->
+    <div class="slide" id="slide-63" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Scheduling & <span class="highlight">Facility Use</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Principles</div>
+          <div class="cb-line">Equipment &amp; size of facility/team = logistical challenge.</div>
+          <div class="cb-line">Choose a format serving the <b>most athletes</b>; max athletes within proper supervision ratio.</div>
+          <div class="cb-line"><b>In-season</b> teams get priority over off-season (schedule follows practice &amp; games).</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Off-Season Options</div>
+          <div class="cb-line">MWF format → in-season teams use Tue/Thu.</div>
+          <div class="cb-line">Friday competition conflict → some off-season Mon-Tue-Thu, some Tue-Thu-Fri.</div>
+          <div class="cb-line">Off-season in typical afternoon practice times or early morning.</div>
+          <div class="cb-line">In-season early/late to ↓ crowding.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S64: Topic 08 — Opening & Closing -->
+    <div class="slide" id="slide-64" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Opening & <span class="highlight">Closing Procedures</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Basis</div>
+          <div class="cb-line">Daily operations, inspection &amp; cleaning of the facility.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Consider Designating</div>
+          <div class="cb-line">Holidays &amp; institutional academic calendar.</div>
+          <div class="cb-line">Stereo/music use · office hours · storage · staff locker room activities.</div>
+          <div class="cb-line">Written principles → ↑ efficiency + program effectiveness.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S65: Topic 08 — Rules I: Safety -->
+    <div class="slide" id="slide-65" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Facility Rules <span class="highlight">I: Safety</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Before &amp; During</div>
+          <div class="cb-line">Screening &amp; clearance first; orientation on risks, technique, consequences.</div>
+          <div class="cb-line">Have &amp; record a training program.</div>
+          <div class="cb-line">Injured athlete → modified program from sports medicine.</div>
+          <div class="cb-line">Spotters for bar on back/front shoulders or over face/head. Power exercises are not spotted.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Equipment</div>
+          <div class="cb-line">Locks on all barbell ends.</div>
+          <div class="cb-line">No squatting outside the rack.</div>
+          <div class="cb-line">Bumper plates on platforms for power exercises.</div>
+          <div class="cb-line">No belts contacting upholstery.</div>
+          <div class="cb-line">Move weights rack→bar only; no plates on floor/leaned; return dumbbells in order; no dropping/throwing.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S66: Topic 08 — Rules II: Conduct -->
+    <div class="slide" id="slide-66" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Facility Rules <span class="highlight">II: Conduct</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Behavior</div>
+          <div class="cb-line">Respect equipment; spitting/defacing → expulsion.</div>
+          <div class="cb-line">No horseplay, loud/offensive language, tantrums.</div>
+          <div class="cb-line">Staff offices &amp; phones off limits.</div>
+          <div class="cb-line">Report injuries/equipment irregularities immediately.</div>
+          <div class="cb-line">Supervisors have authority — may expel for non-compliance.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Attire &amp; Environment</div>
+          <div class="cb-line">Shirts and athletic shoes always.</div>
+          <div class="cb-line">No loose jewelry/watches.</div>
+          <div class="cb-line">Feet off walls; minimize chalk.</div>
+          <div class="cb-line">No tobacco, food, gum, glass, cans, alcohol, drugs, banned substances (plastic water bottles OK).</div>
+          <div class="cb-line">Supervisors not responsible for belongings.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S67: Topic 08 — Rules III: Access -->
+    <div class="slide" id="slide-67" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 08 — Facility Administration &amp; Staff Policies</div>
+  <h2>Facility Rules <span class="highlight">III: Access</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Who May Use</div>
+          <div class="cb-line">Guests/visitors report to office, sign waiver.</div>
+          <div class="cb-line">Former athletes: program preapproved by staff + waiver.</div>
+          <div class="cb-line">Athletic dept personnel: personal training if no interference.</div>
+          <div class="cb-line">Non-athletic dept: director permission + waiver (students, guests, staff, faculty, former athletes, family, visiting teams).</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Equipment</div>
+          <div class="cb-line">Equipment leaving the room is checked out by supervisor &amp; recorded at the supervisor's desk.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S68: Topic 09 Divider -->
+    <div class="slide slide-divider" id="slide-68">
+  <div class="topic-num" contenteditable="false">Topic 09</div>
+  <h1>Emergency<br>Planning &amp;<br>Response</h1>
+</div>
+
+    <!-- S69: Topic 09 — EAP -->
+    <div class="slide" id="slide-69" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 09 — Emergency Planning &amp; Response</div>
+  <h2>Emergency <span class="highlight">Action Plan</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Principles</div>
+          <div class="cb-line">Standard of care = shared responsibility: medical personnel, S&amp;C, administrators, institution.</div>
+          <div class="cb-line"><b>Life safety first.</b></div>
+          <div class="cb-line">Plan for environmental, life-threatening and non-life-threatening situations.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">EAP</div>
+          <div class="cb-line">Written document detailing proper procedures for caring for injuries.</div>
+          <div class="cb-line"><b>All</b> personnel must know it.</div>
+          <div class="cb-line">Post visibly; maintain first aid + CPR; <b>practice at least quarterly</b>.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S70: Topic 09 — EAP Components -->
+    <div class="slide" id="slide-70" style="--fs:1.25">
+  <div class="topic-label" contenteditable="false">Topic 09 — Emergency Planning &amp; Response</div>
+  <h2>EAP <span class="highlight">Components</span></h2>
+  <ul class="examples-list reveal-group" contenteditable="false">
+    <li><span class="tag vector-tag">EMS</span><span>EMS activation procedures</span></li>
+    <li><span class="tag scalar-tag">Contacts</span><span>Names &amp; phones: primary, secondary, tertiary</span></li>
+    <li><span class="tag blue-tag">Address</span><span>Specific facility address (to direct EMS)</span></li>
+    <li><span class="tag vector-tag">Phones</span><span>Locations of telephones &amp; nearest exits</span></li>
+    <li><span class="tag scalar-tag">Personnel</span><span>Designated personnel qualified to care for injuries (sports medicine)</span></li>
+    <li><span class="tag blue-tag">Ambulance</span><span>Ambulance access</span></li>
+    <li><span class="tag vector-tag">Supplies</span><span>Emergency supplies, first aid kit, AED</span></li>
+    <li><span class="tag scalar-tag">Other</span><span>Plans for fire, tornado, life-threatening injury, crime, terrorism</span></li>
+  </ul>
+</div>
+
+    <!-- S71: Topic 09 — Personnel, Communication, Equipment -->
+    <div class="slide" id="slide-71" style="--fs:1.0">
+  <div class="topic-label" contenteditable="false">Topic 09 — Emergency Planning &amp; Response</div>
+  <h2>Personnel, Communication & <span class="highlight">Equipment</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Personnel</div>
+          <div class="cb-line">Plan medical coverage; access (immediate/planned) to a physician.</div>
+          <div class="cb-line">Staff = first responders: first aid, CPR, AED certified.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Communication</div>
+          <div class="cb-line">Direct line + <b>backup plan</b>.</div>
+          <div class="cb-line">Landline or cellular if medical staff are off-site.</div>
+          <div class="cb-line">Everyone knows the closest workable phone (inside or outside).</div>
+        </div>
+        <div class="card c3 reveal-group full">
+          <div class="ct no-step">Equipment</div>
+          <div class="cb-line">Readily available; trained in advance (first aid, CPR, AED).</div>
+          <div class="cb-line">First responders rehearse periodically.</div>
+          <div class="cb-line">Participant emergency info accessible to medical personnel.</div>
+        </div>
+      </div>
+</div>
+
+    <!-- S72: Topic 09 — Roles -->
+    <div class="slide" id="slide-72" style="--fs:1.4">
+  <div class="topic-label" contenteditable="false">Topic 09 — Emergency Planning &amp; Response</div>
+  <h2>Four Emergency <span class="highlight">Roles</span></h2>
+  <p class="glance-def" contenteditable="false">Develop a plan specific to your setting — list names, titles, phones.</p>
+  <div class="reveal-group" style="display:flex;flex-direction:column;gap:16px;max-width:720px;margin-top:16px;">
+        <div class="num-row"><div class="num-circle" style="background:var(--orange);">1</div><div><div class="num-title" style="color:var(--orange);">Immediate Care</div><div class="num-sub">Time is the most critical factor</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--amber);">2</div><div><div class="num-title" style="color:var(--amber);">Equipment Retrieval</div><div class="num-sub">Users know types &amp; locations</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--blue);">3</div><div><div class="num-title" style="color:var(--blue);">Activate EMS</div><div class="num-sub">Direct line if transport not on site</div></div></div>
+        <div class="num-row"><div class="num-circle" style="background:var(--green);">4</div><div><div class="num-title" style="color:var(--green);">Direct EMS</div><div class="num-sub">Caller knows location (from orientation); clear route in/out</div></div></div>
+  </div>
+</div>
+
+    <!-- S73: Topic 09 — Protocols -->
+    <div class="slide" id="slide-73" style="--fs:1.05">
+  <div class="topic-label" contenteditable="false">Topic 09 — Emergency Planning &amp; Response</div>
+  <h2>Emergency <span class="highlight">Protocol</span></h2>
+  <div class="card-row reveal-group">
+        <div class="card vector reveal-group">
+          <div class="ct no-step">Fire</div>
+          <div class="cb-line">1. Activate fire alarm.</div>
+          <div class="cb-line">2. Evacuate the building.</div>
+        </div>
+        <div class="card scalar reveal-group">
+          <div class="ct no-step">Life-Threatening</div>
+          <div class="cb-line">1. Call 911.</div>
+          <div class="cb-line">2. Don't move victim.</div>
+          <div class="cb-line">3. If conscious, ask permission for first aid.</div>
+          <div class="cb-line">4. CPR/AED if needed.</div>
+          <div class="cb-line">5. Stay until help arrives.</div>
+          <div class="cb-line">6. Communication plan.</div>
+          <div class="cb-line">7. Injury report.</div>
+        </div>
+        <div class="card c3 reveal-group">
+          <div class="ct no-step">Environmental</div>
+          <div class="cb-line">1. Alarm; safe location.</div>
+          <div class="cb-line">2. Call 911 if needed.</div>
+          <div class="cb-line">3. Account for all.</div>
+          <div class="cb-line">4. Communication plan.</div>
+          <div class="cb-line">5. Injury report.</div>
+        </div>
+        <div class="card c4 reveal-group">
+          <div class="ct no-step">Non-Life-Threatening</div>
+          <div class="cb-line">1. First aid.</div>
+          <div class="cb-line">2. Call 911 if necessary.</div>
+          <div class="cb-line">3. Communication plan.</div>
+          <div class="cb-line">4. Injury report.</div>
+        </div>
+      </div>
+</div>
+
+  </div>
+  <div class="nav"><button onclick="prevSlide()">&larr; PREV</button><button onclick="nextSlide()">NEXT &rarr;</button></div>
+  <div class="dots" id="dots"></div>
+<script>
+    let editMode = false;
+    function toggleEdit() {
+      editMode = !editMode;
+      document.querySelectorAll('[contenteditable]').forEach(el => { el.contentEditable = editMode ? 'true' : 'false'; });
+      const btn = document.getElementById('editBtn');
+      btn.textContent = editMode ? '✏ Edit Mode: ON' : '✏ Edit Mode: OFF';
+      btn.classList.toggle('active', editMode);
+    }
+    let current = 1;
+    const total = 73;
+    const revealedCount = {};
+    const stepsCache = {};
+    function computeSteps(container) {
+      let steps = [];
+      [...container.children].forEach(child => {
+        if (child.classList.contains('no-step')) return;
+        if (child.classList.contains('reveal-group')) steps = steps.concat(computeSteps(child));
+        else steps.push(child);
+      });
+      return steps;
+    }
+    function getSteps(n) {
+      if (!stepsCache[n]) {
+        const steps = computeSteps(document.getElementById('slide-' + n));
+        steps.forEach(el => el.classList.add('reveal-target'));
+        stepsCache[n] = steps;
+      }
+      return stepsCache[n];
+    }
+    function initSlideReveal(n) {
+      const steps = getSteps(n);
+      steps.forEach((el, idx) => el.classList.toggle('revealed', idx < 2));
+      revealedCount[n] = Math.min(2, steps.length);
+    }
+    function revealAllInSlide(n) {
+      const steps = getSteps(n);
+      steps.forEach(el => el.classList.add('revealed'));
+      revealedCount[n] = steps.length;
+    }
+    function revealNextInSlide(n) {
+      const steps = getSteps(n);
+      if (revealedCount[n] === undefined) revealedCount[n] = Math.min(2, steps.length);
+      if (revealedCount[n] < steps.length) {
+        steps[revealedCount[n]].classList.add('revealed');
+        revealedCount[n]++;
+        return true;
+      }
+      return false;
+    }
+    function goTo(n, mode) {
+      document.getElementById('slide-' + current).classList.remove('active');
+      document.getElementById('dot-' + current).classList.remove('active');
+      current = n;
+      document.getElementById('slide-' + current).classList.add('active');
+      document.getElementById('dot-' + current).classList.add('active');
+      document.getElementById('counter').textContent = String(current).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+      if (mode === 'full') revealAllInSlide(current); else initSlideReveal(current);
+      updateContentsHighlight();
+    }
+    function nextSlide() {
+      if (revealNextInSlide(current)) return;
+      if (current < total) goTo(current + 1, 'step');
+    }
+    function prevSlide() { if (current > 1) goTo(current - 1, 'full'); }
+    document.addEventListener('keydown', e => {
+      if (editMode) return;
+      if (e.key === 'Escape') { closeContents(); return; }
+      if (document.getElementById('contentsPanel').classList.contains('open')) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevSlide();
+    });
+    const dotsEl = document.getElementById('dots');
+    for (let i = 1; i <= total; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 1 ? ' active' : '');
+      d.id = 'dot-' + i;
+      d.onclick = () => goTo(i, 'full');
+      dotsEl.appendChild(d);
+    }
+    const topics = [
+      { num: '01', title: 'Mission Statement & Program Goals', slide: 2 },
+      { num: '02', title: 'S&C Performance Team', slide: 9 },
+      { num: '03', title: 'Legal & Ethical Issues', slide: 18 },
+      { num: '04', title: 'Screening, Clearance & Eligibility', slide: 32 },
+      { num: '05', title: 'Record Keeping, Insurance & Product Liability', slide: 39 },
+      { num: '06', title: 'Discipline, Supplements & Banned Substances', slide: 46 },
+      { num: '07', title: 'Instruction & Supervision', slide: 50 },
+      { num: '08', title: 'Facility Administration & Staff Policies', slide: 57 },
+      { num: '09', title: 'Emergency Planning & Response', slide: 68 }
+    ];
+    const contentsListEl = document.getElementById('contentsList');
+    topics.forEach((t, idx) => {
+      const row = document.createElement('div');
+      row.className = 'contents-row';
+      row.id = 'contents-row-' + idx;
+      row.innerHTML = '<div class="contents-num">' + t.num + '</div><div class="contents-title">' + t.title.replace(/&/g,'&amp;') + '</div>';
+      row.onclick = () => { goTo(t.slide, 'full'); closeContents(); };
+      contentsListEl.appendChild(row);
+    });
+    function updateContentsHighlight() {
+      let activeIdx = 0;
+      topics.forEach((t, idx) => { if (current >= t.slide) activeIdx = idx; });
+      topics.forEach((t, idx) => {
+        const row = document.getElementById('contents-row-' + idx);
+        if (row) row.classList.toggle('active', idx === activeIdx);
+      });
+    }
+    function openContents() {
+      updateContentsHighlight();
+      document.getElementById('contentsPanel').classList.add('open');
+      document.getElementById('contentsOverlay').classList.add('open');
+      const activeRow = document.querySelector('.contents-row.active');
+      if (activeRow) activeRow.scrollIntoView({ block: 'center' });
+    }
+    function closeContents() {
+      document.getElementById('contentsPanel').classList.remove('open');
+      document.getElementById('contentsOverlay').classList.remove('open');
+    }
+    function toggleContents() {
+      document.getElementById('contentsPanel').classList.contains('open') ? closeContents() : openContents();
+    }
+    initSlideReveal(1);
+    updateContentsHighlight();
+
+</script>
+</body>
+</html>
