@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Prep — Batch Orientation</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F4511E;
+    --amber:  #FFB347;
+    --blue:   #66aaff;
+    --green:  #4CAF50;
+    --dark:   #0F0F0F;
+    --dark2:  #1A1A1A;
+    --dark3:  #242424;
+    --white:  #FFFFFF;
+    --grey:   #AAAAAA;
+    --light-grey: #CCCCCC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 90px 60px 110px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  /* ---------- CHROME ---------- */
+  .brand-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 5px; background: var(--orange); z-index: 100;
+  }
+  .top-left-group {
+    position: fixed; top: 16px; left: 30px; z-index: 100;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 25.2px; color: var(--orange);
+    letter-spacing: 2px; transition: color .3s;
+  }
+  .logo span { color: var(--white); }
+  body.on-divider .logo { color: var(--white); }
+  body.on-divider .logo span { color: rgba(255,255,255,.65); }
+  body.on-divider .counter { color: rgba(255,255,255,.8); }
+  body.on-divider .dot { background: rgba(0,0,0,.3); }
+  body.on-divider .dot.active { background: var(--white); }
+
+  .counter {
+    position: fixed; top: 22px; right: 30px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; color: var(--grey); letter-spacing: 2px; z-index: 100;
+  }
+
+  .edit-toggle {
+    position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+    z-index: 200; display: flex; align-items: center; gap: 10px;
+  }
+  .edit-btn {
+    background: var(--dark3); border: 1px solid #333; color: var(--grey);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 600;
+    letter-spacing: 2px; padding: 6px 16px; cursor: pointer;
+    transition: all 0.2s; text-transform: uppercase;
+  }
+  .edit-btn.active { background: var(--orange); border-color: var(--orange); color: white; }
+  [contenteditable="true"] { outline: none; border-bottom: 1px dashed var(--orange); cursor: text; user-select: text; }
+  [contenteditable="false"] { border-bottom: none; cursor: default; }
+
+  .nav {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 16px; z-index: 100;
+  }
+  .nav button {
+    background: var(--dark3); border: 1px solid #333; color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600;
+    letter-spacing: 2px; padding: 10px 28px; cursor: pointer; transition: all 0.2s;
+  }
+  .nav button:hover { background: var(--orange); border-color: var(--orange); }
+
+  .dots {
+    position: fixed; bottom: 36px; right: 30px;
+    display: flex; gap: 8px; z-index: 100;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #333; transition: background 0.3s; cursor: pointer; }
+  .dot.active { background: var(--orange); }
+
+  /* ---------- CONTENTS DRAWER ---------- */
+  .contents-btn {
+    display: flex; align-items: center; gap: 9px;
+    background: var(--dark3); border: 1px solid #333; border-radius: 6px;
+    color: var(--white); font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 8px 16px; cursor: pointer; transition: all 0.2s;
+  }
+  .contents-btn:hover { background: var(--dark2); border-color: var(--orange); }
+  .contents-btn .hamburger { display: flex; flex-direction: column; gap: 3px; }
+  .contents-btn .hamburger span { width: 16px; height: 2px; background: var(--white); display: block; }
+  .contents-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 300;
+  }
+  .contents-overlay.open { opacity: 1; pointer-events: all; }
+  .contents-panel {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 420px; max-width: 86vw;
+    background: var(--dark2); border-right: 1px solid #2a2a2a;
+    transform: translateX(-100%); transition: transform 0.35s ease;
+    z-index: 301; overflow-y: auto; padding: 36px 0;
+  }
+  .contents-panel.open { transform: translateX(0); }
+  .contents-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px 24px; border-bottom: 1px solid #2a2a2a;
+  }
+  .contents-header h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 34px;
+    color: var(--white); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .contents-close { background: none; border: none; color: var(--grey); font-size: 26px; cursor: pointer; line-height: 1; padding: 4px; transition: color 0.2s; }
+  .contents-close:hover { color: var(--white); }
+  .contents-jump-label {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 12px;
+    letter-spacing: 4px; color: var(--orange); text-transform: uppercase; padding: 22px 32px 10px;
+  }
+  .contents-row {
+    display: flex; align-items: center; gap: 20px;
+    padding: 16px 32px; cursor: pointer; border-bottom: 1px solid #232323; transition: background 0.15s;
+  }
+  .contents-row:hover { background: var(--dark3); }
+  .contents-row.active { background: #241813; }
+  .contents-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; color: var(--grey); min-width: 26px; flex-shrink: 0; }
+  .contents-row.active .contents-num { color: var(--orange); }
+  .contents-title { font-family: 'Barlow', sans-serif; font-weight: 400; font-size: 17px; color: var(--light-grey); }
+  .contents-row.active .contents-title { font-weight: 700; color: var(--white); }
+
+  /* ---------- CLICK-TO-REVEAL ---------- */
+  .slide.active .reveal-target {
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .slide.active .reveal-target.revealed { opacity: 1; transform: translateY(0); }
+
+  /* ---------- TYPOGRAPHY (+40% baseline) ---------- */
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: clamp(78.4px, 11.2vw, 134.4px);
+    line-height: 0.9; text-transform: uppercase; letter-spacing: -1px; text-align: center;
+  }
+  h1 .highlight, h2 .highlight { color: var(--orange); }
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: clamp(42px, 5.3vw, 75.6px);
+    text-transform: uppercase; letter-spacing: 1px; text-align: center; line-height: 1;
+  }
+  .topic-label {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 22.4px; font-weight: 600;
+    letter-spacing: 4px; color: var(--orange); text-transform: uppercase; margin-bottom: 14px;
+    text-align: center;
+  }
+  .subtitle {
+    font-size: 25.2px; color: var(--grey); font-weight: 300;
+    margin-top: 8px; line-height: 1.35; max-width: 900px; text-align: center;
+  }
+
+  /* ---------- TITLE SLIDE ---------- */
+  .slide-title .bg-number {
+    position: absolute; font-family: 'Barlow Condensed', sans-serif; font-weight: 900;
+    font-size: 400px; color: #ffffff05; bottom: -60px; right: -20px; line-height: 1; pointer-events: none;
+  }
+  .slide-title h1 { margin-top: 6px; }
+  .slide-title .subtitle { margin-top: 22px; }
+
+  /* ---------- DIVIDER SLIDE ---------- */
+  .slide-divider { background: var(--orange); }
+  .slide-divider h1 {
+    font-size: clamp(72.8px, 11.2vw, 140px); line-height: 0.85; color: white;
+  }
+  .slide-divider .topic-num {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 22.4px; font-weight: 600;
+    letter-spacing: 6px; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .slide-divider .topic-sub {
+    font-size: 25.2px; color: rgba(255,255,255,0.85); margin-top: 22px;
+    font-weight: 300; text-align: center; max-width: 760px; line-height: 1.35;
+  }
+
+  /* ---------- CARDS ---------- */
+  .card-row { display: flex; gap: 24px; margin-top: 36px; width: 100%; max-width: 1640px; align-items: stretch; }
+  .card {
+    flex: 1; background: var(--dark2); border: 1px solid #2a2a2a; border-radius: 4px;
+    padding: 34px 30px 32px; position: relative; overflow: hidden;
+    opacity: 0; transition: opacity .4s ease;
+  }
+  .card:has(.reveal-target.revealed) { opacity: 1; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .orange-card::before { background: var(--orange); }
+  .amber-card::before  { background: var(--amber); }
+  .blue-card::before   { background: var(--blue); }
+  .green-card::before  { background: var(--green); }
+  .ct {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 33.6px;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; line-height: 1.05;
+  }
+  .orange-card .ct { color: var(--orange); }
+  .amber-card .ct  { color: var(--amber); }
+  .blue-card .ct   { color: var(--blue); }
+  .green-card .ct  { color: var(--green); }
+  .cb-line {
+    display: block; font-family: 'Barlow', sans-serif; font-weight: 400;
+    font-size: 26.6px; line-height: 1.3; color: var(--light-grey);
+  }
+  .cb-line:not(:first-child) { margin-top: 12px; }
+  .cb-line strong { color: var(--white); font-weight: 600; }
+  .cb-line.big {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 96px;
+    line-height: 1; color: var(--white); letter-spacing: 1px; margin-top: 4px;
+  }
+  .cb-line.big small { font-size: 40px; font-weight: 700; color: var(--grey); letter-spacing: 2px; }
+
+  /* ---------- CALLOUT / TAKEAWAY ---------- */
+  .callout {
+    background: var(--dark2); border-left: 4px solid var(--orange); border-radius: 0 4px 4px 0;
+    padding: 16px 22px; margin-top: 20px; width: 100%; max-width: 1640px;
+    font-size: 23.8px; line-height: 1.4; color: var(--light-grey);
+  }
+  .callout strong { color: var(--white); font-weight: 600; }
+  .takeaway {
+    background: var(--orange); border-radius: 4px; padding: 18px 32px;
+    max-width: 1000px; width: 100%; margin-top: 28px; text-align: center;
+  }
+  .takeaway p { font-size: 30.8px; font-weight: 500; line-height: 1.35; color: var(--white); }
+  .takeaway strong { font-weight: 700; }
+
+  /* ---------- BULLETS ---------- */
+  .bullet-list { display: flex; flex-direction: column; gap: 22px; margin-top: 26px; width: 100%; max-width: 1100px; }
+  .bullet { display: flex; align-items: flex-start; gap: 24px; }
+  .bullet-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 22px; }
+  .bullet-title {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 56px;
+    text-transform: uppercase; letter-spacing: 1px; line-height: 1.05;
+  }
+  .bullet-sub { font-family: 'Barlow', sans-serif; font-size: 26.6px; color: var(--grey); margin-top: 4px; line-height: 1.3; }
+
+  /* ---------- CHAIN ---------- */
+  .chain {
+    display: flex; align-items: stretch; justify-content: center; gap: 14px;
+    margin-top: 26px; width: 100%; max-width: 1640px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 31px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .chain-node {
+    flex: 1; background: var(--dark2); border: 1px solid #2a2a2a; border-top: 3px solid var(--orange);
+    border-radius: 4px; padding: 20px 18px; text-align: center; line-height: 1.1;
+    display: flex; align-items: center; justify-content: center; color: var(--white);
+  }
+  .chain-node:nth-child(3) { border-top-color: var(--amber); }
+  .chain-node:nth-child(5) { border-top-color: var(--blue); }
+  .chain-node:nth-child(7) { border-top-color: var(--grey); }
+  .chain .arrow { display: flex; align-items: center; color: var(--orange); font-size: 36px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="brand-bar"></div>
+  <div class="top-left-group">
+    <div class="logo">CSCS<span>PREP</span></div>
+    <button class="contents-btn" onclick="toggleContents()">
+      <span class="hamburger"><span></span><span></span><span></span></span>
+      Contents
+    </button>
+  </div>
+  <div class="counter" id="counter">01 / 18</div>
+  <div class="edit-toggle">
+    <button class="edit-btn" id="editBtn" onclick="toggleEdit()">✏ Edit Mode: OFF</button>
+  </div>
+
+  <div class="contents-overlay" id="contentsOverlay" onclick="closeContents()"></div>
+  <div class="contents-panel" id="contentsPanel">
+    <div class="contents-header">
+      <h3>Contents</h3>
+      <button class="contents-close" onclick="closeContents()">✕</button>
+    </div>
+    <div class="contents-jump-label">Jump to Section</div>
+    <div id="contentsList"></div>
+  </div>
+
+  <div class="deck">
+
+    <!-- S1: Title -->
+    <div class="slide slide-title active" id="slide-1">
+      <div class="bg-number no-step">01</div>
+      <h1>Welcome to<br><span class="highlight">CSCS Fast Track</span></h1>
+      <p class="subtitle">Everything you need to know before we begin</p>
+    </div>
+
+    <!-- S2: Topic Divider — How the course flows -->
+    <div class="slide slide-divider" id="slide-2">
+      <div class="topic-num">Topic 01</div>
+      <h1>How the<br>course<br>flows</h1>
+    </div>
+
+    <!-- S3: Course flow — three phases -->
+    <div class="slide" id="slide-3">
+      <div class="topic-label">Topic 01 — How the course flows</div>
+      <h2>The <span class="highlight">16-week</span> journey</h2>
+      <div class="card-row reveal-group">
+        <div class="card orange-card reveal-group">
+          <div class="ct no-step">Weeks 1–13 · Learn</div>
+          <div class="cb-line"><strong>2 chapters / week.</strong></div>
+          <div class="cb-line">Starts next week.</div>
+        </div>
+        <div class="card amber-card reveal-group">
+          <div class="ct no-step">Weeks 14–16 · Project</div>
+          <div class="cb-line"><strong>3 weeks of project work.</strong></div>
+          <div class="cb-line">Revision runs alongside.</div>
+        </div>
+        <div class="card blue-card reveal-group">
+          <div class="ct no-step">Then · Mocks + Exam</div>
+          <div class="cb-line"><strong>Ready → mock simulations.</strong></div>
+          <div class="cb-line">Then → the exam.</div>
+        </div>
+      </div>
+      <div class="callout">2 chapters/week × 13 weeks = <strong>26 chapters</strong>. &nbsp;13 + 3 = <strong>16 weeks</strong>.</div>
+    </div>
+
+    <!-- S4: Topic Divider — Live sessions -->
+    <div class="slide slide-divider" id="slide-4">
+      <div class="topic-num">Topic 02</div>
+      <h1>Live<br>sessions</h1>
+    </div>
+
+    <!-- S5: Session schedule -->
+    <div class="slide" id="slide-5">
+      <div class="topic-label">Topic 02 — Live sessions</div>
+      <h2>We meet <span class="highlight">Thursday + Friday</span></h2>
+      <div class="card-row reveal-group" style="max-width:1200px;">
+        <div class="card orange-card reveal-group">
+          <div class="ct no-step">Thursday</div>
+          <div class="cb-line big">1–3 <small>PM</small></div>
+        </div>
+        <div class="card amber-card reveal-group">
+          <div class="ct no-step">Friday</div>
+          <div class="cb-line big">1–3 <small>PM</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6: Recordings -->
+    <div class="slide" id="slide-6">
+      <div class="topic-label">Topic 02 — Live sessions</div>
+      <h2>Missed a session? <span class="highlight">Catch the recording</span></h2>
+      <div class="card-row reveal-group" style="max-width:900px;">
+        <div class="card blue-card reveal-group">
+          <div class="ct no-step">Recording available within</div>
+          <div class="cb-line big">24 <small>HOURS</small></div>
+          <div class="cb-line">Maximum.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7: Topic Divider — Who succeeds -->
+    <div class="slide slide-divider" id="slide-7">
+      <div class="topic-num">Topic 03</div>
+      <h1>Who<br>succeeds</h1>
+    </div>
+
+    <!-- S8: Who succeeds — bullets -->
+    <div class="slide" id="slide-8">
+      <div class="topic-label">Topic 03 — Who succeeds</div>
+      <h2>The students who <span class="highlight">succeed</span></h2>
+      <div class="bullet-list reveal-group">
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--orange);"></div>
+          <div><div class="bullet-title" style="color:var(--orange);">Take action</div></div>
+        </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--amber);"></div>
+          <div><div class="bullet-title" style="color:var(--amber);">Stay consistent</div></div>
+        </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--blue);"></div>
+          <div><div class="bullet-title" style="color:var(--blue);">Stay in communication</div></div>
+        </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--green);"></div>
+          <div>
+            <div class="bullet-title" style="color:var(--green);">Stay curious</div>
+            <div class="bullet-sub">Apply concepts as you learn them.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9: Topic Divider — After the CSCS -->
+    <div class="slide slide-divider" id="slide-9">
+      <div class="topic-num">Topic 04</div>
+      <h1>After<br>the CSCS</h1>
+    </div>
+
+    <!-- S10: After the CSCS — teaser -->
+    <div class="slide" id="slide-10">
+      <div class="topic-label">Topic 04 — After the CSCS</div>
+      <h2>When you <span class="highlight">complete</span> the CSCS</h2>
+      <div class="takeaway">
+        <p>There are a few <strong>surprises</strong> waiting.</p>
+      </div>
+    </div>
+
+    <!-- S11: Topic Divider — Content access -->
+    <div class="slide slide-divider" id="slide-11">
+      <div class="topic-num">Topic 05</div>
+      <h1>Content<br>access</h1>
+    </div>
+
+    <!-- S12: Content access duration -->
+    <div class="slide" id="slide-12">
+      <div class="topic-label">Topic 05 — Content access</div>
+      <h2>All course content, <span class="highlight">for the duration</span></h2>
+      <div class="card-row reveal-group" style="max-width:1300px;">
+        <div class="card orange-card reveal-group">
+          <div class="ct no-step">1 year</div>
+          <div class="cb-line">From the time of onboarding.</div>
+        </div>
+        <div class="card amber-card reveal-group">
+          <div class="ct no-step">Or: until you clear the CSCS</div>
+          <div class="cb-line">Access ends when you pass.</div>
+        </div>
+      </div>
+      <div class="takeaway">
+        <p>Whichever is <strong>earlier.</strong></p>
+      </div>
+    </div>
+
+    <!-- S13: Topic Divider — Content privacy -->
+    <div class="slide slide-divider" id="slide-13">
+      <div class="topic-num">Topic 06</div>
+      <h1>Content<br>privacy</h1>
+    </div>
+
+    <!-- S14: Privacy — paid vs not paid -->
+    <div class="slide" id="slide-14">
+      <div class="topic-label">Topic 06 — Content privacy</div>
+      <h2>You paid. <span class="highlight">The access is yours.</span></h2>
+      <div class="card-row reveal-group" style="max-width:1400px;">
+        <div class="card orange-card reveal-group">
+          <div class="ct no-step">You paid</div>
+          <div class="cb-line">You have the right to access this content.</div>
+        </div>
+        <div class="card blue-card reveal-group">
+          <div class="ct no-step">Someone who didn't</div>
+          <div class="cb-line">Their access dilutes the purpose of the course.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S15: Privacy — IP tracking -->
+    <div class="slide" id="slide-15">
+      <div class="topic-label">Topic 06 — Content privacy</div>
+      <h2>IPs are <span class="highlight">tracked</span></h2>
+      <div class="chain">
+        <div class="chain-node">Too many IPs</div>
+        <div class="arrow">→</div>
+        <div class="chain-node">Threshold crossed</div>
+        <div class="arrow">→</div>
+        <div class="chain-node">Account auto-freezes</div>
+        <div class="arrow">→</div>
+        <div class="chain-node">Restored from back end only</div>
+      </div>
+      <div class="takeaway">
+        <p>Access it <strong>for yourself only.</strong></p>
+      </div>
+    </div>
+
+    <!-- S16: Topic Divider — Support & communication -->
+    <div class="slide slide-divider" id="slide-16">
+      <div class="topic-num">Topic 07</div>
+      <h1>Support &amp;<br>communication</h1>
+    </div>
+
+    <!-- S17: Support & communication -->
+    <div class="slide" id="slide-17">
+      <div class="topic-label">Topic 07 — Support &amp; communication</div>
+      <h2>Where to <span class="highlight">ask</span></h2>
+      <div class="card-row reveal-group">
+        <div class="card orange-card reveal-group">
+          <div class="ct no-step">In live sessions</div>
+          <div class="cb-line">Q&amp;A runs intermittently during the session.</div>
+        </div>
+        <div class="card amber-card reveal-group">
+          <div class="ct no-step">Beyond sessions</div>
+          <div class="cb-line">Post questions in the group.</div>
+          <div class="cb-line">I'll respond as soon as possible.</div>
+          <div class="cb-line">Helps everyone else too.</div>
+        </div>
+        <div class="card blue-card reveal-group">
+          <div class="ct no-step">Personal issues</div>
+          <div class="cb-line">Individual challenges, e.g. course content access.</div>
+          <div class="cb-line"><strong>Ping me directly.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S18: Q&A -->
+    <div class="slide slide-divider" id="slide-18">
+      <div class="topic-num">Topic 08</div>
+      <h1>Q&amp;A</h1>
+    </div>
+
+  </div>
+
+  <div class="nav">
+    <button onclick="prevSlide()">← PREV</button>
+    <button onclick="nextSlide()">NEXT →</button>
+  </div>
+  <div class="dots" id="dots"></div>
+
+<script>
+  let current = 1;
+  const total = 18;
+  let editMode = false;
+  const revealedCount = {};
+  const stepsCache = {};
+
+  // Contents drawer topics
+  const topics = [
+    { num: '01', title: 'How the course flows',     slide: 2 },
+    { num: '02', title: 'Live sessions',            slide: 4 },
+    { num: '03', title: 'Who succeeds',             slide: 7 },
+    { num: '04', title: 'After the CSCS',           slide: 9 },
+    { num: '05', title: 'Content access',           slide: 11 },
+    { num: '06', title: 'Content privacy',          slide: 13 },
+    { num: '07', title: 'Support & communication',  slide: 16 },
+    { num: '08', title: 'Q&A',                      slide: 18 }
+  ];
+
+  // ----- Click-to-reveal engine -----
+  function computeSteps(container) {
+    let steps = [];
+    [...container.children].forEach(child => {
+      if (child.classList.contains('no-step')) return;
+      if (child.classList.contains('reveal-group')) steps = steps.concat(computeSteps(child));
+      else steps.push(child);
+    });
+    return steps;
+  }
+  function getSteps(n) {
+    if (!stepsCache[n]) {
+      const steps = computeSteps(document.getElementById('slide-' + n));
+      steps.forEach(el => el.classList.add('reveal-target'));
+      stepsCache[n] = steps;
+    }
+    return stepsCache[n];
+  }
+  function initSlideReveal(n) {
+    const steps = getSteps(n);
+    steps.forEach((el, idx) => el.classList.toggle('revealed', idx < 2));
+    revealedCount[n] = Math.min(2, steps.length);
+  }
+  function revealAllInSlide(n) {
+    const steps = getSteps(n);
+    steps.forEach(el => el.classList.add('revealed'));
+    revealedCount[n] = steps.length;
+  }
+  function revealNextInSlide(n) {
+    const steps = getSteps(n);
+    if (revealedCount[n] === undefined) revealedCount[n] = Math.min(2, steps.length);
+    if (revealedCount[n] < steps.length) {
+      steps[revealedCount[n]].classList.add('revealed');
+      revealedCount[n]++;
+      return true;
+    }
+    return false;
+  }
+
+  function goTo(n, mode) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    document.getElementById('dot-' + current).classList.remove('active');
+    current = n;
+    const slideEl = document.getElementById('slide-' + current);
+    slideEl.classList.add('active');
+    document.getElementById('dot-' + current).classList.add('active');
+    document.getElementById('counter').textContent =
+      String(current).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    document.body.classList.toggle('on-divider', slideEl.classList.contains('slide-divider'));
+    if (mode === 'full') revealAllInSlide(current); else initSlideReveal(current);
+  }
+  function nextSlide() {
+    if (revealNextInSlide(current)) return;
+    if (current < total) goTo(current + 1, 'step');
+  }
+  function prevSlide() { if (current > 1) goTo(current - 1, 'full'); }
+
+  document.addEventListener('keydown', e => {
+    if (editMode) return;
+    if (e.key === 'Escape') { closeContents(); return; }
+    if (document.getElementById('contentsPanel').classList.contains('open')) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevSlide();
+  });
+
+  // ----- Dots -----
+  const dotsEl = document.getElementById('dots');
+  for (let i = 1; i <= total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.id = 'dot-' + i;
+    d.onclick = () => goTo(i, 'full');
+    dotsEl.appendChild(d);
+  }
+
+  // ----- Contents drawer -----
+  const contentsListEl = document.getElementById('contentsList');
+  topics.forEach((t, idx) => {
+    const row = document.createElement('div');
+    row.className = 'contents-row';
+    row.id = 'contents-row-' + idx;
+    row.innerHTML = '<div class="contents-num">' + t.num + '</div><div class="contents-title">' + t.title.replace('&', '&amp;') + '</div>';
+    row.onclick = () => { goTo(t.slide, 'full'); closeContents(); };
+    contentsListEl.appendChild(row);
+  });
+  function updateContentsHighlight() {
+    let activeIdx = 0;
+    topics.forEach((t, idx) => { if (current >= t.slide) activeIdx = idx; });
+    topics.forEach((t, idx) => {
+      document.getElementById('contents-row-' + idx).classList.toggle('active', idx === activeIdx);
+    });
+  }
+  function openContents() {
+    updateContentsHighlight();
+    document.getElementById('contentsPanel').classList.add('open');
+    document.getElementById('contentsOverlay').classList.add('open');
+    const activeRow = document.querySelector('.contents-row.active');
+    if (activeRow) activeRow.scrollIntoView({ block: 'center' });
+  }
+  function closeContents() {
+    document.getElementById('contentsPanel').classList.remove('open');
+    document.getElementById('contentsOverlay').classList.remove('open');
+  }
+  function toggleContents() {
+    document.getElementById('contentsPanel').classList.contains('open') ? closeContents() : openContents();
+  }
+
+  // ----- Edit mode -----
+  document.querySelectorAll('.slide h1, .slide h2, .slide .subtitle, .slide .topic-sub, .slide .cb-line, .slide .ct, .slide .callout, .slide .takeaway p, .slide .bullet-title, .slide .bullet-sub, .slide .chain-node')
+    .forEach(el => el.setAttribute('contenteditable', 'false'));
+  function toggleEdit() {
+    editMode = !editMode;
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.contentEditable = editMode ? 'true' : 'false';
+    });
+    const b = document.getElementById('editBtn');
+    b.classList.toggle('active', editMode);
+    b.textContent = '✏ Edit Mode: ' + (editMode ? 'ON' : 'OFF');
+  }
+
+  initSlideReveal(1);
+</script>
+</body>
+</html>
